@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clip Gate — Your clipboard, but it understands your code</title>
+    <meta name="description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#1c2333;
+            --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+            --cyan:#00d4ff;--gold:#f59e0b;--red:#f87171;--green:#34d399;--blue:#60a5fa;--purple:#a855f7;--orange:#fb923c;
+            --card:rgba(22,27,34,0.6);--border:rgba(0,212,255,0.1);
+            --ease:0.3s cubic-bezier(0.23,1,0.32,1);
+        }
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+        body::after{content:'';position:fixed;top:-40%;left:50%;width:1200px;height:1200px;background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%);transform:translateX(-50%);pointer-events:none;z-index:0}
+        main,section,footer{position:relative;z-index:1}
+        a{color:inherit;text-decoration:none}
+        code{font-family:'JetBrains Mono',monospace}
+
+        /* ── Header ── */
+        header{position:fixed;top:0;width:100%;padding:1rem 2rem;background:rgba(10,14,23,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-weight:800;font-size:1.15rem;letter-spacing:-0.5px}
+        .logo b{color:var(--cyan)}
+        nav{display:flex;gap:2rem;align-items:center}
+        nav a{color:var(--text2);font-size:0.9rem;font-weight:500;transition:color var(--ease)}
+        nav a:hover{color:var(--cyan)}
+        .nav-cta{background:var(--cyan);color:var(--bg);padding:0.55rem 1.4rem;border-radius:6px;font-weight:600;font-size:0.9rem;border:none;cursor:pointer;transition:all var(--ease)}
+        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.35)}
+
+        /* ── Hero ── */
+        #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 3rem 4rem;gap:2.5rem}
+        .hero-left{flex:1;max-width:540px}
+        .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 1rem;border-radius:20px;font-size:0.8rem;color:var(--cyan);font-weight:500;margin-bottom:1.5rem}
+        .hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        h1{font-size:3.6rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px}
+        h1 span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero-sub{font-size:1.25rem;color:var(--text2);margin-bottom:2.5rem;line-height:1.6;max-width:480px}
+        .hero-actions{display:flex;gap:1rem;margin-bottom:3rem;flex-wrap:wrap}
+        .btn{padding:0.9rem 2rem;border-radius:8px;font-size:0.95rem;font-weight:600;border:none;cursor:pointer;transition:all var(--ease);display:inline-flex;align-items:center;gap:0.5rem;font-family:inherit}
+        .btn-p{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+        .btn-p:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,212,255,0.4)}
+        .btn-s{background:transparent;color:var(--cyan);border:1.5px solid rgba(0,212,255,0.4)}
+        .btn-s:hover{background:rgba(0,212,255,0.08);transform:translateY(-3px)}
+        .hero-install{display:flex;align-items:center;gap:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--green);max-width:380px}
+        .hero-install .dollar{color:var(--text3);user-select:none}
+        .hero-install .copy-btn{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.85rem;padding:0.3rem 0.6rem;border-radius:4px;transition:all var(--ease)}
+        .hero-install .copy-btn:hover{color:var(--cyan);background:rgba(0,212,255,0.1)}
+        .hero-right{flex:1.2;max-width:640px}
+
+        /* ── Terminal ── */
+        .term{background:var(--bg2);border:1px solid rgba(0,212,255,0.15);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+        .term-bar{background:var(--bg3);padding:0.7rem 1rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid rgba(0,212,255,0.08)}
+        .term-dots{display:flex;gap:0.45rem}
+        .term-dots i{width:11px;height:11px;border-radius:50%;display:block}
+        .d-r{background:#ff5f57}.d-y{background:#ffbd2e}.d-g{background:#28c940}
+        .term-title{margin-left:auto;margin-right:auto;font-size:0.75rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+        .term-body{padding:1.25rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.85;min-height:420px}
+        .t-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .t-p{color:var(--cyan)}.t-i{color:var(--text)}.t-o{color:var(--green)}.t-c{color:var(--text3)}.t-g{color:var(--gold)}.t-e{color:var(--red)}
+        .cursor{display:inline-block;width:8px;height:1.1em;background:var(--cyan);margin-left:2px;animation:blink .7s infinite;vertical-align:text-bottom}
+        @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+        /* ── Stats Strip ── */
+        .stats-strip{display:flex;justify-content:center;gap:4rem;padding:3.5rem 2rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(0,212,255,0.015)}
+        .ss-item{text-align:center}
+        .ss-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--cyan);line-height:1}
+        .ss-num small{font-size:1rem;font-weight:500}
+        .ss-label{font-size:0.85rem;color:var(--text2);margin-top:0.4rem}
+
+        /* ── Section Shared ── */
+        .sec{padding:7rem 4rem;max-width:1200px;margin:0 auto}
+        .sec-badge{color:var(--cyan);font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:0.75rem}
+        .sec-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;letter-spacing:-0.5px;line-height:1.2}
+        .sec-sub{color:var(--text2);font-size:1.1rem;max-width:600px;margin-bottom:3rem}
+
+        /* ── Before/After ── */
+        .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+        .ba-label{font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.75rem}
+        .ba-label.before{color:var(--red)}
+        .ba-label.after{color:var(--green)}
+
+        /* ── Pipeline ── */
+        .pipeline{display:flex;align-items:center;justify-content:center;gap:0;padding:2rem 0;flex-wrap:wrap}
+        .pipe-step{display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:1.5rem 2rem;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all var(--ease);min-width:130px}
+        .pipe-step:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
+        .pipe-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+        .pipe-step h4{font-size:0.85rem;font-weight:600;white-space:nowrap}
+        .pipe-step p{font-size:0.75rem;color:var(--text3);white-space:nowrap}
+        .pipe-arrow{color:var(--cyan);font-size:1.5rem;padding:0 0.8rem;opacity:0.5}
+
+        /* ── Classification Engine ── */
+        .class-grid{display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:3rem}
+        .type-pill{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1.1rem;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:500;border:1px solid;transition:all var(--ease);cursor:default}
+        .type-pill:hover{transform:translateY(-2px)}
+        .type-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .pill-error{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.25);color:var(--red)}.pill-error .dot{background:var(--red)}
+        .pill-command{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)}.pill-command .dot{background:var(--green)}
+        .pill-path{background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)}.pill-path .dot{background:var(--blue)}
+        .pill-json{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:var(--gold)}.pill-json .dot{background:var(--gold)}
+        .pill-sha{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.25);color:var(--purple)}.pill-sha .dot{background:var(--purple)}
+        .pill-secret{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.25);color:var(--red)}.pill-secret .dot{background:var(--red)}
+        .pill-text{background:rgba(139,148,158,0.08);border-color:rgba(139,148,158,0.25);color:var(--text2)}.pill-text .dot{background:var(--text2)}
+        .pill-diff{background:rgba(251,146,60,0.08);border-color:rgba(251,146,60,0.25);color:var(--orange)}.pill-diff .dot{background:var(--orange)}
+        .pill-url{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.25);color:var(--cyan)}.pill-url .dot{background:var(--cyan)}
+        .pill-sql{background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)}.pill-sql .dot{background:var(--blue)}
+        .pill-ip{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)}.pill-ip .dot{background:var(--green)}
+        .pill-env{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:var(--gold)}.pill-env .dot{background:var(--gold)}
+        .pill-docker{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.25);color:var(--cyan)}.pill-docker .dot{background:var(--cyan)}
+
+        .class-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+        .class-examples{display:flex;flex-direction:column;gap:1rem}
+        .class-ex{display:flex;align-items:center;gap:1rem;padding:0.8rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;transition:all var(--ease)}
+        .class-ex:hover{border-color:rgba(0,212,255,0.3)}
+        .class-ex .tag{padding:0.2rem 0.6rem;border-radius:4px;font-weight:600;font-size:0.75rem;flex-shrink:0;min-width:65px;text-align:center}
+        .class-ex .arrow{color:var(--text3);flex-shrink:0}
+        .class-ex .content{color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .tag-error{background:rgba(248,113,113,0.15);color:var(--red)}
+        .tag-command{background:rgba(52,211,153,0.15);color:var(--green)}
+        .tag-path{background:rgba(96,165,250,0.15);color:var(--blue)}
+        .tag-json{background:rgba(245,158,11,0.15);color:var(--gold)}
+        .tag-secret{background:rgba(248,113,113,0.15);color:var(--red)}
+        .tag-sha{background:rgba(168,85,247,0.15);color:var(--purple)}
+        .tag-diff{background:rgba(251,146,60,0.15);color:var(--orange)}
+        .tag-url{background:rgba(0,212,255,0.15);color:var(--cyan)}
+        .tag-sql{background:rgba(96,165,250,0.15);color:var(--blue)}
+        .tag-ip{background:rgba(52,211,153,0.15);color:var(--green)}
+        .tag-env{background:rgba(245,158,11,0.15);color:var(--gold)}
+        .tag-docker{background:rgba(0,212,255,0.15);color:var(--cyan)}
+
+        /* ── Scenario Tabs ── */
+        .sc-nav{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:2rem}
+        .sc-tab{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--text2);padding:0.65rem 1.2rem;border-radius:10px;font:inherit;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all var(--ease)}
+        .sc-tab:hover{border-color:rgba(0,212,255,0.3);color:var(--text);transform:translateY(-1px)}
+        .sc-tab.active{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.4);color:var(--cyan);box-shadow:0 4px 16px rgba(0,212,255,0.12)}
+        .sc-pane{display:none}
+        .sc-pane.active{display:block;animation:fadeUp .3s ease}
+        .sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+        .sc-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.01)}
+        .sc-card-before{border-color:rgba(248,113,113,0.2)}
+        .sc-card-after{border-color:rgba(52,211,153,0.2)}
+        .sc-card-head{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.2rem;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
+        .sc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+        .sc-dot-r{background:var(--red)}.sc-dot-g{background:var(--green)}
+        .sc-pill{padding:0.3rem 0.7rem;border-radius:6px;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+        .sc-pill-before{background:rgba(248,113,113,0.15);color:#fca5a5}
+        .sc-pill-after{background:rgba(52,211,153,0.15);color:#86efac}
+        .sc-kicker{font-size:0.78rem;color:var(--text3);font-weight:600}
+        .sc-screen{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.75;min-height:200px}
+        .sc-footer{padding:1rem 1.4rem;background:rgba(255,255,255,0.015);border-top:1px solid var(--border)}
+        .sc-footer p{color:var(--text2);font-size:0.88rem;line-height:1.5;margin:0}
+        .sc-footer strong{color:var(--text)}
+        .sc-saved{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.78rem;font-weight:600;background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2)}
+
+        /* ── Mini Scenarios ── */
+        .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:2.5rem}
+        .mini-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.4rem;transition:all var(--ease)}
+        .mini-card:hover{border-color:rgba(0,212,255,0.25)}
+        .mini-card h4{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem}
+        .mini-pair{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:0.75rem 0 0.5rem}
+        .mini-half{font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;padding:0.7rem 0.9rem;border-radius:6px;background:rgba(0,0,0,0.3);border:1px solid var(--border)}
+        .mini-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;display:block}
+        .mini-label.ml-before{color:var(--red)}.mini-label.ml-after{color:var(--green)}
+        .mini-saved{font-size:0.78rem;color:var(--green);font-weight:500}
+
+        /* ── AI Stack ── */
+        .ai-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+        .ai-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:all var(--ease)}
+        .ai-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,255,0.12)}
+        .ai-icon{width:56px;height:56px;border-radius:14px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700}
+        .ai-card h4{font-size:1rem;font-weight:600;margin-bottom:0.4rem}
+        .ai-card p{color:var(--text2);font-size:0.85rem;line-height:1.4}
+
+        /* ── Principles ── */
+        .prin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+        .prin-card{padding:2rem;border-radius:12px;border:1px solid var(--border);background:var(--card);transition:all var(--ease)}
+        .prin-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-3px)}
+        .prin-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+        .prin-card h4{font-size:1rem;font-weight:600;margin-bottom:0.5rem}
+        .prin-card p{color:var(--text2);font-size:0.88rem;line-height:1.5}
+
+        /* ── Install ── */
+        .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem}
+        .tab-btn{padding:0.8rem 1.5rem;background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.9rem;font-weight:500;border-bottom:2px solid transparent;transition:all var(--ease);font-family:inherit}
+        .tab-btn:hover{color:var(--cyan)}
+        .tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+        .tab-panel{display:none}
+        .tab-panel.active{display:block}
+        .code-block{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+        .code-block code{font-size:0.9rem;color:var(--green);flex:1}
+        .cp-btn{padding:0.4rem 0.9rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);color:var(--cyan);border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:500;transition:all var(--ease);font-family:inherit}
+        .cp-btn:hover{background:rgba(0,212,255,0.15)}
+
+        /* ── Tech Badges ── */
+        .tech-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:0.75rem;padding:4rem 2rem;border-top:1px solid var(--border)}
+        .tech-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:6px;background:var(--card);border:1px solid var(--border);font-size:0.82rem;color:var(--text2);font-weight:500;transition:all var(--ease)}
+        .tech-badge:hover{border-color:rgba(0,212,255,0.3);color:var(--text)}
+        .tech-badge .tech-dot{width:6px;height:6px;border-radius:50%}
+
+        /* ── CTA ── */
+        #cta{padding:8rem 4rem;text-align:center}
+        #cta h2{font-size:2.8rem;font-weight:800;margin-bottom:1rem;letter-spacing:-1px}
+        #cta p{color:var(--text2);font-size:1.15rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+
+        /* ── Footer ── */
+        footer{border-top:1px solid var(--border);padding:4rem 2rem 2rem}
+        .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+        .footer-section h4{font-size:0.95rem;font-weight:600;margin-bottom:1rem}
+        .footer-section p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+        .footer-links{display:flex;flex-direction:column;gap:0.6rem}
+        .footer-links a{color:var(--text2);font-size:0.9rem;transition:color var(--ease)}
+        .footer-links a:hover{color:var(--cyan)}
+        .footer-bottom{max-width:1200px;margin:0 auto;text-align:center;color:var(--text3);font-size:0.85rem;padding-top:2rem}
+
+        /* ── Animations ── */
+        @keyframes slideL{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideR{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        .anim-l{animation:slideL .7s ease-out}
+        .anim-r{animation:slideR .7s ease-out}
+        .reveal{opacity:0;transform:translateY(25px);transition:all 0.7s ease-out}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+
+        /* ── Mobile ── */
+        @media(max-width:900px){
+            nav{display:none}
+            #hero{flex-direction:column;padding:6rem 1.5rem 3rem;gap:2rem}
+            h1{font-size:2.2rem}
+            .hero-sub{font-size:1.05rem}
+            .hero-right{max-width:100%;width:100%}
+            .sec{padding:4rem 1.5rem}
+            .sec-title{font-size:1.9rem}
+            .ba-grid,.class-layout,.sc-grid,.mini-grid{grid-template-columns:1fr}
+            .ai-cards{grid-template-columns:repeat(2,1fr)}
+            .prin-grid{grid-template-columns:repeat(2,1fr)}
+            .stats-strip{flex-wrap:wrap;gap:2rem;padding:2.5rem 1.5rem}
+            .pipeline{flex-direction:column;gap:0.75rem}
+            .pipe-arrow{transform:rotate(90deg);padding:0.3rem 0}
+            .footer-inner{grid-template-columns:1fr}
+        }
+        @media(max-width:500px){
+            .ai-cards,.prin-grid{grid-template-columns:1fr}
+            .hero-actions{flex-direction:column}
+            .btn{width:100%;justify-content:center}
+            .mini-pair{grid-template-columns:1fr}
+            .sc-nav{gap:0.4rem}
+            .sc-tab{font-size:0.78rem;padding:0.5rem 0.8rem}
+            .term-body{font-size:0.75rem;padding:1rem}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.3rem">&gt;_</span>clip<b>gate</b></div>
+        <nav>
+            <a href="#engine">How it Works</a>
+            <a href="#workflows">Workflows</a>
+            <a href="#ai-stack">AI Stack</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#install">Install</a>
+            <button class="nav-cta" onclick="scrollTo('#install')">Get Started</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ════ Hero ════ -->
+        <section id="hero">
+            <div class="hero-left anim-l">
+                <div class="hero-badge"><span class="pulse"></span> Open Source · MIT License · Built with Rust</div>
+                <h1>Your clipboard, but it <span>understands your code</span></h1>
+                <p class="hero-sub">Auto-classifies everything you copy into developer-meaningful types. Retrieve by type, not by order. Pack context for AI in one command.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-p" onclick="scrollTo('#install')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Install Clip Gate
+                    </button>
+                    <a href="https://github.com/clip-gate/clip-gate" target="_blank" class="btn btn-s">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+                <div class="hero-install">
+                    <span class="dollar">$</span>
+                    <span>brew install clip-gate</span>
+                    <button class="copy-btn" onclick="copyCmd(this,'brew install clip-gate')">Copy</button>
+                </div>
+            </div>
+            <div class="hero-right anim-r">
+                <div class="term">
+                    <div class="term-bar">
+                        <div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div>
+                        <span class="term-title">~</span>
+                    </div>
+                    <div class="term-body" id="heroTerm"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Stats Strip ════ -->
+        <div class="stats-strip">
+            <div class="ss-item"><div class="ss-num">&lt;5<small>ms</small></div><div class="ss-label">Classification latency</div></div>
+            <div class="ss-item"><div class="ss-num">13</div><div class="ss-label">Content types</div></div>
+            <div class="ss-item"><div class="ss-num">5,000</div><div class="ss-label">Items retained</div></div>
+            <div class="ss-item"><div class="ss-num">0<small> bytes</small></div><div class="ss-label">Secrets on disk</div></div>
+            <div class="ss-item"><div class="ss-num">4.6<small>MB</small></div><div class="ss-label">Release binary</div></div>
+        </div>
+
+        <!-- ════ Before / After ════ -->
+        <section class="sec" id="problem">
+            <div class="sec-badge">The Problem</div>
+            <h2 class="sec-title reveal">Your clipboard is a single slot.<br>You copy dozens per session.</h2>
+            <p class="sec-sub reveal">Errors get overwritten by paths. Commands vanish. By the time you need something, it's gone.</p>
+            <div class="ba-grid reveal">
+                <div>
+                    <div class="ba-label before">Without Clip Gate</div>
+                    <div class="term">
+                        <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div></div>
+                        <div class="term-body" style="min-height:220px">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">pbpaste</span></div>
+                            <div class="t-line"><span class="t-o">build.log</span></div>
+                            <div class="t-line" style="margin-top:1rem"><span class="t-c"># Wait... where's my error?</span></div>
+                            <div class="t-line"><span class="t-c"># Which of the 20 things I copied was it?</span></div>
+                            <div class="t-line"><span class="t-c"># Scroll through clipboard history...</span></div>
+                            <div class="t-line"><span class="t-e"># Gone forever.</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="ba-label after">With Clip Gate</div>
+                    <div class="term">
+                        <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div></div>
+                        <div class="term-body" style="min-height:220px">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg paste --type error</span></div>
+                            <div class="t-line"><span class="t-o">TypeError: Cannot read property 'map' of undefined</span></div>
+                            <div class="t-line" style="margin-top:1rem"><span class="t-p">$</span> <span class="t-i">cg list</span></div>
+                            <div class="t-line"><span class="t-c">ID         TYPE        AGE  PREVIEW</span></div>
+                            <div class="t-line"><span class="t-o">01KN3K4Q   </span><span style="color:var(--green)">command</span><span class="t-o">      7s  git push origin main</span></div>
+                            <div class="t-line"><span class="t-o">01KN3K49   </span><span style="color:var(--red)">error</span><span class="t-o">       21s  TypeError: Cannot read...</span></div>
+                            <div class="t-line"><span class="t-o">01KN3J4H   </span><span style="color:var(--gold)">json</span><span class="t-o">        17m  {"status": "ok"}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Architecture Pipeline ════ -->
+        <section class="sec" id="architecture">
+            <div class="sec-badge">Architecture</div>
+            <h2 class="sec-title reveal">What happens when you copy</h2>
+            <p class="sec-sub reveal">Every clipboard item flows through a 5-stage pipeline in under 5ms.</p>
+            <div class="pipeline reveal">
+                <div class="pipe-step">
+                    <div class="pipe-icon" style="background:rgba(0,212,255,0.1);color:var(--cyan)">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
+                    <h4>Capture</h4>
+                    <p>stdin or clipboard</p>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                    <div class="pipe-icon" style="background:rgba(245,158,11,0.1);color:var(--gold)">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h4>Classify</h4>
+                    <p>40+ regex patterns</p>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                    <div class="pipe-icon" style="background:rgba(248,113,113,0.1);color:var(--red)">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <h4>Guard</h4>
+                    <p>secret detection</p>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                    <div class="pipe-icon" style="background:rgba(96,165,250,0.1);color:var(--blue)">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    </div>
+                    <h4>Store</h4>
+                    <p>SQLite + WAL</p>
+                </div>
+                <div class="pipe-arrow">&rarr;</div>
+                <div class="pipe-step">
+                    <div class="pipe-icon" style="background:rgba(52,211,153,0.1);color:var(--green)">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <h4>Retrieve</h4>
+                    <p>typed queries</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Classification Engine ════ -->
+        <section class="sec" id="engine">
+            <div class="sec-badge">Classification Engine</div>
+            <h2 class="sec-title reveal">13 types. 60+ patterns. Zero config.</h2>
+            <p class="sec-sub reveal">Every clipboard item is automatically classified the instant it's captured.</p>
+
+            <div class="class-grid reveal">
+                <span class="type-pill pill-secret"><span class="dot"></span>secret</span>
+                <span class="type-pill pill-error"><span class="dot"></span>error</span>
+                <span class="type-pill pill-sha"><span class="dot"></span>sha</span>
+                <span class="type-pill pill-diff"><span class="dot"></span>diff</span>
+                <span class="type-pill pill-path"><span class="dot"></span>path</span>
+                <span class="type-pill pill-json"><span class="dot"></span>json</span>
+                <span class="type-pill pill-url"><span class="dot"></span>url</span>
+                <span class="type-pill pill-sql"><span class="dot"></span>sql</span>
+                <span class="type-pill pill-ip"><span class="dot"></span>ip</span>
+                <span class="type-pill pill-env"><span class="dot"></span>env</span>
+                <span class="type-pill pill-docker"><span class="dot"></span>docker</span>
+                <span class="type-pill pill-command"><span class="dot"></span>command</span>
+                <span class="type-pill pill-text"><span class="dot"></span>text</span>
+            </div>
+
+            <div class="class-layout reveal">
+                <div class="class-examples">
+                    <div class="class-ex">
+                        <span class="tag tag-error">error</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">TypeError: Cannot read property 'x' of undefined</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-command">command</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">cargo build --release 2>&1 | tee build.log</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-path">path</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">/home/user/project/src/main.rs</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-json">json</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">{"status": "ok", "count": 42}</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-secret">secret</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">sk_live_4eC39HqLyjWDarjtT1zdp7dc</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-sha">sha</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-diff">diff</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">diff --git a/src/main.rs b/src/main.rs</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-url">url</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">https://api.example.com/v1/users?page=2</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-sql">sql</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">SELECT id, name FROM users WHERE active = true</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-ip">ip</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">192.168.1.42:8080</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-env">env</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">DATABASE_URL=postgres://localhost/mydb</span>
+                    </div>
+                    <div class="class-ex">
+                        <span class="tag tag-docker">docker</span>
+                        <span class="arrow">&rarr;</span>
+                        <span class="content">FROM rust:1.75-slim AS builder</span>
+                    </div>
+                </div>
+                <div class="term">
+                    <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div><span class="term-title">cg copy --verbose</span></div>
+                    <div class="term-body" style="min-height:auto">
+                        <div class="t-line"><span class="t-p">$</span> <span class="t-i">echo "KeyError: 'user'" | cg copy --verbose</span></div>
+                        <div class="t-line"><span class="t-g">cg: error 01KN3K49 (confidence: 0.92)</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-p">$</span> <span class="t-i">echo "git stash pop" | cg copy --verbose</span></div>
+                        <div class="t-line"><span class="t-g">cg: command 01KN3K5A (confidence: 0.85)</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-p">$</span> <span class="t-i">echo "sk_live_4eC39" | cg copy --verbose</span></div>
+                        <div class="t-line"><span class="t-g">cg: secret 01KN3K5R (secret, memory-only)</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Scenarios (Tabbed Before/After) ════ -->
+        <section class="sec" id="workflows">
+            <div class="sec-badge">Real Workflows</div>
+            <h2 class="sec-title reveal">See exactly what changes</h2>
+            <p class="sec-sub reveal">Five flagship scenarios. Each one shows the traditional way vs the Clip Gate way — with real terminal commands.</p>
+
+            <div class="sc-nav reveal" role="tablist">
+                <button type="button" class="sc-tab active" onclick="showScenario('sc-debug',this)">Debugging a crash</button>
+                <button type="button" class="sc-tab" onclick="showScenario('sc-path',this)">Pasting a path</button>
+                <button type="button" class="sc-tab" onclick="showScenario('sc-multi',this)">Multi-error AI context</button>
+                <button type="button" class="sc-tab" onclick="showScenario('sc-secret',this)">Secret leaking</button>
+                <button type="button" class="sc-tab" onclick="showScenario('sc-sha',this)">Git SHA chase</button>
+            </div>
+
+            <!-- Debugging -->
+            <div class="sc-pane active" id="sc-debug">
+                <div class="sc-grid">
+                    <article class="sc-card sc-card-before">
+                        <div class="sc-card-head">
+                            <span class="sc-dot sc-dot-r"></span>
+                            <span class="sc-pill sc-pill-before">Before</span>
+                            <span class="sc-kicker">Traditional</span>
+                        </div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm run dev</span></div>
+                            <div class="t-line"><span class="t-e">TypeError: Cannot read properties of undefined</span></div>
+                            <div class="t-line"><span class="t-e">at UserService.getUser (src/user.ts:42:18)</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># 1. Select error text with mouse</span></div>
+                            <div class="t-line"><span class="t-c"># 2. Cmd+C</span></div>
+                            <div class="t-line"><span class="t-c"># 3. Switch to browser, open Claude</span></div>
+                            <div class="t-line"><span class="t-c"># 4. Click input, Cmd+V, type context</span></div>
+                            <div class="t-line"><span class="t-c"># 5. ~60 seconds of context switching</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>The problem:</strong> Terminal &rarr; mouse select &rarr; copy &rarr; switch window &rarr; paste. Five steps, one brain context switch, and you've lost your flow.</p>
+                        </div>
+                    </article>
+                    <article class="sc-card sc-card-after">
+                        <div class="sc-card-head">
+                            <span class="sc-dot sc-dot-g"></span>
+                            <span class="sc-pill sc-pill-after">After</span>
+                            <span class="sc-kicker">With Clip Gate</span>
+                        </div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm run dev 2>&1 | cg copy</span></div>
+                            <div class="t-line"><span class="t-e">TypeError: Cannot read properties of undefined</span></div>
+                            <div class="t-line"><span class="t-e">at UserService.getUser (src/user.ts:42:18)</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">cg paste --type error | claude "what caused this?"</span></div>
+                            <div class="t-line" style="margin-top:0.3rem"><span class="t-o">Claude: The error means 'user' is undefined at line 42.</span></div>
+                            <div class="t-line"><span class="t-o">getUser() is called before the DB connection resolves.</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>What changed:</strong> Zero window switching. The error is captured the moment it appears. You pipe it directly to Claude from the same terminal.</p>
+                            <div class="sc-saved">Saved: ~55 seconds and zero context switches</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Path -->
+            <div class="sc-pane" id="sc-path">
+                <div class="sc-grid">
+                    <article class="sc-card sc-card-before">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-r"></span><span class="sc-pill sc-pill-before">Before</span><span class="sc-kicker">Traditional</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">find . -name "config.prod.yml" -type f</span></div>
+                            <div class="t-line"><span style="color:var(--blue)">./infra/k8s/overlays/prod/config.prod.yml</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># Forget to copy. Run 2 more commands.</span></div>
+                            <div class="t-line"><span class="t-c"># Re-run find just to recapture the path.</span></div>
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">find . -name "config.prod.yml" -type f</span></div>
+                            <div class="t-line"><span style="color:var(--blue)">./infra/k8s/overlays/prod/config.prod.yml</span></div>
+                            <div class="t-line"><span class="t-c"># Triple-click, copy, finally paste</span></div>
+                        </div>
+                        <div class="sc-footer"><p><strong>The problem:</strong> Long paths scroll past you. You get distracted and re-run find just to recapture it. This happens multiple times per session.</p></div>
+                    </article>
+                    <article class="sc-card sc-card-after">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-g"></span><span class="sc-pill sc-pill-after">After</span><span class="sc-kicker">With Clip Gate</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">find . -name "config.prod.yml" | cg copy</span></div>
+                            <div class="t-line"><span style="color:var(--blue)">./infra/k8s/overlays/prod/config.prod.yml</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># ... run other commands ...</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">kubectl apply -f $(cg paste --type path)</span></div>
+                            <div class="t-line"><span class="t-o">configmap/prod-config configured</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>What changed:</strong> The path is in the typed ring. Even three commands later, <code style="color:var(--cyan)">cg paste --type path</code> retrieves it without re-running find.</p>
+                            <div class="sc-saved">Saved: 1 redundant command + re-copy cycle</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Multi-error AI -->
+            <div class="sc-pane" id="sc-multi">
+                <div class="sc-grid">
+                    <article class="sc-card sc-card-before">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-r"></span><span class="sc-pill sc-pill-before">Before</span><span class="sc-kicker">Traditional</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-c"># Run 1 - copy error, paste into Claude</span></div>
+                            <div class="t-line"><span class="t-e">FAIL src/auth.test.ts - JWT expired</span></div>
+                            <div class="t-line"><span class="t-c"># Run 2 - copy error, switch window again</span></div>
+                            <div class="t-line"><span class="t-e">ECONNREFUSED 127.0.0.1:5432</span></div>
+                            <div class="t-line"><span class="t-c"># Run 3 - copy error, switch window again</span></div>
+                            <div class="t-line"><span class="t-e">SyntaxError: JSON at position 0</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># Now manually type all 3 into one message</span></div>
+                            <div class="t-line"><span class="t-c"># Or send 3 separate messages, lose thread</span></div>
+                        </div>
+                        <div class="sc-footer"><p><strong>The problem:</strong> Claude needs all errors to see the pattern. You copy each individually, switch windows repeatedly, and manually reassemble context.</p></div>
+                    </article>
+                    <article class="sc-card sc-card-after">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-g"></span><span class="sc-pill sc-pill-after">After</span><span class="sc-kicker">With Clip Gate</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm test 2>&1 | cg copy</span>  <span class="t-c"># run 1</span></div>
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm test 2>&1 | cg copy</span>  <span class="t-c"># run 2</span></div>
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm test 2>&1 | cg copy</span>  <span class="t-c"># run 3</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">cg pack --type error -n 3 | claude "find root cause"</span></div>
+                            <div class="t-line" style="margin-top:0.3rem"><span class="t-o">Claude: All 3 errors trace back to DB being unreachable.</span></div>
+                            <div class="t-line"><span class="t-o">JWT, JSON parse, ECONNREFUSED are downstream effects.</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>What changed:</strong> <code style="color:var(--cyan)">cg pack</code> assembles all three errors into one structured context block. Claude sees the full picture and gives a root-cause answer.</p>
+                            <div class="sc-saved">Saved: 6 window switches + manual copy-assembly &rarr; 1 command</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Secret -->
+            <div class="sc-pane" id="sc-secret">
+                <div class="sc-grid">
+                    <article class="sc-card sc-card-before">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-r"></span><span class="sc-pill sc-pill-before">Before</span><span class="sc-kicker">Traditional</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">cat .env | grep API_KEY</span></div>
+                            <div class="t-line"><span class="t-g">API_KEY=sk-prod-a7f2c891d3e4b56f...</span></div>
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">export API_KEY=sk-prod-a7f2c891d3e4b56f...</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># 10 minutes later - asking Claude for help</span></div>
+                            <div class="t-line"><span class="t-c"># Cmd+V into chat box by accident</span></div>
+                            <div class="t-line"><span class="t-e">sk-prod-a7f2c891d3e4b56f... &larr; sent to Claude</span></div>
+                            <div class="t-line"><span class="t-c"># Key now in browser history, chat logs</span></div>
+                        </div>
+                        <div class="sc-footer"><p><strong>The problem:</strong> The system clipboard doesn't know a secret from a file path. One accidental Cmd+V and your production key is in a chat log.</p></div>
+                    </article>
+                    <article class="sc-card sc-card-after">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-g"></span><span class="sc-pill sc-pill-after">After</span><span class="sc-kicker">With Clip Gate</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">cat .env | grep API_KEY | cg copy</span></div>
+                            <div class="t-line"><span class="t-g">cg: secret 01KN3K5R (secret, memory-only)</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">cg list</span></div>
+                            <div class="t-line"><span class="t-o">01KN3K5R   </span><span style="color:var(--red)">secret</span><span class="t-o">     3s  sk-prod-a7f2•••••••</span></div>
+                            <div class="t-line" style="margin-top:0.3rem"><span class="t-c"># Auto-expires. Never written to SQLite.</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>What changed:</strong> Clip Gate detects the secret pattern on copy, refuses to persist it to disk, and auto-expires it. You get a warning instead of an incident.</p>
+                            <div class="sc-saved">Saved: Prevented a potential secret exposure incident</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- SHA -->
+            <div class="sc-pane" id="sc-sha">
+                <div class="sc-grid">
+                    <article class="sc-card sc-card-before">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-r"></span><span class="sc-pill sc-pill-before">Before</span><span class="sc-kicker">Traditional</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">git log --oneline -5</span></div>
+                            <div class="t-line"><span class="t-g">a3f9d12</span> <span class="t-o">fix: resolve race condition in auth</span></div>
+                            <div class="t-line"><span class="t-g">b2e8c01</span> <span class="t-o">chore: update deps</span></div>
+                            <div class="t-line"><span class="t-c"># Noted the SHA. Ran 5 more commands.</span></div>
+                            <div class="t-line"><span class="t-c"># SHA is gone from visible terminal.</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">git log --oneline | grep "race condition"</span></div>
+                            <div class="t-line"><span class="t-c"># Finally find it. Copy again. Paste.</span></div>
+                        </div>
+                        <div class="sc-footer"><p><strong>The problem:</strong> You see a SHA, think you'll remember it, run a few more commands, and it scrolls away. Now you're grepping your log to recapture a 7-char string.</p></div>
+                    </article>
+                    <article class="sc-card sc-card-after">
+                        <div class="sc-card-head"><span class="sc-dot sc-dot-g"></span><span class="sc-pill sc-pill-after">After</span><span class="sc-kicker">With Clip Gate</span></div>
+                        <div class="sc-screen">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">git log --oneline -5 | cg copy</span></div>
+                            <div class="t-line"><span class="t-g">a3f9d12</span> <span class="t-o">fix: resolve race condition in auth</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># ... 5 more commands ...</span></div>
+                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">git cherry-pick $(cg paste --type sha)</span></div>
+                            <div class="t-line"><span class="t-o">[a3f9d12] fix: resolve race condition in auth</span></div>
+                            <div class="t-line"><span class="t-o">1 file changed, 3 insertions(+), 1 deletion(-)</span></div>
+                        </div>
+                        <div class="sc-footer">
+                            <p><strong>What changed:</strong> The SHA was classified and stored on copy. Five commands later, <code style="color:var(--cyan)">cg paste --type sha</code> returns it without any log re-querying.</p>
+                            <div class="sc-saved">Saved: 2 re-runs of git log + manual grep</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- ── Mini Scenarios ── -->
+            <div style="margin-top:4rem" class="reveal">
+                <h3 style="font-size:1.4rem;font-weight:700;margin-bottom:0.5rem">10 more workflows that just get easier</h3>
+                <p style="color:var(--text2);font-size:0.95rem;margin-bottom:1.5rem">Every pattern that repeats in terminal-heavy development becomes simpler when retrieval is based on semantic type instead of scroll position.</p>
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4>K8s pod-name recall</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Rerun kubectl get pods</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">kubectl logs $(cg paste --type text)</span></div>
+                        </div>
+                        <div class="mini-saved">Eliminates 1 extra cluster query</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Docker container ID reuse</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Re-run docker ps, scan IDs</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">docker exec -it $(cg paste --type sha) sh</span></div>
+                        </div>
+                        <div class="mini-saved">Transient IDs become retrievable objects</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Failed test name handoff</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Search output, copy by hand</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">npm test -- $(cg paste --type error)</span></div>
+                        </div>
+                        <div class="mini-saved">Test output becomes immediately actionable</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>SQL query replay</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Re-find in shell history</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">echo "EXPLAIN $(cg paste)" | psql</span></div>
+                        </div>
+                        <div class="mini-saved">Long queries reusable by type</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>cURL payload debug</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Copy into chat, then curl</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">cg paste --type json | claude</span></div>
+                        </div>
+                        <div class="mini-saved">Same payload feeds AI + live command</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Port conflict triage</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Re-run lsof, scan PIDs</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">kill -9 $(cg search "LISTEN")</span></div>
+                        </div>
+                        <div class="mini-saved">Operational snippets become command-ready</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Migration path reuse</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Scroll up, find generated path</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">vim $(cg paste --type path)</span></div>
+                        </div>
+                        <div class="mini-saved">Generated paths captured on emit</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Git tag / branch reuse</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Re-run git tag | head</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">git checkout $(cg paste --type sha)</span></div>
+                        </div>
+                        <div class="mini-saved">Refs become first-class objects</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Log pack for incidents</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Copy from 3 tails, reassemble</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">cg pack --type error -n 3 | claude</span></div>
+                        </div>
+                        <div class="mini-saved">Multi-source debugging &rarr; structured handoff</div>
+                    </div>
+                    <div class="mini-card">
+                        <h4>Prompt assembly</h4>
+                        <div class="mini-pair">
+                            <div class="mini-half"><span class="mini-label ml-before">Traditional</span><span class="t-c"># Copy path, error, TODO manually</span></div>
+                            <div class="mini-half"><span class="mini-label ml-after">Clip Gate</span><span class="t-o">cg pack --type error --type path | claude</span></div>
+                        </div>
+                        <div class="mini-saved">Clipboard &rarr; prompt assembly infrastructure</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Works with your AI stack ════ -->
+        <section class="sec" id="ai-stack">
+            <div class="sec-badge">AI-Native</div>
+            <h2 class="sec-title reveal">Works with your AI stack</h2>
+            <p class="sec-sub reveal">Clip Gate is the missing context layer between your terminal and every AI tool you use.</p>
+
+            <div class="ai-cards reveal">
+                <div class="ai-card">
+                    <div class="ai-icon" style="background:rgba(0,212,255,0.1);color:var(--cyan)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h4>Claude Code</h4>
+                    <p>MCP server integration. Your AI reads clipboard directly.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-icon" style="background:rgba(168,85,247,0.1);color:var(--purple)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h4>Cursor</h4>
+                    <p>MCP support for context-aware AI coding.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-icon" style="background:rgba(245,158,11,0.1);color:var(--gold)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <h4>ChatGPT / CLI</h4>
+                    <p>Pipe packed context to any CLI AI tool.</p>
+                </div>
+                <div class="ai-card">
+                    <div class="ai-icon" style="background:rgba(52,211,153,0.1);color:var(--green)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <h4>fzf / Interactive</h4>
+                    <p>Fuzzy search clipboard history with preview.</p>
+                </div>
+            </div>
+
+            <div style="margin-top:3rem" class="reveal">
+                <div class="term" style="max-width:720px;margin:0 auto">
+                    <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div><span class="term-title">AI Integration</span></div>
+                    <div class="term-body" style="min-height:auto">
+                        <div class="t-line"><span class="t-c"># Start MCP server for Claude Code / Cursor</span></div>
+                        <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg mcp</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># Bundle errors and pipe to Claude</span></div>
+                        <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --type error -n 3 | claude "fix these"</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># JSON output for structured tools</span></div>
+                        <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --format json -n 5 | jq '.items[].type'</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># Markdown for GitHub issues</span></div>
+                        <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --format markdown --type error >> issue.md</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Design Principles ════ -->
+        <section class="sec" id="principles">
+            <div class="sec-badge">Philosophy</div>
+            <h2 class="sec-title reveal">Design principles</h2>
+
+            <div class="prin-grid reveal">
+                <div class="prin-card">
+                    <span class="prin-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                    </span>
+                    <h4>Local First</h4>
+                    <p>Everything runs on your machine. SQLite storage. No cloud. No telemetry. No accounts.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </span>
+                    <h4>Invisible Until Needed</h4>
+                    <p>Minimal output by default. One-line confirmation on stderr. Add <code style="color:var(--cyan)">--quiet</code> for true silence.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </span>
+                    <h4>Secrets Are Sacred</h4>
+                    <p>API keys auto-detected. Memory-only vault. 5-minute TTL. Zero bytes on disk, ever.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </span>
+                    <h4>AI-Native</h4>
+                    <p>Built for AI workflows from day one. Context packing, MCP server, structured output formats.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Install ════ -->
+        <section class="sec" id="install">
+            <div class="sec-badge">Get Started</div>
+            <h2 class="sec-title reveal">Install in 30 seconds</h2>
+
+            <div class="reveal" style="max-width:640px">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('t-mac',this)">macOS (Homebrew)</button>
+                    <button class="tab-btn" onclick="switchTab('t-cargo',this)">Cargo</button>
+                    <button class="tab-btn" onclick="switchTab('t-src',this)">From Source</button>
+                </div>
+                <div id="t-mac" class="tab-panel active">
+                    <div class="code-block"><code>brew install clip-gate</code><button class="cp-btn" onclick="copyCmd(this,'brew install clip-gate')">Copy</button></div>
+                </div>
+                <div id="t-cargo" class="tab-panel">
+                    <div class="code-block"><code>cargo install clip-gate</code><button class="cp-btn" onclick="copyCmd(this,'cargo install clip-gate')">Copy</button></div>
+                </div>
+                <div id="t-src" class="tab-panel">
+                    <div class="code-block"><code>git clone https://github.com/clip-gate/clip-gate && cd clip-gate && cargo build --release</code><button class="cp-btn" onclick="copyCmd(this,'git clone https://github.com/clip-gate/clip-gate && cd clip-gate && cargo build --release')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Requires Rust 1.75+. Binary at target/release/cg (~4.6MB)</p>
+                </div>
+
+                <div style="margin-top:2rem">
+                    <p style="color:var(--text2);font-size:0.95rem;margin-bottom:1rem">Then try your first commands:</p>
+                    <div class="term">
+                        <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div></div>
+                        <div class="term-body" style="min-height:auto">
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">echo "TypeError: x is undefined" | cg copy</span></div>
+                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg list</span></div>
+                            <div class="t-line"><span class="t-c">ID         TYPE        AGE  PREVIEW</span></div>
+                            <div class="t-line"><span class="t-o">01KN3K49   </span><span style="color:var(--red)">error</span><span class="t-o">        5s  TypeError: x is undefined</span></div>
+                            <div class="t-line" style="margin-top:0.5rem"><span class="t-p">$</span> <span class="t-i">cg paste --type error</span></div>
+                            <div class="t-line"><span class="t-o">TypeError: x is undefined</span></div>
+                            <div class="t-line" style="margin-top:0.5rem"><span class="t-p">$</span> <span class="t-i">eval "$(cg shell-init)"</span> <span class="t-c"># shell aliases</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ Tech Badges ════ -->
+        <div class="tech-strip reveal">
+            <span class="tech-badge"><span class="tech-dot" style="background:#dea584"></span>Rust</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--blue)"></span>SQLite + WAL</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--purple)"></span>ULID Keys</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--green)"></span>Clap 4</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--gold)"></span>Shannon Entropy</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--cyan)"></span>MCP Protocol</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--orange)"></span>11 Crates</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--green)"></span>220+ Tests</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--text2)"></span>MIT License</span>
+        </div>
+
+        <!-- ════ Roadmap ════ -->
+        <section class="sec" id="roadmap">
+            <div class="sec-badge">Progress</div>
+            <h2 class="sec-title reveal">Roadmap</h2>
+            <p class="sec-sub reveal">Where Clip Gate is headed — and how far it's come.</p>
+            <div class="reveal" style="max-width:860px;margin:3rem auto 0;position:relative">
+                <!-- Timeline line -->
+                <div style="position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--cyan),var(--purple),var(--border))"></div>
+
+                <!-- Phase 1 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--green);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 1 — Core CLI</span>
+                            <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Copy, paste, list, search. SQLite storage with WAL mode. ULID-based item IDs. Priority-based content classification and confidence scores.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--green);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 2 — Secrets & MCP</span>
+                            <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Secret detection with 15 patterns + Shannon entropy. In-memory TTL vault — secrets never hit disk. MCP server with 6 tools over stdio JSON-RPC 2.0.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--green);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 3 — AI Handoff & Shell UX</span>
+                            <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Context packer with text, JSON, and markdown formats. Shell integration with 7 aliases and helper functions. Interactive fzf picker. Doctor health checks. 220+ tests passing.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--green);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 4 — Platform & Packaging</span>
+                            <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Linux clipboard adapters (Wayland + X11). Homebrew formula + .deb/.rpm packaging. <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg push</code> / <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pop</code> named stacks. 6 new content types. Golden packer tests. VHS terminal recordings. 220+ tests.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:var(--cyan);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--cyan);z-index:1;animation:pulse 2s infinite"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--cyan);border-radius:12px;padding:1.5rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--cyan);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 5 — Intelligence</span>
+                            <span style="background:var(--cyan);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Up Next</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Semantic search with local embeddings (no cloud). Auto-tagging with git repo and branch context. Session-aware grouping. Frequency analysis for repeat pastes. <code style="color:var(--cyan);background:rgba(0,212,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg suggest</code> — proactive clipboard recommendations.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:transparent;border:2px solid var(--purple);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;opacity:0.85">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--purple);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 6 — Ecosystem</span>
+                            <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
+                        </div>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Plugin system for custom classifiers. Team sharing via encrypted sync. VS Code and JetBrains extensions. Web dashboard. <code style="color:var(--purple);background:rgba(168,85,247,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg export</code> to Notion, Linear, and GitHub Issues.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 7 -->
+                <div style="display:flex;gap:1.5rem;margin-bottom:2.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:transparent;border:2px solid var(--text3);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;opacity:0.7">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--text2);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 7 — Developer Workflows</span>
+                            <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
+                        </div>
+                        <p style="color:var(--text3);font-size:0.92rem;line-height:1.6;margin:0"><code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pipe</code> — composable clipboard pipelines. Git-aware mode that auto-captures commits and branch names. Tmux/zellij per-pane isolation. <code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg replay</code> to re-execute captured commands.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 8 -->
+                <div style="display:flex;gap:1.5rem;position:relative">
+                    <div style="flex-shrink:0;width:56px;display:flex;align-items:flex-start;justify-content:center;padding-top:0.25rem">
+                        <div style="width:20px;height:20px;border-radius:50%;background:transparent;border:2px solid var(--text3);z-index:1"></div>
+                    </div>
+                    <div style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;opacity:0.6">
+                        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+                            <span style="color:var(--text3);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 8 — Enterprise & Scale</span>
+                            <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
+                        </div>
+                        <p style="color:var(--text3);font-size:0.92rem;line-height:1.6;margin:0">Multi-user mode with role-based access. Audit logging for compliance. Remote clipboard sync via SSH tunnels (zero-trust). Configurable retention per project. Performance hardening for 100K+ item histories.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════ CTA ════ -->
+        <section id="cta">
+            <h2 class="reveal">Stop losing what you copy.</h2>
+            <p class="reveal">Install Clip Gate and turn your clipboard into a developer tool.</p>
+            <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-p" onclick="scrollTo('#install')" style="font-size:1.05rem;padding:1rem 2.5rem">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Get Started
+                </button>
+                <a href="https://github.com/clip-gate/clip-gate" target="_blank" class="btn btn-s" style="font-size:1.05rem;padding:1rem 2.5rem">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    Star on GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-section">
+                <div class="logo" style="margin-bottom:0.75rem;font-size:1.1rem"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.3rem">&gt;_</span>clip<b>gate</b></div>
+                <p>Terminal-native typed clipboard for AI-assisted developers.</p>
+                <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text3)">MIT License &middot; Built with Rust &middot; 220+ tests passing</p>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <div class="footer-links">
+                    <a href="https://github.com/clip-gate/clip-gate" target="_blank">GitHub</a>
+                    <a href="https://github.com/clip-gate/clip-gate/tree/main/docs" target="_blank">Documentation</a>
+                    <a href="https://github.com/clip-gate/clip-gate/issues" target="_blank">Issues</a>
+                    <a href="https://github.com/clip-gate/clip-gate/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <div class="footer-links">
+                    <a href="https://github.com/clip-gate/clip-gate/discussions" target="_blank">Discussions</a>
+                    <a href="https://github.com/clip-gate/clip-gate/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
+                    <a href="https://github.com/clip-gate/clip-gate/blob/main/LICENSE" target="_blank">License</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Clip Gate</div>
+    </footer>
+
+    <script>
+    // ── Hero typing animation (plays once) ──
+    (function(){
+        const el = document.getElementById('heroTerm');
+        const lines = [
+            {p:true, t:'echo "TypeError: Cannot read property \'map\'" | cg copy'},
+            {p:true, t:'echo "git push origin main" | cg copy --verbose'},
+            {p:false,t:'cg: command 01KN3K4Q (confidence: 0.80)', cls:'t-g'},
+            {p:true, t:'echo "sk_live_4eC39HqLyjW" | cg copy'},
+            {p:false,t:'cg: secret 01KN3K5R (secret, memory-only)', cls:'t-g'},
+            {p:true, t:'cg list'},
+            {p:false,t:'ID         TYPE        AGE  PREVIEW', cls:'t-c'},
+            {p:false,t:'01KN3K5R   secret       3s  sk_live_4eC3\u2022\u2022\u2022\u2022\u2022\u2022\u2022', cls:'t-o'},
+            {p:false,t:'01KN3K4Q   command      7s  git push origin main', cls:'t-o'},
+            {p:false,t:'01KN3K49   error       21s  TypeError: Cannot read...', cls:'t-o'},
+            {p:false,t:'01KN3J4H   json        17m  {"status": "ok"}', cls:'t-o'},
+            {p:true, t:'cg paste --type error'},
+            {p:false,t:'TypeError: Cannot read property \'map\' of undefined', cls:'t-o'},
+            {p:true, t:'cg pack --type error -n 3 | claude "fix these"'},
+            {p:false,t:'cg: packed 3 items (~69 tokens)', cls:'t-g'}
+        ];
+        let li=0, ci=0;
+        function tick(){
+            if(li>=lines.length){
+                const c=document.createElement('div');
+                c.className='t-line';
+                c.innerHTML='<span class="t-p">$</span> <span class="cursor"></span>';
+                el.appendChild(c);
+                return;
+            }
+            const ln=lines[li];
+            let row=el.querySelector(`[data-l="${li}"]`);
+            if(!row){
+                row=document.createElement('div');
+                row.className='t-line';
+                row.setAttribute('data-l',li);
+                el.appendChild(row);
+            }
+            if(ci===0){
+                if(ln.p){
+                    row.innerHTML='<span class="t-p">$</span> <span class="t-i"></span><span class="cursor"></span>';
+                } else {
+                    row.innerHTML=`<span class="${ln.cls||'t-o'}"></span><span class="cursor"></span>`;
+                }
+            }
+            if(ci<ln.t.length){
+                const sp=ln.p?row.querySelector('.t-i'):row.querySelector(`.${(ln.cls||'t-o').split(' ')[0]}`);
+                sp.textContent+=ln.t[ci];
+                ci++;
+                setTimeout(tick, ln.p?25:12);
+            } else {
+                const cur=row.querySelector('.cursor');
+                if(cur)cur.remove();
+                ci=0;li++;
+                setTimeout(tick, ln.p?350:150);
+            }
+        }
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',tick);
+        else tick();
+    })();
+
+    // ── Scroll reveal ──
+    const obs=new IntersectionObserver(function(entries){
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+    },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
+
+    // ── Scenario tab switching ──
+    function showScenario(id,btn){
+        document.querySelectorAll('.sc-pane').forEach(p=>p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.sc-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // ── Install tab switching ──
+    function switchTab(id,btn){
+        document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // ── Copy helpers ──
+    function copyCmd(btn,text){
+        navigator.clipboard.writeText(text).then(()=>{
+            const orig=btn.textContent;
+            btn.textContent='Copied!';
+            setTimeout(()=>btn.textContent=orig,2000);
+        });
+    }
+
+    // ── Smooth scroll ──
+    function scrollTo(sel){document.querySelector(sel).scrollIntoView({behavior:'smooth',block:'start'})}
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+    });
+    </script>
+</body>
+</html>
