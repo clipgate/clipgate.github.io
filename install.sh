@@ -3,7 +3,7 @@
 # Usage: curl -fsSL https://clipgate.github.io/install.sh | sh
 set -e
 
-REPO="alok-tiwari/clip-gate"
+REPO="clipgate/clip-gate"
 BINARY="cg"
 INSTALL_DIR="/usr/local/bin"
 
