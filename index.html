@@ -6,6 +6,41 @@
     <meta name="google-site-verification" content="IIbTW2aNtd0fRdgGlBBESLr_nAKpzAtK3eOyTzkjjc4" />
     <title>Clip Gate — Your clipboard, but it understands your code</title>
     <meta name="description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
+    <meta name="keywords" content="clipboard manager, clipboard history, CLI tool, Rust, terminal, developer tools, clipboard classification, secret detection, encryption, open source, local-first, privacy">
+    <link rel="canonical" href="https://clipgate.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://clipgate.github.io/">
+    <meta property="og:title" content="Clip Gate — Your clipboard, but it understands your code">
+    <meta property="og:description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
+    <meta property="og:site_name" content="ClipGate">
+    <meta property="og:image" content="https://clipgate.github.io/icon-192.png">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Clip Gate — Your clipboard, but it understands your code">
+    <meta name="twitter:description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
+    <meta name="twitter:image" content="https://clipgate.github.io/icon-192.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ClipGate CLI",
+      "description": "Typed clipboard manager for the terminal. Classify, search, and retrieve your clipboard history with content-type awareness. Built in Rust.",
+      "url": "https://clipgate.github.io/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "macOS, Linux",
+      "license": "https://opensource.org/licenses/MIT",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "ClipGate",
+        "url": "https://github.com/clipgate"
+      }
+    }
+    </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -898,13 +933,17 @@
             <div class="reveal" style="max-width:640px">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('t-curl',this)">Quick Install</button>
+                    <button class="tab-btn" onclick="switchTab('t-cargo',this)">Cargo</button>
                     <button class="tab-btn" onclick="switchTab('t-src',this)">From Source</button>
                     <button class="tab-btn" onclick="switchTab('t-mac',this)" style="position:relative">macOS (Homebrew) <span style="font-size:0.65em;color:var(--gold);margin-left:0.3rem;font-weight:700;vertical-align:super">SOON</span></button>
-                    <button class="tab-btn" onclick="switchTab('t-cargo',this)" style="position:relative">Cargo <span style="font-size:0.65em;color:var(--gold);margin-left:0.3rem;font-weight:700;vertical-align:super">SOON</span></button>
                 </div>
                 <div id="t-curl" class="tab-panel active">
                     <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | bash</code><button class="cp-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | bash')">Copy</button></div>
                     <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64). Auto-detects your platform.</p>
+                </div>
+                <div id="t-cargo" class="tab-panel">
+                    <div class="code-block"><code>cargo install cg-cli</code><button class="cp-btn" onclick="copyCmd(this,'cargo install cg-cli')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Requires Rust 1.75+. Installs from <a href="https://crates.io/crates/cg-cli" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">crates.io</a>.</p>
                 </div>
                 <div id="t-src" class="tab-panel">
                     <div class="code-block"><code>git clone https://github.com/clipgate/clip-gate && cd clip-gate && cargo build --release</code><button class="cp-btn" onclick="copyCmd(this,'git clone https://github.com/clipgate/clip-gate && cd clip-gate && cargo build --release')">Copy</button></div>
@@ -913,10 +952,6 @@
                 <div id="t-mac" class="tab-panel">
                     <div class="code-block" style="opacity:0.5"><code>brew install clipgate/tap/cg</code></div>
                     <p style="color:var(--gold);margin-top:1rem;font-size:0.85rem">Coming soon. Use Quick Install for now.</p>
-                </div>
-                <div id="t-cargo" class="tab-panel">
-                    <div class="code-block" style="opacity:0.5"><code>cargo install clip-gate</code></div>
-                    <p style="color:var(--gold);margin-top:1rem;font-size:0.85rem">Coming soon. Use Quick Install or build from source for now.</p>
                 </div>
 
                 <div style="margin-top:2rem">
