@@ -27,7 +27,7 @@
 
         /* ── Header ── */
         header{position:fixed;top:0;width:100%;padding:1rem 2rem;background:rgba(10,14,23,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;justify-content:space-between;align-items:center}
-        .logo{font-weight:800;font-size:1.4rem;letter-spacing:-0.5px}
+        .logo{font-weight:800;font-size:1.4rem;letter-spacing:-0.5px;display:flex;align-items:center;gap:0.6rem}
         .logo b{color:var(--cyan)}
         nav{display:flex;gap:2rem;align-items:center}
         nav a{color:var(--text2);font-size:0.9rem;font-weight:500;transition:color var(--ease)}
@@ -36,7 +36,7 @@
         .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.35)}
 
         /* ── Hero ── */
-        #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 3rem 4rem;gap:2.5rem}
+        #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 3rem 4rem;gap:2.5rem;max-width:1300px;margin:0 auto}
         .hero-left{flex:1;max-width:540px}
         .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 1rem;border-radius:20px;font-size:0.8rem;color:var(--cyan);font-weight:500}
         .hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
@@ -259,13 +259,17 @@
 </head>
 <body>
     <header>
-        <div class="logo"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.3rem">&gt;_</span>clip<b>gate</b></div>
+        <div class="logo"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span></div>
         <nav>
             <a href="#engine">How it Works</a>
             <a href="#workflows">Workflows</a>
             <a href="#ai-stack">AI Stack</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#install">Install</a>
+            <a href="/ext" style="display:inline-flex;align-items:center;gap:0.4rem;color:var(--bg);background:linear-gradient(135deg,var(--cyan),#0099cc);padding:0.45rem 1rem;border-radius:6px;font-weight:600;font-size:0.82rem;transition:all 0.3s;white-space:nowrap" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,212,255,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+                Browser Extension
+            </a>
             <button class="nav-cta" onclick="smoothNav('#install')">Get Started</button>
         </nav>
     </header>
