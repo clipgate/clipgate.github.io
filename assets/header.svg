@@ -1,0 +1,11 @@
+<svg width="800" height="160" viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="160" fill="#0a0e17" rx="12" ry="12"/>
+
+  <!-- >_ ClipGate — single text element, positioned with tspans -->
+  <text x="400" y="72" text-anchor="middle" font-family="'SF Mono','Fira Code','Cascadia Code','Courier New',monospace" font-weight="bold" font-size="58">
+    <tspan fill="#00d4ff" opacity="0.7" font-size="46">&gt;_ </tspan><tspan fill="#ffffff">Clip</tspan><tspan fill="#00d4ff">Gate</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="400" y="115" text-anchor="middle" font-family="'SF Mono','Fira Code','Cascadia Code','Courier New',monospace" font-size="16" fill="#8892a4" letter-spacing="3">terminal-native typed clipboard</text>
+</svg>

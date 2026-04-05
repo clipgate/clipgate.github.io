@@ -2,7 +2,7 @@
 
 <br>
 
-<img src="https://raw.githubusercontent.com/clipgate/clip-gate/main/assets/header.svg" alt=">_ ClipGate" width="600">
+<img src="assets/header.svg" alt=">_ ClipGate" width="600">
 
 <br><br>
 
