@@ -1,0 +1,52 @@
+.cg-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 1105;
+  pointer-events: none;
+}
+
+.cg-scroll-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #39e7ff);
+  box-shadow: 0 0 16px rgba(0, 212, 255, 0.55);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.cg-back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--cyan, #00d4ff);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+  z-index: 999;
+}
+
+.cg-back-to-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.35);
+}
+
+@media (max-width: 720px) {
+  .cg-back-to-top {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+}

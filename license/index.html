@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipGate License</title>
+  <meta name="description" content="ClipGate proprietary license summary for the public site.">
+  <link rel="canonical" href="https://clipgate.github.io/license/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/license/">
+  <meta property="og:title" content="ClipGate License">
+  <meta property="og:description" content="ClipGate proprietary license summary for the public site.">
+  <meta property="og:site_name" content="ClipGate">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--text:#e6edf3;--text2:#8b949e;--cyan:#00d4ff;--border:rgba(0,212,255,.1);--card:rgba(22,27,34,.66)}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-35%;left:50%;width:1050px;height:1050px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.06),transparent 72%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 4rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:16px}
+    .hero{padding:2rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .8rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.22);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    h1{font-size:2.6rem;line-height:1.06;letter-spacing:-1.2px;margin-bottom:1rem}
+    .sub{color:var(--text2);max-width:60ch}
+    .body{margin-top:1rem;padding:1.4rem 1.5rem}
+    h2{font-size:1.18rem;margin-bottom:.6rem}
+    p,li{color:var(--text2)}
+    ul{padding-left:1.15rem}
+    li{margin:.35rem 0}
+  </style>
+</head>
+<body data-page="license" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="wrap cg-chrome-shell">
+
+    <section class="panel hero">
+      <div class="eyebrow">License</div>
+      <h1>ClipGate is proprietary.</h1>
+      <p class="sub">The public site is the official home for downloads, docs, and release notes. Source code is not published from this site.</p>
+    </section>
+
+    <section class="panel body">
+      <h2>What this means</h2>
+      <ul>
+        <li>You may use the official binaries distributed from the public site.</li>
+        <li>The ClipGate brand and release channel are controlled by the project owner.</li>
+        <li>Support, docs, and release notes live on the public site.</li>
+      </ul>
+      <p style="margin-top:1rem">If you need the current license text for a distribution or support case, contact <a href="/support/" style="color:var(--cyan)">support</a>.</p>
+    </section>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+</body>
+</html>

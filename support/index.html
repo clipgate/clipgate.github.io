@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipGate Support</title>
+  <meta name="description" content="ClipGate support, contact, and common questions for the public site and CLI downloads.">
+  <link rel="canonical" href="https://clipgate.github.io/support/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/support/">
+  <meta property="og:title" content="ClipGate Support">
+  <meta property="og:description" content="ClipGate support, contact, and common questions for the public site and CLI downloads.">
+  <meta property="og:site_name" content="ClipGate">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--text:#e6edf3;--text2:#8b949e;--cyan:#00d4ff;--border:rgba(0,212,255,.1);--card:rgba(22,27,34,.66)}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-35%;left:50%;width:1050px;height:1050px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.06),transparent 72%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 4rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:16px}
+    .hero{padding:2rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .8rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.22);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    h1{font-size:2.6rem;line-height:1.06;letter-spacing:-1.2px;margin-bottom:1rem}
+    .sub{color:var(--text2);max-width:60ch}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+    .card{padding:1.2rem;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.015)}
+    .card h2{font-size:1rem;margin-bottom:.35rem}
+    .card p{color:var(--text2);font-size:.92rem}
+    .faq{margin-top:1rem;padding:1.4rem 1.5rem}
+    .faq h2{font-size:1.2rem;margin-bottom:.85rem}
+    .item{padding:1rem 0;border-top:1px solid var(--border)}
+    .item:first-of-type{border-top:none;padding-top:0}
+    .item h3{font-size:.98rem;margin-bottom:.25rem}
+    .item p{color:var(--text2);font-size:.92rem}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}h1{font-size:2rem}}
+  </style>
+</head>
+<body data-page="support" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="wrap cg-chrome-shell">
+
+    <section class="panel hero">
+      <div class="eyebrow">Support</div>
+      <h1>Need help with ClipGate?</h1>
+      <p class="sub">Use this page for support questions, install issues, and release feedback. The public site is the right place to find docs and downloads, while the product stays binary-first.</p>
+    </section>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Email support</h2>
+        <p><a href="mailto:alkorgstudio.support@gmail.com" style="color:var(--cyan)">alkorgstudio.support@gmail.com</a></p>
+      </div>
+      <div class="card">
+        <h2>Docs first</h2>
+        <p>If you are installing or updating, check the <a href="/docs/" style="color:var(--cyan)">Docs</a> and <a href="/releases/" style="color:var(--cyan)">Release Notes</a> pages first.</p>
+      </div>
+    </div>
+
+    <section class="panel faq">
+      <h2>Common Questions</h2>
+      <div class="item">
+        <h3>Where do I download ClipGate?</h3>
+        <p>Use the installer from the home page or visit Release Notes for versioned binaries.</p>
+      </div>
+      <div class="item">
+        <h3>Does ClipGate keep my clipboard local?</h3>
+        <p>Yes. The CLI is designed to be local-first and the public site points to site-hosted binaries and docs.</p>
+      </div>
+      <div class="item">
+        <h3>How do I get help fast?</h3>
+        <p>Email support, then check the docs for command and install references.</p>
+      </div>
+    </section>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+</body>
+</html>

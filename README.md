@@ -6,11 +6,12 @@
 
 <br><br>
 
-**Landing page for Clip Gate — terminal-native typed clipboard for AI-assisted developers.**
+**Official public site for Clip Gate — downloads, docs, release notes, and support.**
 
 [![Live Site](https://img.shields.io/badge/live-clipgate.github.io-00d4ff?style=flat-square&logo=github)](https://clipgate.github.io)
-[![Source Code](https://img.shields.io/badge/source-alok--tiwari/clip--gate-2ecc71?style=flat-square&logo=rust)](https://github.com/clipgate/clip-gate)
-[![MIT License](https://img.shields.io/badge/license-MIT-f59e0b?style=flat-square)](https://github.com/clipgate/clip-gate/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-site--hosted-00d4ff?style=flat-square)](https://clipgate.github.io/docs/)
+[![Releases](https://img.shields.io/badge/releases-site--hosted-34d399?style=flat-square)](https://clipgate.github.io/releases/)
+[![License](https://img.shields.io/badge/license-Proprietary-f59e0b?style=flat-square)](https://clipgate.github.io/license/)
 
 </div>
 
@@ -18,9 +19,9 @@
 
 ## About
 
-This repo hosts the landing page for [Clip Gate](https://github.com/clipgate/clip-gate) — deployed via GitHub Pages at [clipgate.github.io](https://clipgate.github.io).
+This repo hosts the public Clip Gate website, including the product homepage, docs, release notes, support pages, and release asset index. The site is deployed via GitHub Pages at [clipgate.github.io](https://clipgate.github.io).
 
-Clip Gate auto-classifies everything developers copy into 13 meaningful types — errors, commands, paths, JSON, secrets, diffs, URLs, SQL, IPs, env vars, Docker, SHAs, and plain text. Retrieve by type, not by recency. Pack context and pipe directly to Claude, ChatGPT, or Cursor.
+Clip Gate auto-classifies everything developers copy into 13 meaningful types - errors, commands, paths, JSON, secrets, diffs, URLs, SQL, IPs, env vars, Docker, SHAs, and plain text. Retrieve by type, not by recency. Pack context and pipe directly to Claude, ChatGPT, or Cursor.
 
 ## Tech Stack
 
@@ -32,8 +33,6 @@ Clip Gate auto-classifies everything developers copy into 13 meaningful types �
 ## Local Development
 
 ```bash
-git clone https://github.com/clipgate/clipgate.github.io.git
-cd clipgate.github.io
 open index.html    # or use any local server
 ```
 
@@ -43,15 +42,18 @@ The site includes meta tags for search engines and social previews, JSON-LD stru
 
 ## Related Repos
 
-| Repo | Description |
+| Page | Description |
 |------|-------------|
-| [clipgate/clip-gate](https://github.com/clipgate/clip-gate) | Source code — Rust workspace, 11 crates, 220+ tests |
-| [clipgate/clipgate.github.io](https://github.com/clipgate/clipgate.github.io) | This repo — landing page |
+| [Home](https://clipgate.github.io/) | Product landing page |
+| [Docs](https://clipgate.github.io/docs/) | Install, commands, configuration, architecture |
+| [Releases](https://clipgate.github.io/releases/) | Download links and release notes |
+| [Support](https://clipgate.github.io/support/) | Help and contact |
+| [License](https://clipgate.github.io/license/) | Proprietary license summary |
 
 ---
 
 <div align="center">
 
-**MIT License** · Built by [Alok Tiwari](https://github.com/alok-tiwari)
+**Proprietary** · Built by [Alok Tiwari](https://github.com/alok-tiwari) · © 2025-2026 All rights reserved.
 
 </div>

@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="IIbTW2aNtd0fRdgGlBBESLr_nAKpzAtK3eOyTzkjjc4" />
-    <title>Clip Gate — Your clipboard, but it understands your code</title>
-    <meta name="description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
-    <meta name="keywords" content="clipboard manager, clipboard history, CLI tool, Rust, terminal, developer tools, clipboard classification, secret detection, encryption, open source, local-first, privacy">
+    <title>Clip Gate — Official downloads, docs, and releases</title>
+    <meta name="description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
+    <meta name="keywords" content="clipboard manager, clipboard history, CLI tool, Rust, terminal, developer tools, clipboard classification, secret detection, encryption, local-first, privacy">
     <link rel="canonical" href="https://clipgate.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://clipgate.github.io/">
-    <meta property="og:title" content="Clip Gate — Your clipboard, but it understands your code">
-    <meta property="og:description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
+    <meta property="og:title" content="Clip Gate — Official downloads, docs, and releases">
+    <meta property="og:description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
     <meta property="og:site_name" content="ClipGate">
-    <meta property="og:image" content="https://clipgate.github.io/icon-192.png">
+    <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Clip Gate — Your clipboard, but it understands your code">
-    <meta name="twitter:description" content="Terminal-native typed clipboard for AI-assisted developers. Auto-classifies everything you copy. Retrieve by type. Pack for AI.">
-    <meta name="twitter:image" content="https://clipgate.github.io/icon-192.png">
+    <meta name="twitter:title" content="Clip Gate — Official downloads, docs, and releases">
+    <meta name="twitter:description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
+    <meta name="twitter:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,8 +27,8 @@
       "description": "Typed clipboard manager for the terminal. Classify, search, and retrieve your clipboard history with content-type awareness. Built in Rust.",
       "url": "https://clipgate.github.io/",
       "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "macOS, Linux",
-      "license": "https://opensource.org/licenses/MIT",
+      "operatingSystem": "macOS, Linux, Windows",
+      "license": "https://clipgate.github.io/license/",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -37,14 +37,15 @@
       "author": {
         "@type": "Organization",
         "name": "ClipGate",
-        "url": "https://github.com/clipgate"
+        "url": "https://clipgate.github.io/"
       }
     }
     </script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared/site-scroll-ui.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
@@ -72,12 +73,13 @@
         .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.35)}
 
         /* ── Hero ── */
-        #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 3rem 4rem;gap:2.5rem;max-width:1300px;margin:0 auto}
-        .hero-left{flex:1;max-width:540px}
-        .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 1rem;border-radius:20px;font-size:0.8rem;color:var(--cyan);font-weight:500}
+        #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 2.3rem 4rem;gap:2.1rem;max-width:1360px;margin:0 auto}
+        .hero-left{flex:1;max-width:660px}
+        .hero-badges{display:flex;gap:0.55rem;flex-wrap:nowrap;margin-bottom:1.5rem}
+        .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 0.8rem;border-radius:999px;font-size:0.76rem;color:var(--cyan);font-weight:600;white-space:nowrap}
         .hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-        h1{font-size:3.6rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px}
+        h1{font-size:3.6rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px;max-width:560px}
         h1 span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .hero-sub{font-size:1.25rem;color:var(--text2);margin-bottom:2.5rem;line-height:1.6;max-width:480px}
         .hero-actions{display:flex;gap:1rem;margin-bottom:3rem;flex-wrap:wrap}
@@ -86,9 +88,10 @@
         .btn-p:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,212,255,0.4)}
         .btn-s{background:transparent;color:var(--cyan);border:1.5px solid rgba(0,212,255,0.4)}
         .btn-s:hover{background:rgba(0,212,255,0.08);transform:translateY(-3px)}
-        .hero-install{display:flex;align-items:center;gap:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--green);max-width:380px}
-        .hero-install .dollar{color:var(--text3);user-select:none}
-        .hero-install .copy-btn{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.85rem;padding:0.3rem 0.6rem;border-radius:4px;transition:all var(--ease)}
+        .hero-install{display:flex;align-items:center;gap:1rem;background:rgba(22,27,34,0.92);border:1px solid rgba(0,212,255,0.18);border-radius:18px;padding:1rem 1.35rem;font-family:'JetBrains Mono',monospace;color:var(--green);max-width:100%;width:min(100%,760px);box-shadow:0 14px 36px rgba(0,0,0,0.22)}
+        .hero-install .dollar{color:var(--text3);font-size:1.05rem;user-select:none;flex-shrink:0}
+        .hero-install .install-command{font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .hero-install .copy-btn{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.85rem;padding:0.3rem 0.6rem;border-radius:4px;transition:all var(--ease);flex-shrink:0}
         .hero-install .copy-btn:hover{color:var(--cyan);background:rgba(0,212,255,0.1)}
         .hero-right{flex:1.2;max-width:640px}
 
@@ -248,7 +251,7 @@
 
         /* ── Footer ── */
         footer{border-top:1px solid var(--border);padding:4rem 2rem 2rem}
-        .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+        .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
         .footer-section h4{font-size:0.95rem;font-weight:600;margin-bottom:1rem}
         .footer-section p{color:var(--text2);font-size:0.9rem;line-height:1.6}
         .footer-links{display:flex;flex-direction:column;gap:0.6rem}
@@ -271,6 +274,7 @@
             #hero{flex-direction:column;padding:6rem 1.5rem 3rem;gap:2rem}
             h1{font-size:2.2rem}
             .hero-sub{font-size:1.05rem}
+            .hero-badges{flex-wrap:wrap}
             .hero-right{max-width:100%;width:100%}
             .sec{padding:4rem 1.5rem}
             .sec-title{font-size:1.9rem}
@@ -285,6 +289,10 @@
         @media(max-width:500px){
             .ai-cards,.prin-grid{grid-template-columns:1fr}
             .hero-actions{flex-direction:column}
+            .hero-install{padding:0.95rem 1rem}
+            .hero-install{flex-wrap:wrap;gap:0.65rem}
+            .hero-install .install-command{font-size:0.92rem;white-space:normal}
+            .hero-install .copy-btn{margin-left:0;padding-left:0}
             .btn{width:100%;justify-content:center}
             .mini-pair{grid-template-columns:1fr}
             .sc-nav{gap:0.4rem}
@@ -293,20 +301,20 @@
         }
     </style>
 </head>
-<body>
+<body data-back-to-top="true" data-scroll-progress="true">
     <header>
         <div class="logo"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span></div>
         <nav>
-            <a href="#engine">How it Works</a>
-            <a href="#workflows">Workflows</a>
-            <a href="#ai-stack">AI Stack</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="#install">Install</a>
+            <a href="/docs/">Docs</a>
+            <a href="/releases/">Release Notes</a>
+            <a href="/support/">Support</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#install">Download</a>
             <a href="/ext" style="display:inline-flex;align-items:center;gap:0.4rem;color:var(--bg);background:linear-gradient(135deg,var(--cyan),#0099cc);padding:0.45rem 1rem;border-radius:6px;font-weight:600;font-size:0.82rem;transition:all 0.3s;white-space:nowrap" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,212,255,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
                 Browser Extension
             </a>
-            <button class="nav-cta" onclick="smoothNav('#install')">Get Started</button>
+            <button class="nav-cta" onclick="smoothNav('#install')">Install Free</button>
         </nav>
     </header>
 
@@ -314,26 +322,27 @@
         <!-- ════ Hero ════ -->
         <section id="hero">
             <div class="hero-left anim-l">
-                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
-                    <div class="hero-badge"><span class="pulse"></span> Open Source · MIT License</div>
-                    <div class="hero-badge" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span style="font-size:1.1em">&#9881;</span> Built by Devs, for Devs</div>
+                <div class="hero-badges">
+                    <div class="hero-badge"><span class="pulse"></span> Local-First</div>
+                    <div class="hero-badge" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span> Always Free</div>
+                    <div class="hero-badge" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)"><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block"></span> Built by Devs, for Devs</div>
                 </div>
                 <h1>Your clipboard, but it <span>understands your code</span></h1>
                 <p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--cyan);margin-bottom:1rem;letter-spacing:0.5px;opacity:0.85">Terminal-native typed clipboard for AI-assisted developers</p>
-                <p class="hero-sub">Auto-classifies everything you copy into developer-meaningful types. Retrieve by type, not by order. Pack context for AI in one command.</p>
+                <p class="hero-sub">Install the free binary, read the docs, and keep your workflow local-first. Clip Gate auto-classifies everything you copy into developer-meaningful types, then lets you retrieve it by type, not by order.</p>
                 <div class="hero-actions">
                     <button class="btn btn-p" onclick="smoothNav('#install')">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Install Clip Gate
+                        Install Free
                     </button>
-                    <a href="https://github.com/clipgate/clip-gate" target="_blank" class="btn btn-s">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                        View on GitHub
+                    <a href="/docs/" class="btn btn-s">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                        Read Docs
                     </a>
                 </div>
                 <div class="hero-install">
                     <span class="dollar">$</span>
-                    <span>curl -fsSL clipgate.github.io/install.sh | bash</span>
+                    <span class="install-command">curl -fsSL clipgate.github.io/install.sh | bash</span>
                     <button class="copy-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | bash')">Copy</button>
                 </div>
             </div>
@@ -352,7 +361,7 @@
         <div class="stats-strip">
             <div class="ss-item"><div class="ss-num">&lt;5<small>ms</small></div><div class="ss-label">Classification latency</div></div>
             <div class="ss-item"><div class="ss-num">13</div><div class="ss-label">Content types</div></div>
-            <div class="ss-item"><div class="ss-num">5,000</div><div class="ss-label">Items retained</div></div>
+            <div class="ss-item"><div class="ss-num">5,000</div><div class="ss-label">Default history cap</div></div>
             <div class="ss-item"><div class="ss-num">0<small> bytes</small></div><div class="ss-label">Secrets on disk</div></div>
             <div class="ss-item"><div class="ss-num">4.6<small>MB</small></div><div class="ss-label">Release binary</div></div>
         </div>
@@ -881,7 +890,7 @@
                         <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --type error -n 3 | claude "fix these"</span></div>
                         <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># JSON output for structured tools</span></div>
                         <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --format json -n 5 | jq '.items[].type'</span></div>
-                        <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># Markdown for GitHub issues</span></div>
+                        <div class="t-line" style="margin-top:0.8rem"><span class="t-c"># Markdown for support replies</span></div>
                         <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg pack --format markdown --type error >> issue.md</span></div>
                     </div>
                 </div>
@@ -927,31 +936,36 @@
 
         <!-- ════ Install ════ -->
         <section class="sec" id="install">
-            <div class="sec-badge">Get Started</div>
+            <div class="sec-badge">Download</div>
             <h2 class="sec-title reveal">Install in 30 seconds</h2>
 
             <div class="reveal" style="max-width:640px">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('t-curl',this)">Quick Install</button>
-                    <button class="tab-btn" onclick="switchTab('t-cargo',this)">Cargo</button>
-                    <button class="tab-btn" onclick="switchTab('t-src',this)">From Source</button>
-                    <button class="tab-btn" onclick="switchTab('t-mac',this)" style="position:relative">macOS (Homebrew) <span style="font-size:0.65em;color:var(--gold);margin-left:0.3rem;font-weight:700;vertical-align:super">SOON</span></button>
+                    <button class="tab-btn" onclick="switchTab('t-pip',this)">PyPI</button>
+                    <button class="tab-btn" onclick="switchTab('t-download',this)">Download</button>
+                    <button class="tab-btn" onclick="switchTab('t-mac',this)">Homebrew</button>
+                    <button class="tab-btn" onclick="switchTab('t-help',this)">Support</button>
                 </div>
                 <div id="t-curl" class="tab-panel active">
-                    <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | bash</code><button class="cp-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | bash')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64). Auto-detects your platform.</p>
+                    <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code><button class="cp-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | sh')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64 + ARM64). Auto-detects your platform.</p>
                 </div>
-                <div id="t-cargo" class="tab-panel">
-                    <div class="code-block"><code>cargo install cg-cli</code><button class="cp-btn" onclick="copyCmd(this,'cargo install cg-cli')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Requires Rust 1.75+. Installs from <a href="https://crates.io/crates/cg-cli" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">crates.io</a>.</p>
+                <div id="t-pip" class="tab-panel">
+                    <div class="code-block"><code>pip install clipgate</code><button class="cp-btn" onclick="copyCmd(this,'pip install clipgate')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">No Rust needed. Works on macOS, Linux, and Windows. Follow the package instructions on the docs page.</p>
                 </div>
-                <div id="t-src" class="tab-panel">
-                    <div class="code-block"><code>git clone https://github.com/clipgate/clip-gate && cd clip-gate && cargo build --release</code><button class="cp-btn" onclick="copyCmd(this,'git clone https://github.com/clipgate/clip-gate && cd clip-gate && cargo build --release')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Requires Rust 1.75+. Binary at target/release/cg (~4.6MB)</p>
+                <div id="t-download" class="tab-panel">
+                    <div class="code-block"><code>open https://clipgate.github.io/releases/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/releases/')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Grab a prebuilt binary from the <a href="/releases/" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">release notes</a> page for your platform.</p>
                 </div>
                 <div id="t-mac" class="tab-panel">
-                    <div class="code-block" style="opacity:0.5"><code>brew install clipgate/tap/cg</code></div>
-                    <p style="color:var(--gold);margin-top:1rem;font-size:0.85rem">Coming soon. Use Quick Install for now.</p>
+                    <div class="code-block"><code>brew install clipgate/tap/cg</code><button class="cp-btn" onclick="copyCmd(this,'brew install clipgate/tap/cg')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS and Linux via the public tap. Release binaries are hosted on the site.</p>
+                </div>
+                <div id="t-help" class="tab-panel">
+                    <div class="code-block"><code>open https://clipgate.github.io/support/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/support/')">Copy</button></div>
+                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Need help? Read the docs, check release notes, or contact support from the official site.</p>
                 </div>
 
                 <div style="margin-top:2rem">
@@ -982,7 +996,7 @@
             <span class="tech-badge"><span class="tech-dot" style="background:var(--cyan)"></span>MCP Protocol</span>
             <span class="tech-badge"><span class="tech-dot" style="background:var(--orange)"></span>11 Crates</span>
             <span class="tech-badge"><span class="tech-dot" style="background:var(--green)"></span>220+ Tests</span>
-            <span class="tech-badge"><span class="tech-dot" style="background:var(--text2)"></span>MIT License</span>
+            <span class="tech-badge"><span class="tech-dot" style="background:var(--text2)"></span>Free to Use</span>
         </div>
 
         <!-- ════ Roadmap ════ -->
@@ -1074,7 +1088,7 @@
                             <span style="color:var(--purple);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 6 — Ecosystem</span>
                             <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Plugin system for custom classifiers. Team sharing via encrypted sync. VS Code and JetBrains extensions. Web dashboard. <code style="color:var(--purple);background:rgba(168,85,247,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg export</code> to Notion, Linear, and GitHub Issues.</p>
+                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Plugin system for custom classifiers. Team sharing via encrypted sync. VS Code and JetBrains extensions. Web dashboard. <code style="color:var(--purple);background:rgba(168,85,247,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg export</code> to Notion, Linear, and support inboxes.</p>
                     </div>
                 </div>
 
@@ -1108,18 +1122,47 @@
             </div>
         </section>
 
+        <!-- ════ Pricing ════ -->
+        <section class="sec" id="pricing">
+            <div class="sec-badge">Pricing</div>
+            <h2 class="sec-title reveal">Simple now, scalable later</h2>
+            <p class="sec-sub reveal">Start with the free binary. When pro lands, it will sit on top of the same official distribution flow.</p>
+            <div class="prin-grid reveal" style="margin-top:0">
+                <div class="prin-card">
+                    <span class="prin-icon" style="color:var(--green)">Free</span>
+                    <h4>Free binary</h4>
+                    <p>Core clipboard capture, classification, search, packing, and local storage. Download from the official site and use it on your own machine.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon" style="color:var(--cyan)">Pro</span>
+                    <h4>Pro later</h4>
+                    <p>Advanced workflow automation, larger sync-aware surfaces, and premium integrations when you are ready to expand beyond the base binary.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon" style="color:var(--gold)">Docs</span>
+                    <h4>Official docs</h4>
+                    <p>Read setup, command references, and architecture notes on the public site. No source-code digging required.</p>
+                </div>
+                <div class="prin-card">
+                    <span class="prin-icon" style="color:var(--purple)">Support</span>
+                    <h4>Need help?</h4>
+                    <p>Use the support page for install help, release questions, and product feedback.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- ════ CTA ════ -->
         <section id="cta">
             <h2 class="reveal">Stop losing what you copy.</h2>
-            <p class="reveal">Install Clip Gate and turn your clipboard into a developer tool.</p>
+            <p class="reveal">Install the free binary and turn your clipboard into a developer tool.</p>
             <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
                 <button class="btn btn-p" onclick="smoothNav('#install')" style="font-size:1.05rem;padding:1rem 2.5rem">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Get Started
+                    Install Free
                 </button>
-                <a href="https://github.com/clipgate/clip-gate" target="_blank" class="btn btn-s" style="font-size:1.05rem;padding:1rem 2.5rem">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                    Star on GitHub
+                <a href="/docs/" class="btn btn-s" style="font-size:1.05rem;padding:1rem 2.5rem">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                    Read Docs
                 </a>
             </div>
         </section>
@@ -1128,36 +1171,30 @@
     <footer>
         <div class="footer-inner">
             <div class="footer-section">
-                <div class="logo" style="margin-bottom:0.75rem;font-size:1.1rem"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.3rem">&gt;_</span>clip<b>gate</b></div>
+                <div class="logo" style="margin-bottom:0.75rem;font-size:1.1rem"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span></div>
                 <p>Terminal-native typed clipboard for AI-assisted developers.</p>
-                <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text3)">MIT License &middot; Built with Rust &middot; 220+ tests passing</p>
+                <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text3)">Built with Rust &middot; official releases hosted on the site</p>
             </div>
             <div class="footer-section">
                 <h4>Resources</h4>
                 <div class="footer-links">
-                    <a href="https://github.com/clipgate/clip-gate" target="_blank">GitHub</a>
-                    <a href="https://github.com/clipgate/clip-gate#readme" target="_blank">Documentation</a>
-                    <a href="https://github.com/clipgate/clip-gate/issues" target="_blank">Issues</a>
-                    <a href="https://github.com/clipgate/clip-gate/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+                    <a href="/docs/">Docs</a>
+                    <a href="/releases/">Release Notes</a>
+                    <a href="/support/">Support</a>
+                    <a href="/license/">License</a>
                 </div>
             </div>
             <div class="footer-section">
-                <h4>Community</h4>
+                <h4>Legal</h4>
                 <div class="footer-links">
-                    <a href="https://github.com/clipgate/clip-gate/discussions" target="_blank">Discussions</a>
-                    <a href="https://github.com/clipgate/clip-gate/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
-                    <a href="https://github.com/clipgate/clip-gate/blob/main/LICENSE" target="_blank">License</a>
+                    <a href="/license/">License</a>
+                    <a href="/ext/privacy/">Privacy</a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">&copy; 2026 Clip Gate</div>
+        <div class="footer-bottom">&copy; 2025-2026 ClipGate. All rights reserved.</div>
     </footer>
-
-    <!-- Back to Top -->
-    <button id="backToTop" style="position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;border-radius:50%;background:var(--cyan);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 16px rgba(0,212,255,0.3);z-index:999" aria-label="Back to top">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0e17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-    </button>
-
+    <script src="shared/site-scroll-ui.js"></script>
     <script>
     // ── Hero typing animation (plays once) ──
     (function(){
@@ -1259,10 +1296,6 @@
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
         a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
     });
-    // ── Back to top button ──
-    const topBtn=document.getElementById('backToTop');
-    window.addEventListener('scroll',()=>{topBtn.style.opacity=window.scrollY>400?'1':'0';topBtn.style.pointerEvents=window.scrollY>400?'auto':'none'});
-    topBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
     </script>
 </body>
 </html>

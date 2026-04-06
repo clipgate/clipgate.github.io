@@ -12,12 +12,12 @@
     <meta property="og:title" content="ClipGate — Browser Extension for Smart Clipboard History">
     <meta property="og:description" content="Browser extension that automatically saves and classifies everything you copy. Detects secrets, encrypts them at rest, and auto-expires. 13 content types. 100% local. Zero cloud.">
     <meta property="og:site_name" content="ClipGate">
-    <meta property="og:image" content="https://clipgate.github.io/icon-192.png">
+    <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="ClipGate — Browser Extension for Smart Clipboard History">
     <meta name="twitter:description" content="Browser extension that automatically saves and classifies everything you copy. Detects secrets, encrypts them at rest, and auto-expires. 13 content types. 100% local. Zero cloud.">
-    <meta name="twitter:image" content="https://clipgate.github.io/icon-192.png">
+    <meta name="twitter:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,7 +27,7 @@
       "url": "https://clipgate.github.io/ext/",
       "applicationCategory": "BrowserExtension",
       "operatingSystem": "Chrome, Edge, Brave, Opera, Arc",
-      "license": "https://opensource.org/licenses/MIT",
+      "license": "https://clipgate.github.io/license/",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -36,14 +36,15 @@
       "author": {
         "@type": "Organization",
         "name": "ClipGate",
-        "url": "https://github.com/clipgate"
+        "url": "https://clipgate.github.io/"
       }
     }
     </script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/site-scroll-ui.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
@@ -266,7 +267,7 @@
         }
     </style>
 </head>
-<body>
+<body data-back-to-top="true" data-scroll-progress="true">
     <header>
         <a href="/" class="logo">
             <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span>
@@ -692,9 +693,9 @@
                             <td class="comp-highlight comp-yes">Zero. Verified zero.</td>
                         </tr>
                         <tr>
-                            <td class="comp-feat">Open source</td>
-                            <td class="comp-no">Rarely</td>
-                            <td class="comp-highlight comp-yes">MIT License &mdash; read every line</td>
+                            <td class="comp-feat">Free to use</td>
+                            <td class="comp-no">Often paid</td>
+                            <td class="comp-highlight comp-yes">100% free &mdash; no hidden costs</td>
                         </tr>
                     </tbody>
                 </table>
@@ -782,9 +783,9 @@
             <div class="reveal" style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;font-size:0.85rem;color:var(--text3)">
                 <span>Browser Extension</span>
                 <span>&middot;</span>
-                <span>Open Source</span>
+                <span>Free to Use</span>
                 <span>&middot;</span>
-                <span>MIT License</span>
+                <span>Privacy First</span>
                 <span>&middot;</span>
                 <span>Manifest V3</span>
                 <span>&middot;</span>
@@ -808,21 +809,22 @@
                 <div class="footer-links">
                     <a href="/ext/privacy">Privacy Policy</a>
                     <a href="/ext/contact">Contact & Support</a>
-                    <a href="https://github.com/clipgate" target="_blank">ClipGate Org</a>
+                    <a href="/support/">Site Support</a>
                 </div>
             </div>
             <div class="footer-section">
                 <h4>Ecosystem</h4>
                 <div class="footer-links">
                     <a href="/">ClipGate CLI</a>
-                    <a href="https://github.com/clipgate" target="_blank">ClipGate Org</a>
-                    <a href="https://github.com/clipgate/clip-gate" target="_blank">CLI Source</a>
+                    <a href="/docs/">CLI Docs</a>
+                    <a href="/releases/">Releases</a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">&copy; 2025 ClipGate &middot; Your clipboard, your machine, your rules.</div>
     </footer>
 
+    <script src="../shared/site-scroll-ui.js"></script>
     <script>
         // ── Scroll Reveal ──
         const observer = new IntersectionObserver((entries) => {
@@ -847,17 +849,6 @@
             });
         });
 
-        // ── Back to top ──
-        const backBtn = document.createElement('button');
-        backBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0e17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
-        backBtn.style.cssText = 'position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;border-radius:50%;background:var(--cyan);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 16px rgba(0,212,255,0.3);z-index:999';
-        backBtn.setAttribute('aria-label', 'Back to top');
-        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        document.body.appendChild(backBtn);
-        window.addEventListener('scroll', () => {
-            backBtn.style.opacity = window.scrollY > 400 ? '1' : '0';
-            backBtn.style.pointerEvents = window.scrollY > 400 ? 'auto' : 'none';
-        });
     </script>
 </body>
 </html>

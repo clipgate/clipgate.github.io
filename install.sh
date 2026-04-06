@@ -3,9 +3,18 @@
 # Usage: curl -fsSL https://clipgate.github.io/install.sh | sh
 set -e
 
-REPO="clipgate/clip-gate"
 BINARY="cg"
-INSTALL_DIR="/usr/local/bin"
+INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
+BASE_URL="https://clipgate.github.io/releases"
+TMPDIR=""
+
+cleanup() {
+    if [ -n "${TMPDIR}" ] && [ -d "${TMPDIR}" ]; then
+        rm -rf "${TMPDIR}"
+    fi
+}
+
+trap cleanup EXIT
 
 # Detect OS and architecture
 OS="$(uname -s)"
@@ -22,31 +31,41 @@ case "${OS}" in
     Linux)
         case "${ARCH}" in
             x86_64) TARGET="cg-x86_64-unknown-linux-gnu" ;;
+            arm64|aarch64) TARGET="cg-aarch64-unknown-linux-gnu" ;;
             *)      echo "Error: unsupported architecture ${ARCH} on Linux"; exit 1 ;;
         esac
         ;;
     *)
         echo "Error: unsupported OS ${OS}"
+        echo "Use 'pip install clipgate' or download a manual binary from https://clipgate.github.io/releases/."
         exit 1
         ;;
 esac
 
-# Get latest release tag
-LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+# Get latest release tag from the public site
+LATEST=$(curl -fsSL "${BASE_URL}/latest.txt" | tr -d '[:space:]')
 
 if [ -z "${LATEST}" ]; then
     echo "Error: could not determine latest release"
     exit 1
 fi
 
-URL="https://github.com/${REPO}/releases/download/${LATEST}/${TARGET}.tar.gz"
+URL="${BASE_URL}/${LATEST}/${TARGET}.tar.gz"
 
 echo "Installing Clip Gate ${LATEST} for ${OS} (${ARCH})..."
 echo "Downloading ${URL}"
 
 # Download and extract
 TMPDIR=$(mktemp -d)
-curl -fsSL "${URL}" | tar xz -C "${TMPDIR}"
+ARCHIVE="${TMPDIR}/${TARGET}.tar.gz"
+
+if ! curl -fsSL "${URL}" -o "${ARCHIVE}"; then
+    echo "Error: failed to download ${URL}"
+    echo "Check https://clipgate.github.io/releases/ for manual downloads and release status."
+    exit 1
+fi
+
+tar xzf "${ARCHIVE}" -C "${TMPDIR}"
 
 # Install
 if [ -w "${INSTALL_DIR}" ]; then
@@ -57,7 +76,6 @@ else
 fi
 
 chmod +x "${INSTALL_DIR}/${BINARY}"
-rm -rf "${TMPDIR}"
 
 echo ""
 echo "Clip Gate installed successfully!"

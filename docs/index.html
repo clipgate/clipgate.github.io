@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipGate Docs</title>
+  <meta name="description" content="Official ClipGate CLI docs hub: install, first-run workflows, a comprehensive quick reference, configuration guidance, and architecture notes.">
+  <link rel="canonical" href="https://clipgate.github.io/docs/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/docs/">
+  <meta property="og:title" content="ClipGate Docs">
+  <meta property="og:description" content="Official ClipGate CLI docs hub: install, first-run workflows, a comprehensive quick reference, configuration guidance, and architecture notes.">
+  <meta property="og:site_name" content="ClipGate">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.7)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1100px;height:1100px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.07),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:1.25rem;align-items:stretch;padding:1.6rem 0 2.2rem}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:18px;backdrop-filter:blur(14px)}
+    .hero-copy{padding:2rem}
+    .hero-side{padding:1.2rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    h1{font-size:3.15rem;line-height:1.04;letter-spacing:-1.5px;margin-bottom:1rem}
+    .sub{color:var(--text2);max-width:60ch;font-size:1.05rem}
+    .cta-row{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.8rem}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.92rem 1.25rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .btn.ghost{background:transparent;border-color:var(--border);color:var(--text2)}
+    .quick-card{padding:1rem 1.1rem;border-radius:14px;background:var(--bg2);border:1px solid rgba(255,255,255,.04);margin-bottom:.9rem}
+    .quick-card h3{font-size:.95rem;margin-bottom:.38rem}
+    .quick-card p{color:var(--text2);font-size:.88rem}
+    .command-line{margin-top:.55rem;padding:.8rem .95rem;border-radius:10px;background:var(--bg3);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.84rem;color:var(--green);overflow:auto}
+    .layout{display:grid;grid-template-columns:270px 1fr;gap:1.4rem}
+    .sidebar{position:sticky;top:1rem;align-self:start;padding:1.2rem}
+    .sidebar h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+    .sidebar a{display:block;padding:.42rem .75rem .42rem .9rem;margin-left:-.9rem;border-left:2px solid transparent;color:var(--text2);font-size:.92rem;border-radius:0 10px 10px 0;transition:color .18s ease,border-color .18s ease,background .18s ease}
+    .sidebar a:hover{color:var(--cyan)}
+    .sidebar a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .content{min-width:0}
+    section{padding:1.4rem 1.5rem;margin-bottom:1rem;scroll-margin-top:8.25rem}
+    section h2{font-size:1.34rem;margin-bottom:.8rem}
+    section p,section li{color:var(--text2)}
+    section p + p{margin-top:.8rem}
+    ul{padding-left:1.2rem}
+    li{margin:.35rem 0}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .mini{padding:1rem 1rem 1.05rem;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.015)}
+    .mini h3{font-size:.95rem;margin-bottom:.35rem}
+    .mini p{font-size:.88rem}
+    .mini ul{padding-left:1.05rem;margin-top:.45rem}
+    .mini li{font-size:.88rem;margin:.22rem 0;color:var(--text2)}
+    .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.88rem;overflow:auto;color:var(--green);white-space:pre-wrap}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .step{padding:1rem 1rem 1.05rem;border-radius:14px;background:rgba(255,255,255,.018);border:1px solid var(--border)}
+    .step b{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(0,212,255,.08);color:var(--cyan);font-size:.86rem;margin-bottom:.7rem}
+    .step p{font-size:.88rem}
+    .step ul{padding-left:1.05rem;margin-top:.5rem}
+    .step li{font-size:.85rem;color:var(--text2)}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;font-size:.9rem;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012)}
+    .workflow-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+    .workflow-card{padding:1.1rem;border-radius:14px;background:rgba(255,255,255,.016);border:1px solid var(--border)}
+    .workflow-card h3{font-size:.98rem;margin-bottom:.42rem}
+    .workflow-card p{font-size:.88rem;color:var(--text2)}
+    .workflow-card .code{margin-top:.8rem;font-size:.83rem}
+    .quickref-nav{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1rem}
+    .quickref-nav a{display:inline-flex;align-items:center;padding:.42rem .8rem;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text2);font-size:.82rem}
+    .quickref-nav a:hover{color:var(--cyan);border-color:rgba(0,212,255,.24);background:rgba(0,212,255,.05)}
+    .ref-group{margin-top:1.9rem}
+    .ref-group-title{font-size:1.18rem;margin-bottom:.4rem}
+    .ref-group-copy{color:var(--text2);margin-bottom:.35rem}
+    .cmd-entry{padding:1.45rem 0;border-top:1px solid rgba(255,255,255,.08)}
+    .cmd-badge{display:inline-flex;align-items:center;padding:.26rem .62rem;border-radius:10px;background:var(--bg3);border:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono',monospace;font-size:1.12rem;font-weight:700}
+    .cmd-desc{margin:.85rem 0 1rem;max-width:72ch;color:var(--text2)}
+    .cmd-note{margin-top:.95rem;padding:.9rem 1rem;border-radius:12px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05)}
+    .cmd-note p{font-size:.88rem;color:var(--text2)}
+    .cmd-note code{color:var(--text)}
+    .type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+    .type-card{padding:1rem;border-radius:14px;background:rgba(255,255,255,.016);border:1px solid var(--border)}
+    .type-card h3{font-size:.92rem;margin-bottom:.28rem}
+    .type-card p{font-size:.84rem}
+    .pill-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.9rem}
+    .pill{padding:.32rem .68rem;border-radius:999px;font-size:.77rem;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text2)}
+    .arch{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+    .arch-card{padding:1rem;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--border)}
+    .arch-card h3{font-size:.92rem;margin-bottom:.28rem}
+    .arch-card p{font-size:.84rem;color:var(--text2)}
+    .arch-flow{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin-top:1rem}
+    .arch-node{padding:.72rem .9rem;border-radius:12px;background:var(--bg3);border:1px solid var(--border);font-size:.84rem}
+    .arch-arrow{color:var(--cyan);font-weight:700}
+    @media(max-width:980px){
+      .hero,.layout,.grid,.steps,.workflow-grid,.type-grid,.arch{grid-template-columns:1fr}
+      .sidebar{position:static}
+      h1{font-size:2.25rem}
+    }
+  </style>
+</head>
+<body data-page="docs" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <div class="hero">
+      <div class="panel hero-copy">
+        <div class="eyebrow">Official CLI docs</div>
+        <h1>Install fast. Learn the flow. Keep moving.</h1>
+        <p class="sub">This is the public docs hub for ClipGate CLI: install channels, first-run workflows, a comprehensive quick reference, configuration guidance, content typing, and the local-first model behind the tool.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="/">Install Free</a>
+          <a class="btn secondary" href="/releases/">Download</a>
+          <a class="btn ghost" href="/support/">Support</a>
+        </div>
+      </div>
+      <div class="panel hero-side">
+        <div class="quick-card">
+          <h3>Quick install</h3>
+          <div class="command-line">curl -fsSL https://clipgate.github.io/install.sh | sh</div>
+        </div>
+        <div class="quick-card">
+          <h3>Primary install channels</h3>
+          <p><code>curl</code> installer for macOS and Linux, <code>pip install clipgate</code> for any platform with Python, manual downloads from Release Notes, and Homebrew for the public tap flow.</p>
+        </div>
+        <div class="quick-card">
+          <h3>What ClipGate does</h3>
+          <p>Classifies clipboard items into 13 developer-relevant types, protects secrets, and lets you retrieve by type instead of by recency.</p>
+        </div>
+        <div class="quick-card">
+          <h3>How these docs are organized</h3>
+          <p>Start with Quick Start, skim Core Workflows, then use Quick Reference for copy-paste command variations. Config Guidance explains what to tune without pinning public docs to version-specific defaults.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel sidebar">
+        <h2>On This Page</h2>
+        <a href="#install">Install</a>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#workflows">Core Workflows</a>
+        <a href="#quickref">Quick Reference</a>
+        <a href="#ref-core">Core Clipboard</a>
+        <a href="#ref-search">Search &amp; Inspection</a>
+        <a href="#ref-ai">AI &amp; Packaging</a>
+        <a href="#ref-stacks">Stacks &amp; Cleanup</a>
+        <a href="#ref-system">Shell &amp; System</a>
+        <a href="#config">Config Guidance</a>
+        <a href="#types">Content Types</a>
+        <a href="#security">Security</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#distribution">Distribution</a>
+      </aside>
+
+      <main class="content">
+        <section class="panel" id="install">
+          <h2>Install</h2>
+          <p>The public site is the canonical place for ClipGate installs, downloads, release notes, and support. You do not need source access to get the CLI on your machine.</p>
+          <table class="table" style="margin-top:1rem">
+            <thead>
+              <tr><th>Channel</th><th>Command or path</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Quick install</td><td><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code></td><td>Fastest path for macOS and Linux.</td></tr>
+              <tr><td>PyPI</td><td><code>pip install clipgate</code></td><td>Works anywhere Python is available, including Windows.</td></tr>
+              <tr><td>Homebrew</td><td><code>brew install clipgate/tap/cg</code></td><td>Public tap install path for macOS and Linux.</td></tr>
+              <tr><td>Manual download</td><td><code>/releases/vX.Y.Z/...</code></td><td>Use the Release Notes page for versioned binaries and checksums.</td></tr>
+            </tbody>
+          </table>
+          <div class="pill-row">
+            <span class="pill">macOS Intel + Apple Silicon</span>
+            <span class="pill">Linux x86_64 + ARM64</span>
+            <span class="pill">Windows via PyPI or manual download</span>
+            <span class="pill">No cloud account required</span>
+          </div>
+        </section>
+
+        <section class="panel" id="quickstart">
+          <h2>Quick Start</h2>
+          <p>The core loop is simple: capture something, inspect the typed history, retrieve by type, then pack context when you need to hand several related clips to an AI tool.</p>
+          <div class="steps">
+            <div class="step">
+              <b>1</b>
+              <p><code>echo "TypeError: x is undefined" | cg copy</code><br>ClipGate stores the value and auto-classifies it as an <code>error</code>.</p>
+            </div>
+            <div class="step">
+              <b>2</b>
+              <p><code>cg list</code><br>Inspect typed history instead of a flat chronological clipboard list.</p>
+            </div>
+            <div class="step">
+              <b>3</b>
+              <p><code>cg paste -t error</code><br>Retrieve the latest clip of the exact type you want.</p>
+            </div>
+          </div>
+          <div class="code" style="margin-top:1rem">cg pack -t error -n 5 | claude "fix these issues"</div>
+        </section>
+
+        <section class="panel" id="workflows">
+          <h2>Core Workflows</h2>
+          <p>ClipGate is most useful when the docs teach repeatable terminal habits instead of just listing flags. These are the workflows worth emphasizing first.</p>
+          <div class="workflow-grid">
+            <div class="workflow-card">
+              <h3>Capture and retrieve by type</h3>
+              <p>Use ClipGate as a typed working buffer when you bounce between errors, commands, and file paths.</p>
+              <div class="code">echo "TypeError: x is undefined" | cg copy
+cg list
+cg paste -t error</div>
+            </div>
+            <div class="workflow-card">
+              <h3>Find older context fast</h3>
+              <p>Search and inspect when you remember the meaning of a clip, but not when you copied it.</p>
+              <div class="code">cg search "connection refused"
+cg inspect -t error
+cg get -t command</div>
+            </div>
+            <div class="workflow-card">
+              <h3>Bundle context for AI tools</h3>
+              <p>Pack several recent clips into a cleaner handoff for Claude, Codex, or any shell-based assistant flow.</p>
+              <div class="code">cg pack -t error -t command -n 5
+cg pack -t error -n 5 | claude "fix these"</div>
+            </div>
+            <div class="workflow-card">
+              <h3>Save and restore working context</h3>
+              <p>Use stacks when a task switch would otherwise destroy a useful clipboard state.</p>
+              <div class="code">cg push -s bugfix
+cg stack list
+cg pop -s bugfix</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="quickref">
+          <h2>Quick Reference</h2>
+          <p>This is the part users should be able to scan without thinking: real commands, likely variations, the flags that matter, and short operational notes where behavior could surprise you.</p>
+          <div class="quickref-nav">
+            <a href="#ref-core">Core Clipboard</a>
+            <a href="#ref-search">Search &amp; Inspection</a>
+            <a href="#ref-ai">AI &amp; Packaging</a>
+            <a href="#ref-stacks">Stacks &amp; Cleanup</a>
+            <a href="#ref-system">Shell &amp; System</a>
+          </div>
+          <div class="quickref-nav" style="margin-top:.7rem">
+            <a href="#cmd-copy">cg copy</a>
+            <a href="#cmd-paste">cg paste</a>
+            <a href="#cmd-list">cg list</a>
+            <a href="#cmd-search">cg search</a>
+            <a href="#cmd-inspect">cg inspect</a>
+            <a href="#cmd-get">cg get</a>
+            <a href="#cmd-pack">cg pack</a>
+            <a href="#cmd-mcp">cg mcp</a>
+            <a href="#cmd-push">cg push</a>
+            <a href="#cmd-pop">cg pop</a>
+            <a href="#cmd-stack">cg stack</a>
+            <a href="#cmd-clear">cg clear</a>
+            <a href="#cmd-shell-init">cg shell-init</a>
+            <a href="#cmd-completions">cg completions</a>
+            <a href="#cmd-doctor">cg doctor</a>
+            <a href="#cmd-watch">cg watch</a>
+            <a href="#cmd-config">cg config</a>
+            <a href="#cmd-version">cg version</a>
+          </div>
+          <div class="grid" style="margin-top:1rem">
+            <div class="mini">
+              <h3>Global flags</h3>
+              <p><code>--config</code> overrides the config file path, <code>--db</code> overrides the SQLite path, <code>-q/--quiet</code> suppresses output, <code>-v/--verbose</code> adds detail, and <code>--no-color</code> disables colorized output.</p>
+            </div>
+            <div class="mini">
+              <h3>Piping and stdout</h3>
+              <p><code>copy</code>, <code>paste</code>, <code>pack</code>, and machine-readable outputs are designed for shell pipelines. Pipe them into tools that actually read stdin such as <code>cat</code>, <code>grep</code>, <code>jq</code>, <code>pbcopy</code>, <code>wc</code>, or <code>xargs</code>.</p>
+            </div>
+          </div>
+          <div class="grid" style="margin-top:1rem">
+            <div class="mini">
+              <h3>Common recipes</h3>
+              <div class="code" style="margin-top:.7rem">cg paste -t error
+cg search "deploy" -t command
+cg pack -t error -n 5 | claude "fix these"
+cg push -s context-switch
+cg pop -s context-switch</div>
+            </div>
+            <div class="mini">
+              <h3>Reference style</h3>
+              <p>The examples below favor commands people can copy as-is. Where help text and older README prose drift from current behavior, these examples stay conservative and implementation-aligned.</p>
+            </div>
+          </div>
+
+          <div class="ref-group" id="ref-core">
+            <h3 class="ref-group-title">Core Clipboard</h3>
+            <p class="ref-group-copy">The daily flow starts here: capture text, view typed history, and retrieve the exact item you need without relying on chronology alone.</p>
+
+            <article class="cmd-entry" id="cmd-copy">
+              <div class="cmd-badge">cg copy</div>
+              <p class="cmd-desc">Store text and auto-classify it. Reads from an argument, stdin, or the system clipboard.</p>
+              <div class="code">echo "some text" | cg copy                  # pipe from stdin
+cg copy "literal text here"                  # pass as argument
+cg copy --from-clipboard                     # read from system clipboard
+cg copy -t command -l "deploy"               # override type and add label
+cg copy --ttl 60                             # auto-expire after 60 seconds
+cg copy --no-persist                         # keep in memory only
+cg copy --policy memory_only                 # explicit storage policy
+cg copy -q                                   # suppress confirmation and pass-through</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Override auto-classification.</td></tr>
+                  <tr><td><code>-l</code>, <code>--label</code></td><td>Attach a human-readable label for later retrieval.</td></tr>
+                  <tr><td><code>--from-clipboard</code></td><td>Read from the system clipboard instead of stdin or an argument.</td></tr>
+                  <tr><td><code>--ttl</code></td><td>Set an explicit time-to-live in seconds.</td></tr>
+                  <tr><td><code>--no-persist</code></td><td>Keep the item in memory only.</td></tr>
+                  <tr><td><code>--policy</code></td><td>Set the storage policy directly, such as <code>persist</code> or <code>memory_only</code>.</td></tr>
+                </tbody>
+              </table>
+              <div class="cmd-note"><p><code>cg copy</code> prints a short confirmation to stderr and currently passes the captured content through to stdout unless you use <code>--quiet</code>. Use <code>--verbose</code> if you want the confidence score in the confirmation output.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-paste">
+              <div class="cmd-badge">cg paste</div>
+              <p class="cmd-desc">Retrieve a stored item by type, label, or ID. Use it when you know what you copied, not just when.</p>
+              <div class="code">cg paste                                     # most recent item
+cg paste -t error                            # most recent error
+cg paste -t sha -n 3                         # third most recent SHA
+cg paste -i 01KN3K4Q                         # by item ID prefix
+cg paste -l "deploy"                         # by label
+cg paste --secret                            # allow secret-type retrieval
+cg paste --to-clipboard                      # write result back to clipboard
+cg paste --with-metadata                     # prepend type and timestamps
+cg paste -t path | xargs cat                 # pipe into a stdin reader</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Filter by content type.</td></tr>
+                  <tr><td><code>-l</code>, <code>--label</code></td><td>Retrieve by label.</td></tr>
+                  <tr><td><code>-i</code>, <code>--id</code></td><td>Retrieve by ID prefix.</td></tr>
+                  <tr><td><code>-n</code>, <code>--nth</code></td><td>Select the Nth most recent match.</td></tr>
+                  <tr><td><code>--secret</code></td><td>Explicitly allow retrieval of secret-type items.</td></tr>
+                  <tr><td><code>--to-clipboard</code></td><td>Write the result to the system clipboard instead of stdout.</td></tr>
+                  <tr><td><code>--with-metadata</code></td><td>Prepend type, ID, and timestamp metadata.</td></tr>
+                </tbody>
+              </table>
+              <div class="cmd-note"><p><code>cg paste</code> writes to stdout by default. Pipe it into <code>cat</code>, <code>grep</code>, <code>pbcopy</code>, <code>wc</code>, or <code>xargs</code>. <code>echo</code> does not read stdin, so <code>cg paste | echo</code> will not behave the way people expect.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-list">
+              <div class="cmd-badge">cg list</div>
+              <p class="cmd-desc">Show recent clipboard history as a typed listing. Useful when you want a quick inventory of recent context.</p>
+              <div class="code">cg list                                      # recent items
+cg list -t error                             # only errors
+cg list -l 50                                # show more items
+cg list -f json                              # machine-readable output
+cg list -f csv                               # export-friendly output</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Filter the listing by content type.</td></tr>
+                  <tr><td><code>-l</code>, <code>--limit</code></td><td>Set the maximum number of items returned.</td></tr>
+                  <tr><td><code>-f</code>, <code>--format</code></td><td>Switch output between table, JSON, and CSV.</td></tr>
+                </tbody>
+              </table>
+              <div class="cmd-note"><p>Use <code>cg list -f json</code> when another tool will consume the output. The table view is optimized for terminal scanning.</p></div>
+            </article>
+          </div>
+
+          <div class="ref-group" id="ref-search">
+            <h3 class="ref-group-title">Search &amp; Inspection</h3>
+            <p class="ref-group-copy">When you remember the meaning of a clip but not the exact moment it was captured, use search, inspect, and the fuzzy picker.</p>
+
+            <article class="cmd-entry" id="cmd-search">
+              <div class="cmd-badge">cg search</div>
+              <p class="cmd-desc">Search stored history by keyword, optionally narrowing the search to a specific content type.</p>
+              <div class="code">cg search "TypeError"
+cg search "deploy" -t command
+cg search "main.rs" -l 5</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Restrict the search to one content type.</td></tr>
+                  <tr><td><code>-l</code>, <code>--limit</code></td><td>Cap the number of matches returned.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="cmd-entry" id="cmd-inspect">
+              <div class="cmd-badge">cg inspect</div>
+              <p class="cmd-desc">Show how an item was classified, including candidate scores, policy, source, and a content preview.</p>
+              <div class="code">cg inspect -i 01KN3K4Q
+cg inspect -t error
+cg inspect</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-i</code>, <code>--id</code></td><td>Inspect a specific item by ID prefix.</td></tr>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Inspect the latest item of a given type.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="cmd-entry" id="cmd-get">
+              <div class="cmd-badge">cg get</div>
+              <p class="cmd-desc">Open the interactive picker when you want fast visual selection instead of typing a narrow search or remembering an ID.</p>
+              <div class="code">cg get
+cg get -t error
+cg get -t command -l 20
+cg doctor</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Filter the picker by content type.</td></tr>
+                  <tr><td><code>-l</code>, <code>--limit</code></td><td>Control how many items enter the picker.</td></tr>
+                </tbody>
+              </table>
+              <div class="cmd-note"><p><code>cg get</code> works best with <code>fzf</code> installed. If <code>fzf</code> is unavailable, current builds fall back to a plain list output.</p></div>
+            </article>
+          </div>
+
+          <div class="ref-group" id="ref-ai">
+            <h3 class="ref-group-title">AI &amp; Packaging</h3>
+            <p class="ref-group-copy">These commands are where ClipGate becomes more than clipboard history: structured context packing and tool exposure for AI-assisted workflows.</p>
+
+            <article class="cmd-entry" id="cmd-pack">
+              <div class="cmd-badge">cg pack</div>
+              <p class="cmd-desc">Bundle recent clips into AI-ready context in text, JSON, or Markdown. This is the command you reach for when handing several related clips to an assistant.</p>
+              <div class="code">cg pack -t error -n 3
+cg pack -t error -n 5 | claude "fix these"
+cg pack -t error -t command -n 10
+cg pack -f json | jq .
+cg pack -f markdown >> issue.md
+cg pack --no-header
+cg pack --reverse</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Filter by content type. Repeat it to include multiple types.</td></tr>
+                  <tr><td><code>-n</code>, <code>--count</code></td><td>Control how many items are packed together.</td></tr>
+                  <tr><td><code>-f</code>, <code>--format</code></td><td>Choose text, JSON, or Markdown output.</td></tr>
+                  <tr><td><code>--header</code> / <code>--no-header</code></td><td>Customize or remove the metadata header.</td></tr>
+                  <tr><td><code>--reverse</code></td><td>Emit oldest-first instead of newest-first.</td></tr>
+                </tbody>
+              </table>
+              <div class="cmd-note"><p><code>cg pack</code> prints the packed content to stdout and a lightweight item/token summary to stderr unless you use <code>--quiet</code>.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-mcp">
+              <div class="cmd-badge">cg mcp</div>
+              <p class="cmd-desc">Start the MCP server on stdio so MCP-aware clients can query clipboard state and packed context through ClipGate.</p>
+              <div class="code">cg mcp</div>
+              <div class="cmd-note"><p>This is a stdio-based MCP server. It is meant for AI tools and editors that speak MCP over JSON-RPC, not for day-to-day terminal retrieval.</p></div>
+            </article>
+          </div>
+
+          <div class="ref-group" id="ref-stacks">
+            <h3 class="ref-group-title">Stacks &amp; Cleanup</h3>
+            <p class="ref-group-copy">Use stacks to preserve useful context during task switches and cleanup commands to prune history precisely instead of wiping everything.</p>
+
+            <article class="cmd-entry" id="cmd-push">
+              <div class="cmd-badge">cg push</div>
+              <p class="cmd-desc">Push a clipboard item onto a named stack so you can come back to it later.</p>
+              <div class="code">cg push
+cg push -s deploy
+cg push -t error
+cg push -i 01KN3K4Q</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-s</code>, <code>--stack</code></td><td>Choose which named stack to push onto.</td></tr>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Push the latest item of a given type.</td></tr>
+                  <tr><td><code>-i</code>, <code>--id</code></td><td>Push a specific item by ID prefix.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="cmd-entry" id="cmd-pop">
+              <div class="cmd-badge">cg pop</div>
+              <p class="cmd-desc">Pop an item back from a stack, optionally previewing it first or writing the result directly to the clipboard.</p>
+              <div class="code">cg pop
+cg pop -s deploy
+cg pop --peek
+cg pop --all
+cg pop --to-clipboard</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-s</code>, <code>--stack</code></td><td>Choose the named stack to pop from.</td></tr>
+                  <tr><td><code>--peek</code></td><td>View the next item without removing it.</td></tr>
+                  <tr><td><code>--all</code></td><td>Emit every item in the stack.</td></tr>
+                  <tr><td><code>--to-clipboard</code></td><td>Write the popped content to the system clipboard.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="cmd-entry" id="cmd-stack">
+              <div class="cmd-badge">cg stack</div>
+              <p class="cmd-desc">Inspect or clear named stack inventory.</p>
+              <div class="code">cg stack list
+cg stack clear deploy</div>
+              <div class="cmd-note"><p>Use <code>cg stack list</code> when you need a fast view of active stacks and item counts. Use <code>cg stack clear &lt;name&gt;</code> when a saved context is no longer useful.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-clear">
+              <div class="cmd-badge">cg clear</div>
+              <p class="cmd-desc">Delete by recency, type, age, or ID. This is the safest way to keep history tidy without destroying everything unintentionally.</p>
+              <div class="code">cg clear -n 2
+cg clear -n 1 -t error
+cg clear -t error
+cg clear --older-than 7d
+cg clear -i 01KN3K4Q
+cg clear --confirm</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>-n</code>, <code>--nth</code></td><td>Delete the Nth most recent matching item.</td></tr>
+                  <tr><td><code>-t</code>, <code>--type</code></td><td>Delete items of one content type.</td></tr>
+                  <tr><td><code>--older-than</code></td><td>Delete items older than a duration such as <code>7d</code> or <code>24h</code>.</td></tr>
+                  <tr><td><code>-i</code>, <code>--id</code></td><td>Delete a specific item by ID prefix.</td></tr>
+                  <tr><td><code>--confirm</code></td><td>Required when clearing everything.</td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+
+          <div class="ref-group" id="ref-system">
+            <h3 class="ref-group-title">Shell &amp; System</h3>
+            <p class="ref-group-copy">Once the basic clipboard loop is comfortable, use these commands to integrate ClipGate into your shell, inspect your environment, and tune behavior.</p>
+
+            <article class="cmd-entry" id="cmd-shell-init">
+              <div class="cmd-badge">cg shell-init</div>
+              <p class="cmd-desc">Print shell helpers, aliases, and helper functions so ClipGate feels native in your shell session.</p>
+              <div class="code">eval "$(cg shell-init)"
+eval "$(cg shell-init zsh)"
+cg shell-init fish | source</div>
+              <div class="cmd-note"><p>Persist the output in your shell rc file when you want aliases like <code>cgc</code>, <code>cgp</code>, and helper functions like <code>cgr</code> and <code>cgpack</code> available every session.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-completions">
+              <div class="cmd-badge">cg completions</div>
+              <p class="cmd-desc">Generate shell completion scripts for tab completion of commands and flags.</p>
+              <div class="code">cg completions bash > ~/.bash_completion.d/cg
+cg completions zsh > ~/.zfunc/_cg
+cg completions fish > ~/.config/fish/completions/cg.fish</div>
+              <div class="cmd-note"><p>After generating completion scripts, reload your shell or source the generated file so the new completions take effect.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-doctor">
+              <div class="cmd-badge">cg doctor</div>
+              <p class="cmd-desc">Run environment health checks covering clipboard access, database connectivity, config loading, <code>fzf</code> availability, shell detection, secret patterns, and watcher state.</p>
+              <div class="code">cg doctor</div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-watch">
+              <div class="cmd-badge">cg watch</div>
+              <p class="cmd-desc">Run the clipboard watcher in the foreground or inspect watcher state from the terminal.</p>
+              <div class="code">cg watch                                  # foreground watcher
+cg watch --status                         # check if watcher is running
+cg watch --stop                           # stop a running watcher
+cg watch --daemon                         # currently reports not yet implemented</div>
+              <table class="table" style="margin-top:1rem">
+                <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--daemon</code></td><td>Command interface exists, but current public builds report daemon mode as not yet implemented.</td></tr>
+                  <tr><td><code>--status</code></td><td>Check the watcher PID state.</td></tr>
+                  <tr><td><code>--stop</code></td><td>Stop a watcher using the PID file.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="cmd-entry" id="cmd-config">
+              <div class="cmd-badge">cg config</div>
+              <p class="cmd-desc">Inspect and change configuration from the CLI. Use this when you want to understand or override current behavior without hand-editing YAML first.</p>
+              <div class="code">cg config show
+cg config get display.verbose
+cg config get history.max_items
+cg config set display.quiet true
+cg config set display.color false
+cg config set mcp.enabled true</div>
+              <div class="cmd-note"><p>Keep the docs conceptual here. Use <code>cg config show</code> and <code>cg config get &lt;key&gt;</code> for exact current values, because public docs should not drift every time defaults change.</p></div>
+            </article>
+
+            <article class="cmd-entry" id="cmd-version">
+              <div class="cmd-badge">cg version</div>
+              <p class="cmd-desc">Print the current version and branding banner.</p>
+              <div class="code">cg version</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="config">
+          <h2>Configuration Guidance</h2>
+          <p>ClipGate is zero-config by default. Optional config lives under <code>~/.config/clip-gate/config.yml</code>. The docs should explain what each config area controls and when to tune it, without freezing exact values into public docs that can drift between releases.</p>
+          <div class="grid" style="margin-top:1rem">
+            <div class="mini">
+              <h3><code>history</code></h3>
+              <p>Controls retention size, age, database location, and duplicate handling. Tune this when you want ClipGate to remember more context or keep storage leaner.</p>
+            </div>
+            <div class="mini">
+              <h3><code>watch</code></h3>
+              <p>Controls watcher behavior, clipboard polling, and responsiveness. Tune this when capture feels too eager or too delayed for your workflow.</p>
+            </div>
+            <div class="mini">
+              <h3><code>secrets</code></h3>
+              <p>Controls detection, storage policy, expiry behavior, warnings, and custom secret patterns. This section should focus on tradeoffs and safety, not just switches.</p>
+            </div>
+            <div class="mini">
+              <h3><code>display</code> and <code>fzf</code></h3>
+              <p>Controls output verbosity, previews, color, picker behavior, and terminal ergonomics. Tune this when you want quieter automation or richer interactive output.</p>
+            </div>
+            <div class="mini">
+              <h3><code>mcp</code></h3>
+              <p>Controls how ClipGate exposes itself to AI tooling. Document intent, security posture, and when enabling MCP makes sense.</p>
+            </div>
+            <div class="mini">
+              <h3>Exact values</h3>
+              <p>For exact current values, users should rely on runtime inspection:</p>
+              <div class="code" style="margin-top:.7rem">cg config show
+cg config get history.max_items
+cg config get display.verbose</div>
+            </div>
+          </div>
+          <div class="code" style="margin-top:1rem">version: 1
+
+history:
+  # retention and storage behavior
+
+secrets:
+  # detection, persistence, and expiry policy
+
+display:
+  # output and preview behavior</div>
+        </section>
+
+        <section class="panel" id="types">
+          <h2>Content Types</h2>
+          <p>ClipGate detects 13 content types and assigns the highest-priority match. This turns clipboard history into a searchable typed buffer instead of a blind time-ordered list.</p>
+          <div class="type-grid" style="margin-top:1rem">
+            <div class="type-card"><h3><code>secret</code></h3><p>API keys, tokens, passwords, and high-entropy values. Stored memory-only by default.</p></div>
+            <div class="type-card"><h3><code>error</code></h3><p>Stack traces, exception output, and terminal failures.</p></div>
+            <div class="type-card"><h3><code>sha</code></h3><p>Git SHAs and hash-like identifiers.</p></div>
+            <div class="type-card"><h3><code>diff</code></h3><p>Unified diffs, hunk headers, and patch snippets.</p></div>
+            <div class="type-card"><h3><code>path</code></h3><p>Absolute, relative, and home-relative filesystem paths.</p></div>
+            <div class="type-card"><h3><code>json</code></h3><p>Structured JSON objects and arrays.</p></div>
+            <div class="type-card"><h3><code>url</code></h3><p>HTTP, HTTPS, localhost, and web targets.</p></div>
+            <div class="type-card"><h3><code>sql</code></h3><p>Queries and database snippets.</p></div>
+            <div class="type-card"><h3><code>ip</code></h3><p>IPv4 and IPv6 with optional ports or CIDR.</p></div>
+            <div class="type-card"><h3><code>env</code></h3><p><code>KEY=value</code> style environment exports.</p></div>
+            <div class="type-card"><h3><code>docker</code></h3><p>Dockerfile instructions and Docker CLI text.</p></div>
+            <div class="type-card"><h3><code>command</code></h3><p>Shell commands with flags, pipes, and chaining syntax.</p></div>
+            <div class="type-card"><h3><code>text</code></h3><p>The safe fallback when nothing more specific matches.</p></div>
+          </div>
+        </section>
+
+        <section class="panel" id="security">
+          <h2>Security Model</h2>
+          <p>ClipGate is intentionally local-first. Clipboard storage, classification, and retrieval happen on the machine where you run the CLI. Secrets are detected early, masked in previews, and kept out of persistent storage unless you explicitly opt in.</p>
+          <div class="grid" style="margin-top:1rem">
+            <div class="mini">
+              <h3>Secret handling</h3>
+              <p>Known key patterns plus entropy checks flag sensitive values, store them memory-only, and expire them after the configured TTL.</p>
+            </div>
+            <div class="mini">
+              <h3>Local database</h3>
+              <p>Regular history lives in a local SQLite store. No cloud sync or account setup is required for the core flow.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="architecture">
+          <h2>Architecture</h2>
+          <p>The CLI is built around a straightforward capture pipeline: read clipboard or stdin input, classify it, run secret guards, store it locally, then expose the result through retrieval, search, packing, stacks, watcher flows, and MCP tooling.</p>
+          <div class="arch-flow">
+            <span class="arch-node">clipboard or stdin</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">classifier</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">secret guard</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">SQLite or memory</span>
+            <span class="arch-arrow">→</span>
+            <span class="arch-node">paste, list, search, pack, MCP</span>
+          </div>
+          <div class="arch" style="margin-top:1rem">
+            <div class="arch-card"><h3>Capture</h3><p><code>cg copy</code>, watcher flows, and shell pipelines collect raw clipboard context with minimal friction.</p></div>
+            <div class="arch-card"><h3>Classify</h3><p>Each item is typed, scored, and preview-safe so later retrieval is semantic rather than chronological.</p></div>
+            <div class="arch-card"><h3>Store</h3><p>Secrets stay in memory; regular items go to the local store with retention and display controls.</p></div>
+            <div class="arch-card"><h3>Retrieve</h3><p><code>paste</code>, <code>search</code>, <code>pack</code>, stacks, and MCP expose the stored context to terminal and AI workflows.</p></div>
+          </div>
+        </section>
+
+        <section class="panel" id="distribution">
+          <h2>Distribution Model</h2>
+          <p>ClipGate source stays private for now, while the public site acts as the official distribution surface for binaries, docs, release notes, license summary, and support. The release pipeline builds in the private repo and publishes artifacts into this public site.</p>
+          <table class="table" style="margin-top:1rem">
+            <thead>
+              <tr><th>Surface</th><th>Role</th><th>Public outcome</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Private CLI repo</td><td>Source, CI, packaging</td><td>Builds and prepares release artifacts.</td></tr>
+              <tr><td>Public site repo</td><td>Docs, downloads, release pages</td><td>Serves installers and binaries via GitHub Pages.</td></tr>
+              <tr><td>Installer</td><td>Reads <code>latest.txt</code> and fetches matching artifacts</td><td>Gives users a stable install command.</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.sidebar a[href^="#"]'));
+      const sections = links
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          const element = document.getElementById(id);
+          return element ? { id, link, element } : null;
+        })
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      let ticking = false;
+
+      function updateActiveSection() {
+        const threshold = 150;
+        let active = sections[0];
+
+        for (const section of sections) {
+          if (section.element.getBoundingClientRect().top <= threshold) {
+            active = section;
+          } else {
+            break;
+          }
+        }
+
+        for (const section of sections) {
+          const isActive = section === active;
+          section.link.classList.toggle('active', isActive);
+          if (isActive) {
+            section.link.setAttribute('aria-current', 'true');
+          } else {
+            section.link.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      }
+
+      updateActiveSection();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        updateActiveSection();
+      });
+      window.addEventListener('hashchange', () => {
+        updateActiveSection();
+      });
+    })();
+  </script>
+</body>
+</html>
