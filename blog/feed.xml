@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>ClipGate Blog</title>
+    <link>https://clipgate.github.io/blog/</link>
+    <atom:link href="https://clipgate.github.io/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Notes on local-first clipboard workflows, secret hygiene, terminal productivity, and the small ways context gets lost — and recovered — during a developer's day.</description>
+    <language>en-us</language>
+    <copyright>Copyright 2026 ClipGate</copyright>
+    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+    <ttl>1440</ttl>
+    <generator>ClipGate static site</generator>
+    <image>
+      <url>https://clipgate.github.io/assets/icons/icon-192.png</url>
+      <title>ClipGate Blog</title>
+      <link>https://clipgate.github.io/blog/</link>
+    </image>
+
+    <item>
+      <title>I Accidentally Pasted a Password or API Key — What to Do Next (and How to Stop It Forever)</title>
+      <link>https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/</guid>
+      <pubDate>Tue, 07 Apr 2026 09:00:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>Security</category>
+      <category>Incident response</category>
+      <category>Secrets</category>
+      <description>A calm, step-by-step recovery playbook for the moment you accidentally paste a password, API key, or token into Slack, GitHub, a screen share, or a doc — plus how to stop it from happening again with a secret-aware, locally encrypted clipboard.</description>
+      <content:encoded><![CDATA[<p>Take a breath. This happens to senior engineers, security people, and everyone in between. The post walks through a 60-second triage, an 8-step damage-control playbook, scenario fixes for Slack, GitHub, screen shares, and docs, the myths that make leaks worse, and how a secret-aware clipboard quietly closes the entire category of "I just pasted the wrong thing."</p><p><a href="https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/">Read the full post →</a></p>]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Best Clipboard Manager for Developers in 2026: Local-First, Terminal-Friendly, and AI-Ready</title>
+      <link>https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/</guid>
+      <pubDate>Tue, 07 Apr 2026 08:00:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>Workflow</category>
+      <category>Secrets</category>
+      <category>Terminal</category>
+      <description>Why generic clipboard history breaks down for developers, and how to evaluate local-first, terminal-friendly, secret-aware clipboard managers in 2026.</description>
+      <content:encoded><![CDATA[<p>Developers waste real time losing commands, errors, and paths in the clipboard. This post lays out a practical evaluation framework for local-first, terminal-friendly, secret-aware clipboard tools — and explains why semantic retrieval matters more than a longer history list.</p><p><a href="https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/">Read the full post →</a></p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>

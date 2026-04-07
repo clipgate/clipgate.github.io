@@ -1,0 +1,42 @@
+# ClipGate
+
+> ClipGate is a terminal-native, secret-aware clipboard vault. Every copy is automatically classified, secrets land in a local encrypted vault instead of a plaintext history, and the entire tool runs 100% on your machine — no cloud, no account, no telemetry.
+
+ClipGate exists because the system clipboard is the most-used and least-protected surface in modern engineering work. Developers and operators routinely copy commands, errors, paths, JSON, URLs, tokens, and passwords — and the default clipboard treats them all the same. ClipGate replaces that flat history with a typed, encrypted vault that recognizes what each item is and treats secrets differently from the moment they enter the clipboard.
+
+## What ClipGate is
+
+- A CLI (`cg`) for macOS, Linux, and Windows
+- A companion browser extension for in-browser capture
+- A local encrypted vault — nothing is shipped to a server
+- Auto-classification of commands, errors, paths, JSON, URLs, secrets
+- Terminal-first ergonomics: short commands, pipes, scripting
+- AI-ready packaging: select context for assistants, do not dump the whole clipboard
+
+## Core pages
+
+- [Home](https://clipgate.github.io/): product overview, install, positioning
+- [Docs](https://clipgate.github.io/docs/): commands, configuration, workflows
+- [Releases](https://clipgate.github.io/releases/): changelog and download links
+- [Browser extension](https://clipgate.github.io/ext/): the Chrome companion
+- [Privacy](https://clipgate.github.io/privacy/): local-first data policy
+- [Support](https://clipgate.github.io/support/): help and contact
+
+## Blog
+
+- [Best clipboard manager for developers in 2026](https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/): how to evaluate local-first, terminal-friendly, secret-aware clipboard tools
+- [I accidentally pasted a password or API key — what to do next](https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/): a calm, step-by-step recovery playbook for leaked credentials and how to stop it forever
+- [Blog index](https://clipgate.github.io/blog/): full list of posts
+
+## How to install
+
+- Site installer: `curl -fsSL https://clipgate.github.io/install.sh | sh`
+- PyPI: `pip install clipgate`
+- Homebrew: `brew install clipgate/tap/cg`
+
+## What ClipGate is not
+
+- Not a cloud sync tool
+- Not a password manager replacement
+- Not an analytics product
+- Not a generic clipboard history app
