@@ -155,14 +155,14 @@
       <div class="timeline">
         <article class="entry">
           <div class="entry-head">
-            <h3>v0.2.0</h3>
+            <h3>v0.1.3</h3>
             <span class="status next">Current distribution milestone</span>
           </div>
           <p>This release formalizes the public binary distribution flow through the official site.</p>
           <ul>
             <li>Site-hosted installer, release notes, docs, support, and license pages.</li>
             <li>Versioned artifact layout under <code>/releases/vX.Y.Z/</code>.</li>
-            <li>Public download flow aligned with PyPI, Homebrew, and manual binaries.</li>
+            <li>Public download flow aligned with PyPI, the Homebrew tap, and manual binaries.</li>
           </ul>
         </article>
 
@@ -199,8 +199,8 @@
       <div class="flow">
         <div class="flow-card"><h3>1. Build</h3><p>Tag a version in the private CLI repo and compile the supported platform targets.</p></div>
         <div class="flow-card"><h3>2. Package</h3><p>Create tar.gz or zip archives and generate checksum files for each artifact.</p></div>
-        <div class="flow-card"><h3>3. Publish</h3><p>Copy files into the public site repo under <code>/releases/&lt;tag&gt;/</code> and update <code>latest.txt</code>.</p></div>
-        <div class="flow-card"><h3>4. Serve</h3><p>GitHub Pages exposes the binaries, docs, and release metadata through one canonical public domain.</p></div>
+        <div class="flow-card"><h3>3. Publish</h3><p>Copy files into the public site repo under <code>/releases/&lt;tag&gt;/</code>, update <code>latest.txt</code>, and rewrite the Homebrew tap formula.</p></div>
+        <div class="flow-card"><h3>4. Serve</h3><p>GitHub Pages exposes the binaries, docs, and release metadata while the public tap repo stays in sync for <code>brew install clipgate/tap/cg</code>.</p></div>
       </div>
     </section>
 

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="180" viewBox="0 0 920 180" role="img" aria-labelledby="title desc">
+  <title id="title">ClipGate</title>
+  <desc id="desc">Cyan ClipGate wordmark for the PyPI package page.</desc>
+  <rect width="920" height="180" rx="28" fill="#08111e"/>
+  <rect x="1" y="1" width="918" height="178" rx="27" fill="none" stroke="rgba(0,212,255,0.18)"/>
+  <g fill="#00d4ff">
+    <text x="88" y="108" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="52" font-weight="700">&gt;_ ClipGate</text>
+    <text x="88" y="138" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="20" font-style="italic" fill="rgba(0,212,255,0.68)">terminal-native typed clipboard</text>
+  </g>
+</svg>

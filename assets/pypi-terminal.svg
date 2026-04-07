@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="820" viewBox="0 0 920 820" role="img" aria-labelledby="title desc">
+  <title id="title">ClipGate terminal overview</title>
+  <desc id="desc">A terminal-style quick overview of ClipGate copy, list, paste, inspect, pack, and search commands.</desc>
+  <rect width="920" height="820" rx="18" fill="#10161d"/>
+  <rect x="0" y="0" width="920" height="42" rx="18" fill="#1a2030"/>
+  <circle cx="24" cy="21" r="6" fill="#ff5f57"/>
+  <circle cx="46" cy="21" r="6" fill="#febc2e"/>
+  <circle cx="68" cy="21" r="6" fill="#28c840"/>
+  <text x="460" y="27" text-anchor="middle" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="14" fill="#7182a1">~/projects</text>
+
+  <g font-family="'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace" font-size="15">
+    <text x="24" y="78" fill="#5d6f8c" font-style="italic"># copy anything — it gets auto-classified</text>
+    <text x="24" y="106" fill="#00d4ff">$</text>
+    <text x="44" y="106" fill="#e7edf5">echo "TypeError: Cannot read 'map' of undefined" | </text>
+    <text x="465" y="106" fill="#00d4ff" font-weight="700">cg copy</text>
+
+    <text x="24" y="136" fill="#00d4ff">$</text>
+    <text x="44" y="136" fill="#e7edf5">echo "git push origin main --force" | </text>
+    <text x="356" y="136" fill="#00d4ff" font-weight="700">cg copy</text>
+
+    <text x="24" y="166" fill="#00d4ff">$</text>
+    <text x="44" y="166" fill="#e7edf5">echo '{"status": 500, "error": "Internal Server Error"}' | </text>
+    <text x="640" y="166" fill="#00d4ff" font-weight="700">cg copy</text>
+
+    <text x="24" y="196" fill="#00d4ff">$</text>
+    <text x="44" y="196" fill="#e7edf5">echo "ghp_1a2b3c4d5e6f7g8h9i0jklmnopqrstuvwxyz" | </text>
+    <text x="459" y="196" fill="#00d4ff" font-weight="700">cg copy</text>
+    <text x="24" y="224" fill="#7182a1">cg: secret 01KN3K5R (secret, memory-only)</text>
+
+    <text x="24" y="276" fill="#5d6f8c" font-style="italic"># see your typed clipboard history</text>
+    <text x="24" y="304" fill="#00d4ff">$</text>
+    <text x="44" y="304" fill="#00d4ff" font-weight="700">cg list</text>
+    <text x="24" y="338" fill="#8fa1bd">ID            TYPE    AGE   PREVIEW</text>
+    <line x1="24" y1="350" x2="620" y2="350" stroke="#263548" stroke-width="1"/>
+    <text x="24" y="382" fill="#8fa1bd">01KN3K5R</text>
+    <text x="110" y="382" fill="#ff7a7a">secret</text>
+    <text x="182" y="382" fill="#8fa1bd">4s</text>
+    <text x="220" y="382" fill="#e7edf5">ghp_1a2b3c••••••••••••••••••••</text>
+    <text x="24" y="412" fill="#8fa1bd">01KN3K4H</text>
+    <text x="110" y="412" fill="#ffd166">json</text>
+    <text x="182" y="412" fill="#8fa1bd">7s</text>
+    <text x="220" y="412" fill="#e7edf5">{&quot;status&quot;: 500, &quot;error&quot;: &quot;Inte…</text>
+    <text x="24" y="442" fill="#8fa1bd">01KN3K49</text>
+    <text x="110" y="442" fill="#34d399">command</text>
+    <text x="182" y="442" fill="#8fa1bd">12s</text>
+    <text x="220" y="442" fill="#e7edf5">git push origin main --force</text>
+    <text x="24" y="472" fill="#8fa1bd">01KN3K40</text>
+    <text x="110" y="472" fill="#f97316">error</text>
+    <text x="182" y="472" fill="#8fa1bd">15s</text>
+    <text x="220" y="472" fill="#e7edf5">TypeError: Cannot read 'map' o…</text>
+
+    <text x="24" y="528" fill="#5d6f8c" font-style="italic"># retrieve by type, not by memory</text>
+    <text x="24" y="556" fill="#00d4ff">$</text>
+    <text x="44" y="556" fill="#00d4ff" font-weight="700">cg paste</text>
+    <text x="114" y="556" fill="#8fa1bd"> --type error</text>
+    <text x="24" y="584" fill="#e7edf5">TypeError: Cannot read 'map' of undefined</text>
+
+    <text x="24" y="626" fill="#00d4ff">$</text>
+    <text x="44" y="626" fill="#00d4ff" font-weight="700">cg inspect</text>
+    <text x="24" y="654" fill="#8fa1bd">Type: </text>
+    <text x="74" y="654" fill="#f97316">error</text>
+    <text x="122" y="654" fill="#8fa1bd">(confidence: 0.85) Policy: persist Size: 42 bytes</text>
+
+    <text x="24" y="708" fill="#5d6f8c" font-style="italic"># bundle for AI assistants</text>
+    <text x="24" y="736" fill="#00d4ff">$</text>
+    <text x="44" y="736" fill="#00d4ff" font-weight="700">cg pack</text>
+    <text x="104" y="736" fill="#8fa1bd"> --type error -n 5 | claude "fix these errors"</text>
+
+    <text x="24" y="780" fill="#5d6f8c" font-style="italic"># search across all types</text>
+    <text x="24" y="808" fill="#00d4ff">$</text>
+    <text x="44" y="808" fill="#00d4ff" font-weight="700">cg search</text>
+    <text x="126" y="808" fill="#e7edf5"> TypeError</text>
+  </g>
+</svg>
