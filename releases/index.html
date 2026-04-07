@@ -133,19 +133,19 @@
         <div class="artifact">
           <h3>macOS</h3>
           <p>Apple Silicon and Intel archives.</p>
-          <div class="code">/releases/v0.2.0/cg-aarch64-apple-darwin.tar.gz
-/releases/v0.2.0/cg-x86_64-apple-darwin.tar.gz</div>
+          <div class="code">/releases/vX.Y.Z/cg-aarch64-apple-darwin.tar.gz
+/releases/vX.Y.Z/cg-x86_64-apple-darwin.tar.gz</div>
         </div>
         <div class="artifact">
           <h3>Linux</h3>
           <p>x86_64 and ARM64 tarballs.</p>
-          <div class="code">/releases/v0.2.0/cg-x86_64-unknown-linux-gnu.tar.gz
-/releases/v0.2.0/cg-aarch64-unknown-linux-gnu.tar.gz</div>
+          <div class="code">/releases/vX.Y.Z/cg-x86_64-unknown-linux-gnu.tar.gz
+/releases/vX.Y.Z/cg-aarch64-unknown-linux-gnu.tar.gz</div>
         </div>
         <div class="artifact">
           <h3>Windows</h3>
           <p>MSVC zip archive for manual download.</p>
-          <div class="code">/releases/v0.2.0/cg-x86_64-pc-windows-msvc.zip</div>
+          <div class="code">/releases/vX.Y.Z/cg-x86_64-pc-windows-msvc.zip</div>
         </div>
       </div>
     </section>
@@ -199,8 +199,8 @@
       <div class="flow">
         <div class="flow-card"><h3>1. Build</h3><p>Tag a version in the private CLI repo and compile the supported platform targets.</p></div>
         <div class="flow-card"><h3>2. Package</h3><p>Create tar.gz or zip archives and generate checksum files for each artifact.</p></div>
-        <div class="flow-card"><h3>3. Publish</h3><p>Copy files into the public site repo under <code>/releases/&lt;tag&gt;/</code>, update <code>latest.txt</code>, and rewrite the Homebrew tap formula.</p></div>
-        <div class="flow-card"><h3>4. Serve</h3><p>GitHub Pages exposes the binaries, docs, and release metadata while the public tap repo stays in sync for <code>brew install clipgate/tap/cg</code>.</p></div>
+        <div class="flow-card"><h3>3. Publish</h3><p>Copy files into the public site repo under <code>/releases/&lt;tag&gt;/</code>, update <code>latest.txt</code>, publish the Python package to PyPI, and rewrite the Homebrew tap formula.</p></div>
+        <div class="flow-card"><h3>4. Serve</h3><p>GitHub Pages exposes the binaries, docs, and release metadata while PyPI and the public Homebrew tap stay aligned with the same tagged release.</p></div>
       </div>
     </section>
 

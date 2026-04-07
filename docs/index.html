@@ -737,7 +737,7 @@ display:
 
         <section class="panel" id="distribution">
           <h2>Distribution Model</h2>
-          <p>ClipGate source stays private for now, while the public site acts as the official distribution surface for binaries, docs, release notes, license summary, and support. The release pipeline builds in the private repo, publishes artifacts into this public site, and keeps the Homebrew tap formula in sync.</p>
+          <p>ClipGate source stays private for now, while the public site acts as the official distribution surface for binaries, docs, release notes, license summary, and support. The release pipeline builds in the private repo, publishes artifacts into this public site, publishes the Python package to PyPI, and keeps the Homebrew tap formula in sync.</p>
           <table class="table" style="margin-top:1rem">
             <thead>
               <tr><th>Surface</th><th>Role</th><th>Public outcome</th></tr>
@@ -745,6 +745,7 @@ display:
             <tbody>
               <tr><td>Private CLI repo</td><td>Source, CI, packaging</td><td>Builds and prepares release artifacts.</td></tr>
               <tr><td>Public site repo</td><td>Docs, downloads, release pages</td><td>Serves installers and binaries via GitHub Pages.</td></tr>
+              <tr><td>PyPI package</td><td>Python-based CLI distribution</td><td>Lets users install ClipGate with <code>pip install clipgate</code>.</td></tr>
               <tr><td>Public Homebrew tap</td><td>Formula distribution</td><td>Lets users install with <code>brew install clipgate/tap/cg</code>.</td></tr>
               <tr><td>Installer</td><td>Reads <code>latest.txt</code> and fetches matching artifacts</td><td>Gives users a stable install command.</td></tr>
             </tbody>
