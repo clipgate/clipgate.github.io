@@ -54,7 +54,7 @@
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
             --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#1c2333;
-            --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+            --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
             --cyan:#00d4ff;--gold:#f59e0b;--red:#f87171;--green:#34d399;--blue:#60a5fa;--purple:#a855f7;--orange:#fb923c;
             --card:rgba(22,27,34,0.6);--border:rgba(0,212,255,0.1);
             --ease:0.3s cubic-bezier(0.23,1,0.32,1);
@@ -85,7 +85,7 @@
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         h1{font-size:3.6rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px;max-width:560px}
         h1 span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero-sub{font-size:1.25rem;color:var(--text2);margin-bottom:2.5rem;line-height:1.6;max-width:480px}
+        .hero-sub{font-size:1.25rem;color:var(--text2-strong);margin-bottom:2.5rem;line-height:1.6;max-width:480px}
         .hero-actions{display:flex;gap:1rem;margin-bottom:3rem;flex-wrap:wrap}
         .btn{padding:0.9rem 2rem;border-radius:8px;font-size:0.95rem;font-weight:600;border:none;cursor:pointer;transition:all var(--ease);display:inline-flex;align-items:center;gap:0.5rem;font-family:inherit}
         .btn-p{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
@@ -123,7 +123,7 @@
         .sec{padding:7rem 4rem;max-width:1200px;margin:0 auto}
         .sec-badge{color:var(--cyan);font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:0.75rem}
         .sec-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;letter-spacing:-0.5px;line-height:1.2}
-        .sec-sub{color:var(--text2);font-size:1.1rem;max-width:600px;margin-bottom:3rem}
+        .sec-sub{color:var(--text2-strong);font-size:1.1rem;max-width:800px;margin-bottom:3rem}
 
         /* ── Before/After ── */
         .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
@@ -165,7 +165,7 @@
         .class-ex:hover{border-color:rgba(0,212,255,0.3)}
         .class-ex .tag{padding:0.2rem 0.6rem;border-radius:4px;font-weight:600;font-size:0.75rem;flex-shrink:0;min-width:65px;text-align:center}
         .class-ex .arrow{color:var(--text3);flex-shrink:0}
-        .class-ex .content{color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .class-ex .content{color:var(--text2-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .tag-error{background:rgba(248,113,113,0.15);color:var(--red)}
         .tag-command{background:rgba(52,211,153,0.15);color:var(--green)}
         .tag-path{background:rgba(96,165,250,0.15);color:var(--blue)}
@@ -199,7 +199,7 @@
         .sc-kicker{font-size:0.78rem;color:var(--text3);font-weight:600}
         .sc-screen{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.75;min-height:200px}
         .sc-footer{padding:1rem 1.4rem;background:rgba(255,255,255,0.015);border-top:1px solid var(--border)}
-        .sc-footer p{color:var(--text2);font-size:0.88rem;line-height:1.5;margin:0}
+        .sc-footer p{color:var(--text2-strong);font-size:0.88rem;line-height:1.5;margin:0}
         .sc-footer strong{color:var(--text)}
         .sc-saved{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.78rem;font-weight:600;background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2)}
 
@@ -220,7 +220,7 @@
         .ai-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,255,0.12)}
         .ai-icon{width:56px;height:56px;border-radius:14px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700}
         .ai-card h4{font-size:1rem;font-weight:600;margin-bottom:0.4rem}
-        .ai-card p{color:var(--text2);font-size:0.85rem;line-height:1.4}
+        .ai-card p{color:var(--text2-strong);font-size:0.85rem;line-height:1.4}
 
         /* ── Principles ── */
         .prin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
@@ -231,7 +231,7 @@
         .plan-badge{display:inline-flex;align-items:center;padding:0.18rem 0.58rem;border-radius:999px;border:1px solid rgba(0,212,255,0.24);background:rgba(0,212,255,0.08);color:var(--cyan);font-size:0.68rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
         .plan-badge.corner{position:absolute;top:1rem;right:1rem}
         .prin-card h4{font-size:1rem;font-weight:600;margin-bottom:0.5rem}
-        .prin-card p{color:var(--text2);font-size:0.88rem;line-height:1.5}
+        .prin-card p{color:var(--text2-strong);font-size:0.88rem;line-height:1.5}
 
         /* ── Install ── */
         .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem}
@@ -254,13 +254,13 @@
         /* ── CTA ── */
         #cta{padding:8rem 4rem;text-align:center}
         #cta h2{font-size:2.8rem;font-weight:800;margin-bottom:1rem;letter-spacing:-1px}
-        #cta p{color:var(--text2);font-size:1.15rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+        #cta p{color:var(--text2-strong);font-size:1.15rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
 
         /* ── Footer ── */
         footer{border-top:1px solid var(--border);padding:4rem 2rem 2rem}
         .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
         .footer-section h4{font-size:0.95rem;font-weight:600;margin-bottom:1rem}
-        .footer-section p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+        .footer-section p{color:var(--text2-strong);font-size:0.9rem;line-height:1.6}
         .footer-links{display:flex;flex-direction:column;gap:0.6rem}
         .footer-links a{color:var(--text2);font-size:0.9rem;transition:color var(--ease)}
         .footer-links a:hover{color:var(--cyan)}
@@ -352,7 +352,7 @@
                     <span class="install-command">curl -fsSL https://clipgate.github.io/install.sh | sh</span>
                     <button class="copy-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | sh')">Copy</button>
                 </div>
-                <p style="margin-top:.9rem;color:var(--text3);font-size:.84rem">Free to use. No account required. Official installs via the site, PyPI, and Homebrew.</p>
+                <p style="margin-top:.9rem;color:var(--text2-strong);font-size:.84rem">Free to use. No account required. Official installs via the site, PyPI, and Homebrew.</p>
             </div>
             <div class="hero-right anim-r">
                 <div class="term">
@@ -377,7 +377,7 @@
         <!-- ════ Before / After ════ -->
         <section class="sec" id="problem">
             <div class="sec-badge">The Problem</div>
-            <h2 class="sec-title reveal">Your clipboard is a black hole.<br><span style="color:var(--text2);font-weight:500;font-size:0.65em">You copy dozens of things per session. Only the last one survives.</span></h2>
+            <h2 class="sec-title reveal">Your clipboard is a black hole.<br><span style="color:var(--text2-strong);font-weight:500;font-size:0.65em">You copy dozens of things per session. Only the last one survives.</span></h2>
             <p class="sec-sub reveal" style="max-width:720px">Your clipboard holds one thing. You copy dozens per session — errors get overwritten by paths, commands vanish, that stack trace from 3 minutes ago is gone forever. Clipboard history tools exist, but they show a flat list sorted by time. You don't need history. You need clipboard <em style="color:var(--cyan);font-style:normal;font-weight:600">intelligence</em> — knowing <em style="font-style:normal">what</em> each item is and retrieving by type. And when you're working with AI assistants, instead of copy-pasting errors one by one, <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.15rem 0.4rem;border-radius:4px;font-size:0.85em">cg pack</code> bundles them with metadata and pipes directly to <span style="color:var(--gold)">Claude</span>, <span style="color:var(--text)">Codex</span>, or <span style="color:var(--cyan)">Cursor</span>.</p>
             <div class="ba-grid reveal">
                 <div>
@@ -765,7 +765,7 @@
             <!-- ── Mini Scenarios ── -->
             <div style="margin-top:4rem" class="reveal">
                 <h3 style="font-size:1.4rem;font-weight:700;margin-bottom:0.5rem">10 more workflows that just get easier</h3>
-                <p style="color:var(--text2);font-size:0.95rem;margin-bottom:1.5rem">Every pattern that repeats in terminal-heavy development becomes simpler when retrieval is based on semantic type instead of scroll position.</p>
+                <p style="color:var(--text2-strong);font-size:0.95rem;margin-bottom:1.5rem">Every pattern that repeats in terminal-heavy development becomes simpler when retrieval is based on semantic type instead of scroll position.</p>
                 <div class="mini-grid">
                     <div class="mini-card">
                         <h4>K8s pod-name recall</h4>
@@ -957,27 +957,27 @@
                 </div>
                 <div id="t-curl" class="tab-panel active">
                     <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code><button class="cp-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | sh')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64 + ARM64). Auto-detects your platform.</p>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64 + ARM64). Auto-detects your platform.</p>
                 </div>
                 <div id="t-pip" class="tab-panel">
                     <div class="code-block"><code>pip install clipgate</code><button class="cp-btn" onclick="copyCmd(this,'pip install clipgate')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">No Rust needed. Works on macOS, Linux, and Windows. Follow the package instructions on the docs page.</p>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">No Rust needed. Works on macOS, Linux, and Windows. Follow the package instructions on the docs page.</p>
                 </div>
                 <div id="t-download" class="tab-panel">
                     <div class="code-block"><code>open https://clipgate.github.io/releases/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/releases/')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Grab a prebuilt binary from the <a href="/releases/" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">release notes</a> page for your platform.</p>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Grab a prebuilt binary from the <a href="/releases/" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">release notes</a> page for your platform.</p>
                 </div>
                 <div id="t-mac" class="tab-panel">
                     <div class="code-block"><code>brew install clipgate/tap/cg</code><button class="cp-btn" onclick="copyCmd(this,'brew install clipgate/tap/cg')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">macOS and Linux via the official Homebrew tap. Release binaries remain hosted on the site.</p>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">macOS and Linux via the official Homebrew tap. Release binaries remain hosted on the site.</p>
                 </div>
                 <div id="t-help" class="tab-panel">
                     <div class="code-block"><code>open https://clipgate.github.io/support/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/support/')">Copy</button></div>
-                    <p style="color:var(--text3);margin-top:1rem;font-size:0.85rem">Need help? Read the docs, check release notes, or contact support from the official site.</p>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Need help? Read the docs, check release notes, or contact support from the official site.</p>
                 </div>
 
                 <div style="margin-top:2rem">
-                    <p style="color:var(--text2);font-size:0.95rem;margin-bottom:1rem">Then try your first commands:</p>
+                    <p style="color:var(--text2-strong);font-size:0.95rem;margin-bottom:1rem">Then try your first commands:</p>
                     <div class="term">
                         <div class="term-bar"><div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div></div>
                         <div class="term-body" style="min-height:auto">
@@ -1026,7 +1026,7 @@
                             <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 1 — Core CLI</span>
                             <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Copy, paste, list, search. SQLite storage with WAL mode. ULID-based item IDs. Priority-based content classification and confidence scores.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Copy, paste, list, search. SQLite storage with WAL mode. ULID-based item IDs. Priority-based content classification and confidence scores.</p>
                     </div>
                 </div>
 
@@ -1040,7 +1040,7 @@
                             <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 2 — Secrets & MCP</span>
                             <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Secret detection with 15 patterns + Shannon entropy. In-memory TTL vault — secrets never hit disk. MCP server with 6 tools over stdio JSON-RPC 2.0.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Secret detection with 15 patterns + Shannon entropy. In-memory TTL vault — secrets never hit disk. MCP server with 6 tools over stdio JSON-RPC 2.0.</p>
                     </div>
                 </div>
 
@@ -1054,7 +1054,7 @@
                             <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 3 — AI Handoff & Shell UX</span>
                             <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Context packer with text, JSON, and markdown formats. Shell integration with 7 aliases and helper functions. Interactive fzf picker. Doctor health checks. 220+ tests passing.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Context packer with text, JSON, and markdown formats. Shell integration with 7 aliases and helper functions. Interactive fzf picker. Doctor health checks. 220+ tests passing.</p>
                     </div>
                 </div>
 
@@ -1068,7 +1068,7 @@
                             <span style="color:var(--green);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 4 — Platform & Packaging</span>
                             <span style="background:var(--green);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Complete</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Linux clipboard adapters (Wayland + X11). Homebrew tap + .deb/.rpm packaging. <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg push</code> / <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pop</code> named stacks. 6 new content types. Golden packer tests. VHS terminal recordings. 220+ tests.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Linux clipboard adapters (Wayland + X11). Homebrew tap + .deb/.rpm packaging. <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg push</code> / <code style="color:var(--green);background:rgba(52,211,153,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pop</code> named stacks. 6 new content types. Golden packer tests. VHS terminal recordings. 220+ tests.</p>
                     </div>
                 </div>
 
@@ -1082,7 +1082,7 @@
                             <span style="color:var(--cyan);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 5 — Intelligence</span>
                             <span style="background:var(--cyan);color:#000;font-size:0.7rem;padding:0.15rem 0.6rem;border-radius:99px;font-weight:600">Up Next</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Semantic search with local embeddings (no cloud). Auto-tagging with git repo and branch context. Session-aware grouping. Frequency analysis for repeat pastes. <code style="color:var(--cyan);background:rgba(0,212,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg suggest</code> — proactive clipboard recommendations.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Semantic search with local embeddings (no cloud). Auto-tagging with git repo and branch context. Session-aware grouping. Frequency analysis for repeat pastes. <code style="color:var(--cyan);background:rgba(0,212,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg suggest</code> — proactive clipboard recommendations.</p>
                     </div>
                 </div>
 
@@ -1096,7 +1096,7 @@
                             <span style="color:var(--purple);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 6 — Ecosystem</span>
                             <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
                         </div>
-                        <p style="color:var(--text2);font-size:0.92rem;line-height:1.6;margin:0">Plugin system for custom classifiers. Team sharing via encrypted sync. VS Code and JetBrains extensions. Web dashboard. <code style="color:var(--purple);background:rgba(168,85,247,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg export</code> to Notion, Linear, and support inboxes.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Plugin system for custom classifiers. Team sharing via encrypted sync. VS Code and JetBrains extensions. Web dashboard. <code style="color:var(--purple);background:rgba(168,85,247,0.1);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg export</code> to Notion, Linear, and support inboxes.</p>
                     </div>
                 </div>
 
@@ -1110,7 +1110,7 @@
                             <span style="color:var(--text2);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 7 — Developer Workflows</span>
                             <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
                         </div>
-                        <p style="color:var(--text3);font-size:0.92rem;line-height:1.6;margin:0"><code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pipe</code> — composable clipboard pipelines. Git-aware mode that auto-captures commits and branch names. Tmux/zellij per-pane isolation. <code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg replay</code> to re-execute captured commands.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0"><code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg pipe</code> — composable clipboard pipelines. Git-aware mode that auto-captures commits and branch names. Tmux/zellij per-pane isolation. <code style="color:var(--text2);background:rgba(255,255,255,0.05);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.85rem">cg replay</code> to re-execute captured commands.</p>
                     </div>
                 </div>
 
@@ -1124,7 +1124,7 @@
                             <span style="color:var(--text3);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em">Phase 8 — Enterprise & Scale</span>
                             <span style="color:var(--text3);font-size:0.7rem;padding:0.15rem 0.6rem;border:1px solid var(--border);border-radius:99px;font-weight:600">Planned</span>
                         </div>
-                        <p style="color:var(--text3);font-size:0.92rem;line-height:1.6;margin:0">Multi-user mode with role-based access. Audit logging for compliance. Remote clipboard sync via SSH tunnels (zero-trust). Configurable retention per project. Performance hardening for 100K+ item histories.</p>
+                        <p style="color:var(--text2-strong);font-size:0.92rem;line-height:1.6;margin:0">Multi-user mode with role-based access. Audit logging for compliance. Remote clipboard sync via SSH tunnels (zero-trust). Configurable retention per project. Performance hardening for 100K+ item histories.</p>
                     </div>
                 </div>
             </div>
@@ -1184,7 +1184,7 @@
             <div class="footer-section">
                 <div class="logo" style="margin-bottom:0.75rem;font-size:1.1rem"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span></div>
                 <p>Terminal-native typed clipboard for AI-assisted developers.</p>
-                <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text3)">Built with Rust &middot; official releases hosted on the site</p>
+                <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text2-strong)">Built with Rust &middot; official releases hosted on the site</p>
             </div>
             <div class="footer-section">
                 <h4>Resources</h4>

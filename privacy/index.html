@@ -72,7 +72,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     :root{
       --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
-      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
       --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;
       --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.7)
     }
@@ -86,29 +86,29 @@
     .hero{padding:2rem 2rem 1.8rem}
     .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
     h1{font-size:3rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem;max-width:14ch}
-    .sub{color:var(--text2);max-width:68ch;font-size:1.03rem}
+    .sub{color:var(--text2-strong);max-width:68ch;font-size:1.03rem}
     .pill-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
     .pill{display:inline-flex;align-items:center;padding:.44rem .8rem;border-radius:999px;background:rgba(255,255,255,.03);border:1px solid var(--border);font-size:.8rem;color:var(--text2)}
     .surface-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
     .surface{padding:1rem 1.05rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
     .surface h2{font-size:.98rem;margin-bottom:.35rem}
-    .surface p{font-size:.88rem;color:var(--text2)}
+    .surface p{font-size:.88rem;color:var(--text2-strong)}
     .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
     .section{padding:1.35rem 1.45rem}
     .section h2{font-size:1.22rem;letter-spacing:-.35px;margin-bottom:.65rem}
-    .section p{color:var(--text2)}
+    .section p{color:var(--text2-strong)}
     .section p + p{margin-top:.75rem}
     .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:1rem}
     .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
     .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
-    .table td{background:rgba(255,255,255,.012);color:var(--text2);font-size:.9rem}
+    .table td{background:rgba(255,255,255,.012);color:var(--text2-strong);font-size:.9rem}
     .table td strong{color:var(--text)}
     .callout{padding:1rem 1.05rem;border-radius:16px;border:1px solid rgba(52,211,153,.18);background:rgba(52,211,153,.06);margin-top:1rem}
     .callout p{margin:0;color:var(--text)}
     .list{display:grid;gap:.8rem;margin-top:1rem}
     .item{padding:1rem 1.05rem;border-radius:16px;background:rgba(255,255,255,.018);border:1px solid var(--border)}
     .item h3{font-size:.98rem;margin-bottom:.3rem}
-    .item p{margin:0;color:var(--text2)}
+    .item p{margin:0;color:var(--text2-strong)}
     .links{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
     .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.15rem;border-radius:10px;font-weight:700;border:1px solid transparent}
     .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
