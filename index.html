@@ -133,8 +133,8 @@
 
         /* ── Pipeline ── */
         .pipeline{display:flex;align-items:center;justify-content:center;gap:0;padding:2rem 0;flex-wrap:wrap}
-        .pipe-step{display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:1.5rem 2rem;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all var(--ease);min-width:130px}
-        .pipe-step:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
+        .pipe-step{display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:1.5rem 2rem;background:radial-gradient(circle at top left,rgba(0,212,255,0.08),transparent 44%),linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));border:1px solid var(--border);border-radius:12px;transition:all var(--ease);min-width:130px}
+        .pipe-step:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,212,255,0.16)}
         .pipe-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
         .pipe-step h4{font-size:0.85rem;font-weight:600;white-space:nowrap}
         .pipe-step p{font-size:0.75rem;color:var(--text3);white-space:nowrap}
@@ -161,8 +161,8 @@
 
         .class-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
         .class-examples{display:flex;flex-direction:column;gap:1rem}
-        .class-ex{display:flex;align-items:center;gap:1rem;padding:0.8rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;transition:all var(--ease)}
-        .class-ex:hover{border-color:rgba(0,212,255,0.3)}
+        .class-ex{display:flex;align-items:center;gap:1rem;padding:0.8rem 1rem;background:radial-gradient(circle at top left,rgba(0,212,255,0.06),transparent 48%),linear-gradient(180deg,rgba(18,24,36,0.88),rgba(12,17,26,0.95));border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;transition:all var(--ease)}
+        .class-ex:hover{border-color:rgba(0,212,255,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.18)}
         .class-ex .tag{padding:0.2rem 0.6rem;border-radius:4px;font-weight:600;font-size:0.75rem;flex-shrink:0;min-width:65px;text-align:center}
         .class-ex .arrow{color:var(--text3);flex-shrink:0}
         .class-ex .content{color:var(--text2-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -205,8 +205,8 @@
 
         /* ── Mini Scenarios ── */
         .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:2.5rem}
-        .mini-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.4rem;transition:all var(--ease)}
-        .mini-card:hover{border-color:rgba(0,212,255,0.25)}
+        .mini-card{background:radial-gradient(circle at top left,rgba(0,212,255,0.07),transparent 46%),linear-gradient(180deg,rgba(18,24,36,0.9),rgba(12,17,26,0.97));border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.4rem;transition:all var(--ease)}
+        .mini-card:hover{border-color:rgba(0,212,255,0.25);box-shadow:0 12px 28px rgba(0,0,0,0.2)}
         .mini-card h4{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem}
         .mini-pair{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:0.75rem 0 0.5rem}
         .mini-half{font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:1.7;padding:0.7rem 0.9rem;border-radius:6px;background:rgba(0,0,0,0.3);border:1px solid var(--border)}
@@ -216,7 +216,7 @@
 
         /* ── AI Stack ── */
         .ai-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
-        .ai-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:all var(--ease)}
+        .ai-card{background:radial-gradient(circle at top left,rgba(0,212,255,0.08),transparent 44%),linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:all var(--ease)}
         .ai-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,255,0.12)}
         .ai-icon{width:56px;height:56px;border-radius:14px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700}
         .ai-card h4{font-size:1rem;font-weight:600;margin-bottom:0.4rem}
@@ -224,7 +224,7 @@
 
         /* ── Principles ── */
         .prin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-        .prin-card{padding:2rem;border-radius:12px;border:1px solid var(--border);background:var(--card);transition:all var(--ease);position:relative}
+        .prin-card{padding:2rem;border-radius:12px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,0.08),transparent 44%),linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease);position:relative}
         .prin-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-3px)}
         .prin-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
         .prin-head{margin-bottom:0.5rem}
