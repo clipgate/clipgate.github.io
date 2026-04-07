@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipGate Privacy — Site, CLI, installs, and extension boundaries</title>
+  <meta name="description" content="ClipGate privacy overview for the public site, CLI, official install channels, and browser extension. Learn what local-first means in practice and where product boundaries live.">
+  <meta name="keywords" content="ClipGate privacy, local-first privacy, CLI privacy, browser extension privacy, clipboard privacy, install channel privacy">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/privacy/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/privacy/">
+  <meta property="og:title" content="ClipGate Privacy — Site, CLI, installs, and extension boundaries">
+  <meta property="og:description" content="ClipGate privacy overview for the public site, CLI, official install channels, and browser extension.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+  <meta property="og:image:alt" content="ClipGate privacy overview">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ClipGate Privacy — Site, CLI, installs, and extension boundaries">
+  <meta name="twitter:description" content="ClipGate privacy overview for the public site, CLI, official install channels, and browser extension.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+  <meta name="twitter:url" content="https://clipgate.github.io/privacy/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "ClipGate Privacy",
+    "description": "Privacy overview for the ClipGate site, CLI, official install channels, and browser extension.",
+    "url": "https://clipgate.github.io/privacy/",
+    "about": {
+      "@type": "SoftwareApplication",
+      "name": "ClipGate CLI",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "macOS, Linux, Windows"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://clipgate.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Privacy",
+        "item": "https://clipgate.github.io/privacy/"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.7)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-32%;left:50%;width:1120px;height:1120px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.07),transparent 72%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:18px;backdrop-filter:blur(14px)}
+    .hero{padding:2rem 2rem 1.8rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    h1{font-size:3rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem;max-width:14ch}
+    .sub{color:var(--text2);max-width:68ch;font-size:1.03rem}
+    .pill-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
+    .pill{display:inline-flex;align-items:center;padding:.44rem .8rem;border-radius:999px;background:rgba(255,255,255,.03);border:1px solid var(--border);font-size:.8rem;color:var(--text2)}
+    .surface-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+    .surface{padding:1rem 1.05rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+    .surface h2{font-size:.98rem;margin-bottom:.35rem}
+    .surface p{font-size:.88rem;color:var(--text2)}
+    .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+    .section{padding:1.35rem 1.45rem}
+    .section h2{font-size:1.22rem;letter-spacing:-.35px;margin-bottom:.65rem}
+    .section p{color:var(--text2)}
+    .section p + p{margin-top:.75rem}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:1rem}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012);color:var(--text2);font-size:.9rem}
+    .table td strong{color:var(--text)}
+    .callout{padding:1rem 1.05rem;border-radius:16px;border:1px solid rgba(52,211,153,.18);background:rgba(52,211,153,.06);margin-top:1rem}
+    .callout p{margin:0;color:var(--text)}
+    .list{display:grid;gap:.8rem;margin-top:1rem}
+    .item{padding:1rem 1.05rem;border-radius:16px;background:rgba(255,255,255,.018);border:1px solid var(--border)}
+    .item h3{font-size:.98rem;margin-bottom:.3rem}
+    .item p{margin:0;color:var(--text2)}
+    .links{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.15rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    @media(max-width:980px){
+      .surface-grid,.content-grid{grid-template-columns:1fr}
+      h1{font-size:2.35rem;max-width:none}
+    }
+  </style>
+</head>
+<body data-page="privacy" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <section class="panel hero">
+      <div class="eyebrow">ClipGate Privacy</div>
+      <h1>Clear boundaries for the site, the CLI, and the extension.</h1>
+      <p class="sub">ClipGate has multiple surfaces: the public website, the CLI, official install channels, and the browser extension. They do not all behave the same way. This page explains those boundaries plainly so privacy expectations stay clear and trust stays earned.</p>
+      <div class="pill-row">
+        <span class="pill">Local-first runtime</span>
+        <span class="pill">No account required for core CLI use</span>
+        <span class="pill">Separate extension privacy page</span>
+        <span class="pill">Official installs only</span>
+      </div>
+    </section>
+
+    <div class="surface-grid">
+      <div class="panel surface">
+        <h2>Public website</h2>
+        <p>The site exists to deliver docs, downloads, release notes, support paths, and product information. It does not read your clipboard from the CLI or browser extension.</p>
+      </div>
+      <div class="panel surface">
+        <h2>CLI</h2>
+        <p>The CLI is intended to run locally on your machine. Capture, classification, retrieval, search, and packing are designed to happen on-device.</p>
+      </div>
+      <div class="panel surface">
+        <h2>Install channels</h2>
+        <p>Official installs can involve ordinary package-download or hosting requests through the site, PyPI, or Homebrew, similar to other software distribution paths.</p>
+      </div>
+      <div class="panel surface">
+        <h2>Browser extension</h2>
+        <p>The extension has its own browser permission model and storage behavior. Extension-specific details live on the dedicated extension privacy page.</p>
+      </div>
+    </div>
+
+    <section class="panel section" style="margin-top:1rem">
+      <h2>Privacy matrix</h2>
+      <p>If you only need the fast version, use this matrix. It separates the public site from the products so you do not have to guess which privacy expectations belong to which surface.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>Primary role</th>
+            <th>Where data lives</th>
+            <th>Account required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Website</strong></td>
+            <td>Docs, downloads, release notes, support paths</td>
+            <td>Ordinary website and hosting logs</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><strong>CLI</strong></td>
+            <td>Local clipboard capture, classification, retrieval, packaging</td>
+            <td>On your machine, according to local runtime behavior and settings</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><strong>Browser extension</strong></td>
+            <td>Browser-native capture and browsing workflow</td>
+            <td>Inside the browser environment and extension storage</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td><strong>Install channels</strong></td>
+            <td>Distribution through site, PyPI, and Homebrew</td>
+            <td>Package and hosting infrastructure logs typical of software delivery</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="content-grid">
+      <section class="panel section">
+        <h2>How to read this page</h2>
+        <p>This is the product-wide privacy summary. It is meant to reduce ambiguity, not hide detail behind broad promises. Where behavior differs between the site, the CLI, and the extension, we call that out directly.</p>
+        <div class="callout">
+          <p>Short version: ClipGate is built around a local-first runtime model, but website access, downloads, support requests, and package installs still involve normal web infrastructure.</p>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Website and download privacy</h2>
+        <p>The ClipGate website may receive standard web request data needed to serve pages, downloads, and security protections. That can include IP address, browser type, requested URLs, referrer data, and ordinary hosting or CDN logs.</p>
+        <p>If you email support or submit a message, ClipGate receives the details you choose to send, such as your email address, system notes, and problem description.</p>
+      </section>
+
+      <section class="panel section">
+        <h2>CLI privacy, local-first in practice</h2>
+        <p>The CLI is intended to do its core job locally. Clipboard capture, type classification, retrieval, search, and local storage should all remain usable on your machine without requiring an account for the basic workflow.</p>
+        <p>If you pipe ClipGate output into another tool, service, or AI assistant, that transfer is user-directed and follows the privacy and security model of that destination.</p>
+      </section>
+
+      <section class="panel section">
+        <h2>Official install channels</h2>
+        <p>ClipGate currently uses the public site, PyPI, and Homebrew for official distribution. Those channels may create ordinary package and hosting logs as part of software delivery.</p>
+        <p>Use documented official install URLs and package names only. That keeps supply-chain confusion lower and makes support easier when something goes wrong.</p>
+        <div class="callout">
+          <p>Official distribution today means the ClipGate site, the <code>clipgate</code> package on PyPI, and the <code>clipgate/tap</code> Homebrew tap. If you are not using one of those, double-check before installing.</p>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Browser extension handoff</h2>
+        <p>The browser extension has its own runtime environment, permission prompts, and local storage model inside the browser. This page is the high-level summary. The extension-specific privacy page is the source of truth for extension behavior.</p>
+        <div class="links">
+          <a class="btn secondary" href="/ext/privacy/">Read Extension Privacy</a>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Third-party services and infrastructure</h2>
+        <p>ClipGate may rely on third-party infrastructure to host the site, distribute packages, serve static assets, and process support requests. Those providers may process operational metadata needed to deliver their services.</p>
+        <p>The goal is to avoid sending clipboard history or local runtime content to third-party services unless a feature explicitly requires it and that behavior is clearly documented.</p>
+      </section>
+    </div>
+
+    <section class="panel section" style="margin-top:1rem">
+      <h2>What this page does not claim</h2>
+      <div class="list">
+        <div class="item">
+          <h3>Local-first does not mean risk-free</h3>
+          <p>Users should still apply judgment when handling secrets, credentials, customer data, or regulated information.</p>
+        </div>
+        <div class="item">
+          <h3>ClipGate does not control downstream tools</h3>
+          <p>If you send output into another tool, assistant, or service, that destination has its own privacy posture.</p>
+        </div>
+        <div class="item">
+          <h3>Future features are not assumed active</h3>
+          <p>This page should describe real current behavior, not planned sync, telemetry, or cloud features that have not shipped.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel section" style="margin-top:1rem">
+      <h2>Questions, updates, and enterprise review</h2>
+      <p>Teams evaluating ClipGate internally should review permissions, local storage behavior, distribution endpoints, and any downstream integrations as part of normal security review. Product behavior that changes privacy expectations should be reflected here and in release notes when relevant.</p>
+      <p>Source access and distribution are different things here: installs are public through official channels, while the product source itself is not required for everyday use of the free CLI and extension surfaces.</p>
+      <div class="links">
+        <a class="btn primary" href="/support/">Contact Support</a>
+        <a class="btn secondary" href="/license/">Read License</a>
+      </div>
+    </section>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+</body>
+</html>

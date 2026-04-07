@@ -5,6 +5,7 @@
 
   const navItems = [
     { href: "/docs/", label: "Docs", key: "docs" },
+    { href: "/blog/", label: "Blog", key: "blog" },
     { href: "/releases/", label: "Release Notes", key: "releases" },
     { href: "/support/", label: "Support", key: "support" }
   ];
@@ -61,6 +62,7 @@
             <h4>Resources</h4>
             <div class="cg-footer-links">
               <a href="/docs/">Docs</a>
+              <a href="/blog/">Blog</a>
               <a href="/releases/">Release Notes</a>
               <a href="/support/">Support</a>
               <a href="/license/">License</a>
@@ -70,7 +72,7 @@
             <h4>Legal</h4>
             <div class="cg-footer-links">
               <a href="/license/">License</a>
-              <a href="/ext/privacy/">Extension Privacy</a>
+              <a href="/privacy/">Privacy</a>
             </div>
           </div>
         </div>

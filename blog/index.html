@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipGate Blog — Clipboard workflows, secrets, and terminal productivity</title>
+  <meta name="description" content="Practical ClipGate blog posts on local-first clipboard workflows, secret safety, terminal productivity, installation, and release notes for developers.">
+  <meta name="keywords" content="ClipGate blog, clipboard manager blog, local-first clipboard, terminal productivity, secret safety, developer workflow, CLI blog">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/blog/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/blog/">
+  <meta property="og:title" content="ClipGate Blog — Clipboard workflows, secrets, and terminal productivity">
+  <meta property="og:description" content="Practical notes on local-first clipboard workflows, secret safety, terminal productivity, install guidance, and product decisions.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:alt" content="ClipGate Blog editorial preview">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ClipGate Blog — Clipboard workflows, secrets, and terminal productivity">
+  <meta name="twitter:description" content="Practical notes on local-first clipboard workflows, secret safety, terminal productivity, install guidance, and product decisions.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta name="twitter:url" content="https://clipgate.github.io/blog/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "ClipGate Blog",
+    "description": "Practical notes on local-first clipboard workflows, secret safety, terminal productivity, and ClipGate product updates.",
+    "url": "https://clipgate.github.io/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Best Clipboard Manager for Developers in 2026: Local-First, Terminal-Friendly, and AI-Ready",
+        "url": "https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/",
+        "datePublished": "2026-04-07",
+        "dateModified": "2026-04-07",
+        "image": "https://clipgate.github.io/assets/blog-clipboard-manager-2026.svg",
+        "author": {
+          "@type": "Organization",
+          "name": "ClipGate"
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://clipgate.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://clipgate.github.io/blog/"
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.7)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1320px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(14px)}
+    .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;padding:1.5rem 0 2rem}
+    .hero-copy,.hero-visual,.featured-copy,.featured-art,.cover-card,.post-card{min-width:0}
+    .hero-copy{padding:2.15rem}
+    .hero-visual{padding:1.4rem;display:flex;flex-direction:column;justify-content:space-between;gap:1rem}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    h1{font-size:3.25rem;line-height:1.02;letter-spacing:-1.6px;margin-bottom:1rem;max-width:12ch}
+    .sub{color:var(--text2);font-size:1.06rem;max-width:60ch}
+    .trust{display:flex;gap:.65rem;flex-wrap:wrap;margin:1.5rem 0 1.8rem}
+    .pill{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .8rem;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text2);font-size:.8rem}
+    .cta-row{display:flex;gap:.85rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.92rem 1.2rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .hero-visual img{width:100%;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+    .hero-copy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
+    .mini-card{padding:1rem 1.05rem;border-radius:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.05)}
+    .mini-card h3{font-size:.92rem;margin-bottom:.3rem}
+    .mini-card p{font-size:.86rem;color:var(--text2)}
+    .section{padding:1.2rem 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1rem}
+    .section-head h2{font-size:1.55rem;letter-spacing:-.6px}
+    .section-head p{color:var(--text2);max-width:58ch}
+    .featured{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem;padding:1.25rem}
+    .featured-copy{padding:1rem .9rem 1rem .5rem}
+    .meta{display:flex;gap:.7rem;flex-wrap:wrap;color:var(--text3);font-size:.82rem;margin-bottom:1rem}
+    .meta span{display:inline-flex;align-items:center;gap:.35rem}
+    .topic-row{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:1rem}
+    .topic{display:inline-flex;align-items:center;padding:.35rem .72rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);color:var(--cyan);font-size:.75rem;font-weight:600}
+    .featured h3{font-size:2rem;line-height:1.08;letter-spacing:-.8px;margin-bottom:.75rem}
+    .featured p{color:var(--text2);font-size:.96rem}
+    .featured .summary{max-width:62ch}
+    .featured-art{display:flex;align-items:center;justify-content:center}
+    .featured-art img{width:100%;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02)}
+    .list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .post-card{padding:1.2rem;border-radius:18px;border:1px solid var(--border);background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:.9rem;min-height:220px}
+    .post-card.planned{opacity:.88}
+    .post-card h3{font-size:1.1rem;line-height:1.22}
+    .post-card p{color:var(--text2);font-size:.9rem}
+    .post-card .badge{display:inline-flex;align-items:center;padding:.28rem .62rem;border-radius:999px;border:1px solid rgba(0,212,255,.2);background:rgba(0,212,255,.07);color:var(--cyan);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .post-card .badge.planned{border-color:rgba(245,158,11,.26);background:rgba(245,158,11,.08);color:var(--gold)}
+    .cover-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    .cover-card{padding:1.15rem;border-radius:18px;border:1px solid var(--border);background:rgba(255,255,255,.018)}
+    .cover-card h3{font-size:1rem;margin-bottom:.4rem}
+    .cover-card p{font-size:.88rem;color:var(--text2)}
+    .cover-card ul{padding-left:1.05rem;margin-top:.7rem}
+    .cover-card li{font-size:.84rem;color:var(--text2);margin:.2rem 0}
+    .topic-strip{display:flex;gap:.6rem;flex-wrap:wrap}
+    .topic-strip span{display:inline-flex;align-items:center;padding:.45rem .8rem;border-radius:999px;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text2);font-size:.8rem}
+    .cta-band{padding:1.5rem 1.6rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1rem}
+    .cta-band h2{font-size:1.5rem;letter-spacing:-.5px}
+    .cta-band p{color:var(--text2);max-width:54ch}
+    .footnote{color:var(--text3);font-size:.82rem;margin-top:1rem}
+    @media(max-width:980px){
+      .hero,.featured,.list-grid,.cover-grid,.hero-copy-grid{grid-template-columns:1fr}
+      h1{font-size:2.5rem;max-width:none}
+      .cta-band{flex-direction:column;align-items:flex-start}
+      .hero-copy,.hero-visual,.featured-copy,.featured-art{padding:1.35rem}
+    }
+  </style>
+</head>
+<body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <section class="hero">
+      <div class="panel hero-copy">
+        <div class="eyebrow">ClipGate Blog</div>
+        <h1>Notes for developers who keep losing useful context.</h1>
+        <p class="sub">The ClipGate blog is where install guidance, clipboard workflow ideas, secret-safety notes, and product thinking all live in one place. It is meant to help people discover the tool, understand the tradeoffs, and work faster without guesswork.</p>
+        <div class="trust">
+          <span class="pill">Local-first workflow notes</span>
+          <span class="pill">CLI and extension guidance</span>
+          <span class="pill">Security and secret handling</span>
+          <span class="pill">Install and release explainers</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn primary" href="/">Install Free</a>
+          <a class="btn secondary" href="/docs/">Read Docs</a>
+        </div>
+      </div>
+      <div class="panel hero-visual">
+        <img src="../assets/blog-notes.svg" alt="ClipGate Blog editorial illustration">
+        <div class="hero-copy-grid">
+          <div class="mini-card">
+            <h3>Why this exists</h3>
+            <p>Developers do not just need a clipboard history. They need a way to recover commands, errors, paths, and snippets without rebuilding context by hand.</p>
+          </div>
+          <div class="mini-card">
+            <h3>What we cover</h3>
+            <p>Local-first UX, terminal workflows, secret exposure risks, install guidance, release packaging, and practical habits that make the tool trustworthy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Featured article</h2>
+          <p>The first post is built for discovery. It frames the clipboard problem the way developers actually experience it: lost commands, overwritten errors, wasted time, and accidental secret exposure.</p>
+        </div>
+      </div>
+      <article class="panel featured">
+        <div class="featured-copy">
+          <div class="meta">
+            <span>Published Apr 7, 2026</span>
+            <span>8 min read</span>
+            <span>Editorial guide</span>
+          </div>
+          <div class="topic-row">
+            <span class="topic">Workflow</span>
+            <span class="topic">Secrets</span>
+            <span class="topic">CLI</span>
+          </div>
+          <h3><a href="/blog/best-clipboard-manager-for-developers-2026/">Best Clipboard Manager for Developers in 2026: Local-First, Terminal-Friendly, and AI-Ready</a></h3>
+          <p class="summary">Most clipboard managers are built for general office work. Developers need something different: a tool that can recover commands, paths, and errors quickly, stay local-first, treat secrets with care, and fit terminal-native habits instead of fighting them.</p>
+          <div class="cta-row" style="margin-top:1.2rem">
+            <a class="btn primary" href="/blog/best-clipboard-manager-for-developers-2026/">Read the post</a>
+            <a class="btn secondary" href="/releases/">Browse releases</a>
+          </div>
+        </div>
+        <div class="featured-art">
+          <a href="/blog/best-clipboard-manager-for-developers-2026/"><img src="../assets/blog-clipboard-manager-2026.svg" alt="Best clipboard manager for developers editorial art"></a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>What we cover</h2>
+          <p>The goal is not to publish filler. The blog should help someone decide whether ClipGate fits the way they actually work.</p>
+        </div>
+      </div>
+      <div class="cover-grid">
+        <div class="cover-card panel">
+          <h3>Workflow breakdowns</h3>
+          <p>How developers lose context in the clipboard, and which habits actually reduce retyping, searching, and tab-hopping.</p>
+          <ul>
+            <li>Commands and terminal snippets</li>
+            <li>Errors, traces, and logs</li>
+            <li>Paths, URLs, and quick references</li>
+          </ul>
+        </div>
+        <div class="cover-card panel">
+          <h3>Secrets and safety</h3>
+          <p>Practical explanations of what secret-aware behavior should look like in a clipboard tool, especially when the clipboard carries live credentials.</p>
+          <ul>
+            <li>Leak prevention basics</li>
+            <li>Memory-only handling</li>
+            <li>What local-first should mean</li>
+          </ul>
+        </div>
+        <div class="cover-card panel">
+          <h3>Install and release guidance</h3>
+          <p>Clear explanations of official install channels, versioned binaries, package-manager updates, and how the public release flow works.</p>
+          <ul>
+            <li>Site installer</li>
+            <li>PyPI and Homebrew</li>
+            <li>Checksums and release notes</li>
+          </ul>
+        </div>
+        <div class="cover-card panel">
+          <h3>Product decisions</h3>
+          <p>Why typed clipboard exists, where the browser extension fits, and how product choices stay aligned with trust and daily developer use.</p>
+          <ul>
+            <li>CLI versus extension</li>
+            <li>Low-friction adoption</li>
+            <li>Advanced features later</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Latest posts</h2>
+          <p>The blog is new, but the structure is already in place for individual slugs, topic-driven discovery, and future editorial depth.</p>
+        </div>
+        <div class="topic-strip">
+          <span>Workflow</span>
+          <span>Secrets</span>
+          <span>CLI</span>
+          <span>Extension</span>
+          <span>Install</span>
+          <span>Releases</span>
+        </div>
+      </div>
+      <div class="list-grid">
+        <article class="post-card panel">
+          <span class="badge">Published</span>
+          <h3><a href="/blog/best-clipboard-manager-for-developers-2026/">Best Clipboard Manager for Developers in 2026</a></h3>
+          <p>A practical guide to evaluating local-first, terminal-friendly, secret-aware clipboard tools without getting distracted by generic feature lists.</p>
+          <div class="meta" style="margin:0">
+            <span>Apr 7, 2026</span>
+            <span>8 min read</span>
+          </div>
+        </article>
+        <article class="post-card planned panel">
+          <span class="badge planned">Planned</span>
+          <h3>How to stop losing errors, commands, and paths in your clipboard</h3>
+          <p>A workflow-first post about reducing context loss in shell-heavy sessions and AI-assisted debugging loops.</p>
+          <div class="meta" style="margin:0">
+            <span>Workflow</span>
+            <span>CLI</span>
+          </div>
+        </article>
+        <article class="post-card planned panel">
+          <span class="badge planned">Planned</span>
+          <h3>Clipboard history versus typed clipboard: what developers actually need</h3>
+          <p>A calm comparison between flat clipboard history and semantic retrieval by type, especially for errors, secrets, and paths.</p>
+          <div class="meta" style="margin:0">
+            <span>Product</span>
+            <span>Terminal</span>
+          </div>
+        </article>
+      </div>
+      <p class="footnote">Future posts can be dropped into <code>/blog/&lt;slug&gt;/</code> and linked from this index without changing the overall structure.</p>
+    </section>
+
+    <section class="panel cta-band">
+      <div>
+        <h2>Use the blog as the front door, then go deeper in the docs.</h2>
+        <p>Discovery content works best when the next step is obvious. Read the article, install the tool, then jump into docs or release notes when you are ready to move from curiosity to usage.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn primary" href="/">Install Free</a>
+        <a class="btn secondary" href="/docs/">Read Docs</a>
+      </div>
+    </section>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+</body>
+</html>

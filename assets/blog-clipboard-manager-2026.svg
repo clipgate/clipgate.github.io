@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Best clipboard manager for developers in 2026</title>
+  <desc id="desc">Editorial illustration showing terminal workflows, secret handling, and local-first clipboard design.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#09111d"/>
+      <stop offset="100%" stop-color="#121826"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" rx="32" fill="url(#bg)"/>
+  <g stroke="rgba(0,212,255,0.08)" stroke-width="1">
+    <path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200M0 630H1200"/>
+    <path d="M120 0V720M240 0V720M360 0V720M480 0V720M600 0V720M720 0V720M840 0V720M960 0V720M1080 0V720"/>
+  </g>
+  <g transform="translate(62 60)">
+    <rect x="0" y="0" width="1076" height="600" rx="28" fill="rgba(15,23,42,0.82)" stroke="rgba(0,212,255,0.18)"/>
+    <text x="44" y="58" fill="#00d4ff" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">ClipGate Editorial</text>
+    <text x="44" y="118" fill="#e6edf3" font-size="44" font-family="Inter, Arial, sans-serif" font-weight="800">Best Clipboard Manager for</text>
+    <text x="44" y="168" fill="#e6edf3" font-size="44" font-family="Inter, Arial, sans-serif" font-weight="800">Developers in 2026</text>
+    <text x="44" y="208" fill="#94a3b8" font-size="22" font-family="Inter, Arial, sans-serif">Local-first, terminal-friendly, and built for modern AI workflows.</text>
+    <g transform="translate(44 246)">
+      <rect x="0" y="0" width="610" height="304" rx="20" fill="rgba(7,13,22,0.9)" stroke="rgba(0,212,255,0.14)"/>
+      <text x="22" y="34" fill="#64748b" font-size="17" font-family="JetBrains Mono, monospace"># hidden clipboard failure tax</text>
+      <text x="22" y="68" fill="#00d4ff" font-size="18" font-family="JetBrains Mono, monospace">$</text>
+      <text x="42" y="68" fill="#e6edf3" font-size="18" font-family="JetBrains Mono, monospace">echo "TypeError: Cannot read 'map'" | </text>
+      <text x="400" y="68" fill="#00d4ff" font-size="18" font-family="JetBrains Mono, monospace" font-weight="700">cg copy</text>
+      <text x="22" y="102" fill="#00d4ff" font-size="18" font-family="JetBrains Mono, monospace">$</text>
+      <text x="42" y="102" fill="#e6edf3" font-size="18" font-family="JetBrains Mono, monospace">echo "ghp_live_example..." | </text>
+      <text x="310" y="102" fill="#00d4ff" font-size="18" font-family="JetBrains Mono, monospace" font-weight="700">cg copy</text>
+      <text x="22" y="136" fill="#7182a1" font-size="17" font-family="JetBrains Mono, monospace">cg: secret 01KN3K5R (secret, memory-only)</text>
+      <line x1="22" y1="166" x2="566" y2="166" stroke="#263548"/>
+      <text x="22" y="202" fill="#94a3b8" font-size="17" font-family="JetBrains Mono, monospace">lost command</text>
+      <text x="190" y="202" fill="#e6edf3" font-size="17" font-family="JetBrains Mono, monospace">re-run it, re-copy it, lose flow</text>
+      <text x="22" y="234" fill="#94a3b8" font-size="17" font-family="JetBrains Mono, monospace">lost stack trace</text>
+      <text x="190" y="234" fill="#e6edf3" font-size="17" font-family="JetBrains Mono, monospace">switch tabs, come back, start over</text>
+      <text x="22" y="266" fill="#94a3b8" font-size="17" font-family="JetBrains Mono, monospace">copied secret</text>
+      <text x="190" y="266" fill="#e6edf3" font-size="17" font-family="JetBrains Mono, monospace">clipboard history becomes a liability</text>
+    </g>
+    <g transform="translate(686 246)">
+      <rect x="0" y="0" width="346" height="124" rx="18" fill="rgba(0,212,255,0.08)" stroke="rgba(0,212,255,0.18)"/>
+      <text x="24" y="38" fill="#00d4ff" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">What to look for</text>
+      <text x="24" y="70" fill="#e6edf3" font-size="16" font-family="Inter, Arial, sans-serif">Local-first by default</text>
+      <text x="24" y="96" fill="#e6edf3" font-size="16" font-family="Inter, Arial, sans-serif">Secret-aware handling</text>
+      <text x="190" y="70" fill="#e6edf3" font-size="16" font-family="Inter, Arial, sans-serif">Terminal-friendly UX</text>
+      <text x="190" y="96" fill="#e6edf3" font-size="16" font-family="Inter, Arial, sans-serif">AI-ready context reuse</text>
+      <rect x="0" y="150" width="346" height="204" rx="18" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)"/>
+      <text x="24" y="186" fill="#e6edf3" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="800">Why generic clipboard</text>
+      <text x="24" y="214" fill="#e6edf3" font-size="22" font-family="Inter, Arial, sans-serif" font-weight="800">history falls short</text>
+      <text x="24" y="248" fill="#94a3b8" font-size="15" font-family="Inter, Arial, sans-serif">Flat recency lists do not understand</text>
+      <text x="24" y="270" fill="#94a3b8" font-size="15" font-family="Inter, Arial, sans-serif">errors vs commands vs paths vs secrets.</text>
+      <text x="24" y="304" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif">Developers need context, not just history.</text>
+    </g>
+  </g>
+</svg>
