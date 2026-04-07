@@ -29,18 +29,58 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Where do I download ClipGate?",
+        "name": "Is ClipGate free to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Use the installer from the home page, pip install clipgate, brew install clipgate/tap/cg, or visit Release Notes for versioned binaries."
+          "text": "Yes. ClipGate is free to use through the official install channels today. If advanced paid features are added later, the goal is to add value for power users and teams without blocking the core CLI."
         }
       },
       {
         "@type": "Question",
-        "name": "Does ClipGate keep my clipboard local?",
+        "name": "Can I use ClipGate at work or in an enterprise environment?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The CLI is designed to be local-first, and the official install channels all resolve back to the same packaged local tool."
+          "text": "Yes. ClipGate is designed to feel comfortable in professional environments where stability, transparency, and controlled usage matter. If your organization needs commercial terms, procurement details, or support assurances, contact support."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does ClipGate keep my clipboard data local?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. ClipGate is designed to be local-first, and the official install channels all resolve back to the same packaged local tool. The browser extension also keeps its data local in the browser unless a future feature explicitly says otherwise."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I install or update ClipGate safely?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the installer from the home page, pip install clipgate, brew install clipgate/tap/cg, or visit Release Notes for versioned binaries and checksums. For updates, use the same official channel you installed from unless the docs say otherwise."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does ClipGate classify copied content?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ClipGate inspects copied content and assigns it to developer-relevant types like errors, commands, paths, JSON, URLs, and secrets. That makes retrieval semantic rather than purely chronological."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are secrets stored on disk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sensitive content is treated differently from normal clipboard history. Secrets should stay memory-only where possible, avoid unnecessary output, and respect the tool's protective handling instead of being written into long-lived history by default."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between the CLI and the browser extension?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The CLI is for terminal-first workflows, scripting, and local automation. The browser extension is for in-browser capture and browsing workflows, with its own local storage and browser-native experience."
         }
       },
       {
@@ -48,7 +88,7 @@
         "name": "How do I get help fast?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Email support, then check the docs for command and install references."
+          "text": "Start with the docs and release notes, then send support the exact command, version, and error you saw. That makes it much easier to tell whether the issue is install-related, environment-specific, or a product bug."
         }
       }
     ]
@@ -110,20 +150,36 @@
     <section class="panel faq">
       <h2>Common Questions</h2>
       <div class="item">
-        <h3>Where do I download ClipGate?</h3>
-        <p>Use the installer from the home page, <code>pip install clipgate</code>, <code>brew install clipgate/tap/cg</code>, or visit Release Notes for versioned binaries.</p>
+        <h3>Is ClipGate free to use?</h3>
+        <p>Yes. ClipGate is free to use through the official install channels today. If advanced paid features are added later, the goal is to add value for power users and teams without blocking the core CLI.</p>
       </div>
       <div class="item">
-        <h3>Does ClipGate keep my clipboard local?</h3>
-        <p>Yes. The CLI is designed to be local-first, and the official install channels all resolve back to the same packaged local tool.</p>
+        <h3>Can I use ClipGate at work or in an enterprise environment?</h3>
+        <p>Yes. ClipGate is designed to feel comfortable in professional environments where stability, transparency, and controlled usage matter. If your organization needs commercial terms, procurement details, or support assurances, contact support.</p>
+      </div>
+      <div class="item">
+        <h3>Does ClipGate keep my clipboard data local?</h3>
+        <p>Yes. ClipGate is designed to be local-first, and the official install channels all resolve back to the same packaged local tool. The browser extension also keeps its data local in the browser unless a future feature explicitly says otherwise.</p>
+      </div>
+      <div class="item">
+        <h3>How do I install or update ClipGate safely?</h3>
+        <p>Use the installer from the home page, <code>pip install clipgate</code>, <code>brew install clipgate/tap/cg</code>, or visit Release Notes for versioned binaries and checksums. For updates, use the same official channel you installed from unless the docs say otherwise.</p>
+      </div>
+      <div class="item">
+        <h3>How does ClipGate classify copied content?</h3>
+        <p>ClipGate inspects copied content and assigns it to developer-relevant types like errors, commands, paths, JSON, URLs, and secrets. That makes retrieval semantic rather than purely chronological.</p>
+      </div>
+      <div class="item">
+        <h3>Are secrets stored on disk?</h3>
+        <p>Sensitive content is treated differently from normal clipboard history. Secrets should stay memory-only where possible, avoid unnecessary output, and respect the tool's protective handling instead of being written into long-lived history by default.</p>
+      </div>
+      <div class="item">
+        <h3>What is the difference between the CLI and the browser extension?</h3>
+        <p>The CLI is for terminal-first workflows, scripting, and local automation. The browser extension is for in-browser capture and browsing workflows, with its own local storage and browser-native experience.</p>
       </div>
       <div class="item">
         <h3>How do I get help fast?</h3>
-        <p>Email support, then check the docs for command and install references.</p>
-      </div>
-      <div class="item">
-        <h3>Can I use ClipGate at work?</h3>
-        <p>Yes. ClipGate is free to use through the official install channels. If your organization needs commercial terms, procurement details, or support assurances, contact support.</p>
+        <p>Start with the docs and release notes, then send support the exact command, version, and error you saw. That makes it much easier to tell whether the issue is install-related, environment-specific, or a product bug.</p>
       </div>
     </section>
 

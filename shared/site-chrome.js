@@ -6,8 +6,7 @@
   const navItems = [
     { href: "/docs/", label: "Docs", key: "docs" },
     { href: "/releases/", label: "Release Notes", key: "releases" },
-    { href: "/support/", label: "Support", key: "support" },
-    { href: "/license/", label: "License", key: "license" }
+    { href: "/support/", label: "Support", key: "support" }
   ];
 
   if (headerMount) {
@@ -71,7 +70,7 @@
             <h4>Legal</h4>
             <div class="cg-footer-links">
               <a href="/license/">License</a>
-              <a href="/ext/privacy/">Privacy</a>
+              <a href="/ext/privacy/">Extension Privacy</a>
             </div>
           </div>
         </div>
