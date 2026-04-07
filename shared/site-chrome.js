@@ -54,7 +54,7 @@
                 <span>clip<b>gate</b></span>
               </a>
             </div>
-            <p class="cg-footer-tagline">Terminal-native typed clipboard for AI-assisted developers.</p>
+            <p class="cg-footer-tagline">Terminal-native clipboard vault for developers.</p>
             <p class="cg-footer-buildinfo">Built with Rust &middot; official releases hosted on the site</p>
           </div>
           <div class="cg-footer-section">

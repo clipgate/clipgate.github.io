@@ -7,5 +7,5 @@
   </text>
 
   <!-- Subtitle -->
-  <text x="400" y="115" text-anchor="middle" font-family="'SF Mono','Fira Code','Cascadia Code','Courier New',monospace" font-size="16" fill="#8892a4" letter-spacing="3">terminal-native typed clipboard</text>
+  <text x="400" y="115" text-anchor="middle" font-family="'SF Mono','Fira Code','Cascadia Code','Courier New',monospace" font-size="16" fill="#8892a4" letter-spacing="3">terminal-native clipboard vault</text>
 </svg>
