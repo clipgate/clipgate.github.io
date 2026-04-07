@@ -21,10 +21,10 @@
 
 .cg-back-to-top {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 44px;
-  height: 44px;
+  bottom: 5.5rem;
+  right: 1.75rem;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: var(--cyan, #00d4ff);
   border: none;
@@ -34,19 +34,22 @@
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
-  z-index: 999;
+  transition: opacity 0.25s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 6px 22px rgba(0, 212, 255, 0.35), 0 0 0 1px rgba(0, 212, 255, 0.25);
+  z-index: 2147483000 !important;
+  isolation: isolate;
 }
 
 .cg-back-to-top:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 212, 255, 0.45), 0 0 0 1px rgba(0, 212, 255, 0.35);
 }
 
 @media (max-width: 720px) {
   .cg-back-to-top {
-    bottom: 1.25rem;
-    right: 1.25rem;
+    bottom: 6rem;
+    right: 1rem;
+    width: 42px;
+    height: 42px;
   }
 }

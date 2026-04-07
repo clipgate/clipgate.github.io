@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClipGate Release Notes — Downloads, binaries, and checksums</title>
-  <meta name="description" content="Official ClipGate release notes with versioned binaries, checksums, installer paths, and download guidance for macOS, Linux, and Windows.">
-  <meta name="keywords" content="ClipGate release notes, ClipGate downloads, ClipGate binaries, checksums, install CLI, clipboard tool releases">
+  <title>ClipGate Releases — CLI & Browser Extension downloads</title>
+  <meta name="description" content="Official ClipGate release notes for CLI and Browser Extension. Download binaries for macOS, Linux, Windows, and install from Chrome Web Store. Versioned releases with checksums.">
+  <meta name="keywords" content="ClipGate releases, ClipGate CLI, ClipGate Browser Extension, downloads, binaries, Chrome Web Store, clipboard manager, Rust CLI, release notes">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#0a0e17">
   <link rel="canonical" href="https://clipgate.github.io/releases/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://clipgate.github.io/releases/">
-  <meta property="og:title" content="ClipGate Release Notes — Downloads, binaries, and checksums">
-  <meta property="og:description" content="Official ClipGate release notes with versioned binaries, checksums, installer paths, and download guidance for macOS, Linux, and Windows.">
+  <meta property="og:title" content="ClipGate Releases — CLI & Browser Extension">
+  <meta property="og:description" content="Official ClipGate release notes for CLI and Browser Extension with downloads for all platforms.">
   <meta property="og:site_name" content="ClipGate">
   <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
-  <meta property="og:image:alt" content="ClipGate release notes and downloads">
+  <meta property="og:image:alt" content="ClipGate releases for CLI and Browser Extension">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="ClipGate Release Notes — Downloads, binaries, and checksums">
-  <meta name="twitter:description" content="Official ClipGate release notes with versioned binaries, checksums, installer paths, and download guidance for macOS, Linux, and Windows.">
+  <meta name="twitter:title" content="ClipGate Releases — CLI & Browser Extension">
+  <meta name="twitter:description" content="Official ClipGate release notes for CLI and Browser Extension.">
   <meta name="twitter:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
   <meta name="twitter:url" content="https://clipgate.github.io/releases/">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "ClipGate Release Notes",
-    "description": "Versioned ClipGate release notes with binaries, checksums, and installer guidance.",
+    "name": "ClipGate Releases",
+    "description": "Official ClipGate release notes for CLI and Browser Extension with versioned downloads and checksums.",
     "url": "https://clipgate.github.io/releases/",
     "isPartOf": "https://clipgate.github.io/"
   }
@@ -50,47 +50,103 @@
     a{color:inherit;text-decoration:none}
     code{font-family:'JetBrains Mono',monospace}
     .wrap{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 4rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
-    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:1.2rem;margin-bottom:1.2rem}
-    .panel{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:18px}
-    .hero-main{padding:2rem}
-    .hero-side{padding:1.2rem}
-    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .8rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.22);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
-    h1{font-size:3rem;line-height:1.04;letter-spacing:-1.35px;margin-bottom:1rem}
-    .sub{color:var(--text2-strong);max-width:60ch}
-    .meta{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1rem}
-    .pill{padding:.35rem .68rem;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--border);font-size:.78rem;color:var(--text2)}
-    .download{padding:1rem 1.05rem;border-radius:14px;background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(18,24,36,.88),rgba(12,17,26,.95));border:1px solid rgba(255,255,255,.04);margin-bottom:.85rem}
-    .download h3{font-size:.95rem;margin-bottom:.35rem}
-    .download p{color:var(--text2-strong);font-size:.86rem}
-    .section{padding:1.4rem 1.5rem;margin-bottom:1rem}
-    .section h2{font-size:1.28rem;margin-bottom:.85rem}
-    .section p{color:var(--text2-strong)}
-    .artifact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-    .artifact{padding:1rem 1.05rem;border-radius:14px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012))}
-    .artifact h3{font-size:.94rem;margin-bottom:.35rem}
-    .artifact p{font-size:.86rem;color:var(--text2-strong)}
-    .code{margin-top:.7rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--green);overflow:auto}
-    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .table th,.table td{padding:.84rem 1rem;border-bottom:1px solid var(--border);text-align:left;font-size:.9rem;vertical-align:top}
-    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
-    .table td{background:rgba(255,255,255,.012);color:var(--text2-strong)}
-    .timeline{display:flex;flex-direction:column;gap:1rem}
-    .entry{padding:1.1rem 1.15rem;border-radius:16px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,.07),transparent 46%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013))}
-    .entry-head{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.6rem}
-    .entry-head h3{font-size:1rem}
-    .status{padding:.28rem .58rem;border-radius:999px;font-size:.75rem;border:1px solid var(--border);color:var(--text2)}
-    .status.live{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2);color:var(--green)}
-    .status.next{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.22);color:var(--cyan)}
-    .status.base{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2);color:var(--gold)}
-    .entry ul{padding-left:1.1rem;margin-top:.4rem}
-    .entry li{color:var(--text2-strong);margin:.28rem 0}
-    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
-    .flow-card{padding:1rem;border-radius:14px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012))}
-    .flow-card h3{font-size:.92rem;margin-bottom:.28rem}
-    .flow-card p{font-size:.84rem;color:var(--text2-strong)}
+
+    /* ── Hero Section ── */
+    .rel-hero{margin-bottom:2rem}
+    .rel-hero-content{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:18px;padding:3rem}
+    .rel-eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .8rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.22);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .rel-hero h1{font-size:3rem;line-height:1.04;letter-spacing:-1.35px;margin-bottom:1rem}
+    .rel-hero-sub{color:var(--text2-strong);max-width:70ch;font-size:1.1rem;margin-bottom:2rem}
+    .rel-track-link{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;margin-right:1rem;margin-bottom:1rem;border-radius:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-size:.9rem;font-weight:600;transition:all .3s ease}
+    .rel-track-link:hover{background:rgba(0,212,255,.15);transform:translateY(-2px)}
+
+    /* ── Tabs ── */
+    .rel-tabs{display:flex;gap:.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border);position:relative;z-index:10}
+    .rel-tab-btn{background:transparent;border:none;color:var(--text2);padding:1rem 1.5rem;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s ease;border-bottom:2px solid transparent;position:relative}
+    .rel-tab-btn:hover{color:var(--text)}
+    .rel-tab-btn.rel-active{color:var(--text);border-bottom-color:var(--cyan)}
+    .rel-tab-btn.rel-cli{--accent-color:var(--cyan)}
+    .rel-tab-btn.rel-ext{--accent-color:var(--green)}
+
+    /* ── Track Containers ── */
+    .rel-track-container{display:none}
+    .rel-track-container.rel-active{display:block}
+
+    /* ── CLI Track ── */
+    .rel-cli-track{}
+    .rel-cli-accent{--track-primary:var(--cyan);--track-light:rgba(0,212,255,.1);--track-lighter:rgba(0,212,255,.05)}
+
+    /* ── Extension Track ── */
+    .rel-ext-track{}
+    .rel-ext-accent{--track-primary:var(--green);--track-light:rgba(52,211,153,.1);--track-lighter:rgba(52,211,153,.05)}
+
+    /* ── Panel & Cards ── */
+    .rel-panel{background:radial-gradient(circle at top left,var(--track-light),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:18px}
+
+    .rel-hero-section{display:grid;grid-template-columns:1.15fr .85fr;gap:1.2rem;margin-bottom:1.2rem}
+    .rel-hero-main{padding:2rem}
+    .rel-hero-side{padding:1.2rem}
+    .rel-download{padding:1rem 1.05rem;border-radius:14px;background:radial-gradient(circle at top left,var(--track-light),transparent 48%),linear-gradient(180deg,rgba(18,24,36,.88),rgba(12,17,26,.95));border:1px solid rgba(255,255,255,.04);margin-bottom:.85rem}
+    .rel-download h3{font-size:.95rem;margin-bottom:.35rem}
+    .rel-download p{color:var(--text2-strong);font-size:.86rem}
+
+    .rel-section{padding:1.4rem 1.5rem;margin-bottom:1rem}
+    .rel-section h2{font-size:1.28rem;margin-bottom:.85rem;color:var(--text)}
+    .rel-section p{color:var(--text2-strong)}
+
+    /* ── Extension Hero ── */
+    .rel-ext-hero{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}
+    .rel-ext-hero-left{display:flex;flex-direction:column;justify-content:center}
+    .rel-ext-hero-left h2{font-size:2rem;margin-bottom:1rem;color:var(--text)}
+    .rel-ext-hero-left p{color:var(--text2-strong);margin-bottom:1.5rem}
+    .rel-ext-hero-right{display:grid;grid-template-columns:1fr;gap:1rem}
+    .rel-ext-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1rem;border-radius:999px;background:var(--track-light);border:1px solid var(--track-primary);color:var(--track-primary);font-size:.8rem;font-weight:600;width:fit-content}
+    .rel-ext-cta{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.8rem;border-radius:10px;background:linear-gradient(135deg,var(--track-primary),var(--blue));color:var(--bg);font-weight:700;font-size:.95rem;transition:all .3s ease;width:fit-content}
+    .rel-ext-cta:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(52,211,153,.3)}
+
+    /* ── Feature Grid ── */
+    .rel-feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .rel-feature-card{padding:1.2rem;border-radius:14px;border:1px solid var(--border);background:radial-gradient(circle at top left,var(--track-light),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012))}
+    .rel-feature-card h3{font-size:.95rem;margin-bottom:.5rem;color:var(--text)}
+    .rel-feature-card p{font-size:.86rem;color:var(--text2-strong)}
+
+    /* ── Artifact Grid ── */
+    .rel-artifact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .rel-artifact{padding:1rem 1.05rem;border-radius:14px;border:1px solid var(--border);background:radial-gradient(circle at top left,var(--track-light),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012))}
+    .rel-artifact h3{font-size:.94rem;margin-bottom:.35rem;color:var(--text)}
+    .rel-artifact p{font-size:.86rem;color:var(--text2-strong)}
+    .rel-code{margin-top:.7rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--track-primary);overflow:auto}
+
+    /* ── Timeline ── */
+    .rel-timeline{display:flex;flex-direction:column;gap:1rem}
+    .rel-entry{padding:1.1rem 1.15rem;border-radius:16px;border:1px solid var(--border);background:radial-gradient(circle at top left,var(--track-light),transparent 46%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013))}
+    .rel-entry-head{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.6rem}
+    .rel-entry-head h3{font-size:1rem;color:var(--text)}
+    .rel-status{padding:.28rem .58rem;border-radius:999px;font-size:.75rem;border:1px solid var(--border);color:var(--text2)}
+    .rel-status.rel-live{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2);color:var(--green)}
+    .rel-status.rel-next{background:var(--track-light);border-color:var(--track-primary);color:var(--track-primary)}
+    .rel-status.rel-base{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.2);color:var(--gold)}
+    .rel-entry ul{padding-left:1.1rem;margin-top:.4rem}
+    .rel-entry li{color:var(--text2-strong);margin:.28rem 0}
+
+    /* ── Coming Soon ── */
+    .rel-coming-soon{padding:1.5rem;border-radius:14px;border:1px dashed var(--track-primary);background:var(--track-lighter);margin-top:1.5rem}
+    .rel-coming-soon h4{color:var(--track-primary);font-size:.95rem;margin-bottom:.6rem}
+    .rel-coming-soon ul{padding-left:1.5rem}
+    .rel-coming-soon li{color:var(--text2-strong);margin:.4rem 0;font-size:.9rem}
+
+    /* ── Flow ── */
+    .rel-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+    .rel-flow-card{padding:1rem;border-radius:14px;border:1px solid var(--border);background:radial-gradient(circle at top left,var(--track-light),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012))}
+    .rel-flow-card h3{font-size:.92rem;margin-bottom:.28rem;color:var(--text)}
+    .rel-flow-card p{font-size:.84rem;color:var(--text2-strong)}
+
     @media(max-width:980px){
-      .hero,.artifact-grid,.flow{grid-template-columns:1fr}
-      h1{font-size:2.15rem}
+      .rel-hero-section,.rel-feature-grid,.rel-artifact-grid,.rel-flow,.rel-ext-hero{grid-template-columns:1fr}
+      .rel-hero h1{font-size:2.15rem}
+      .rel-ext-hero-left h2{font-size:1.6rem}
+      .rel-tabs{flex-wrap:wrap}
+      .rel-tab-btn{padding:.75rem 1rem;font-size:.9rem}
     }
   </style>
 </head>
@@ -98,115 +154,298 @@
   <div id="cgSiteHeader"></div>
   <div class="wrap cg-chrome-shell">
 
-    <div class="hero">
-      <div class="panel hero-main">
-        <div class="eyebrow">Official ClipGate release notes</div>
-        <h1>Versioned binaries live here.</h1>
-        <p class="sub">This page is the public release hub for ClipGate. The private CLI repo builds and packages artifacts, then CI publishes versioned files into this site so the installer, docs, and manual downloads all point to one public surface.</p>
-        <div class="meta">
-          <span class="pill">Site-hosted binaries</span>
-          <span class="pill">Versioned release folders</span>
-          <span class="pill">Checksums alongside artifacts</span>
-          <span class="pill">No source checkout required</span>
-        </div>
-      </div>
-      <div class="panel hero-side">
-        <div class="download">
-          <h3>Installer entrypoint</h3>
-          <p><code>https://clipgate.github.io/install.sh</code></p>
-        </div>
-        <div class="download">
-          <h3>Latest release marker</h3>
-          <p><code>https://clipgate.github.io/releases/latest.txt</code></p>
-        </div>
-        <div class="download">
-          <h3>Artifact pattern</h3>
-          <p><code>/releases/vX.Y.Z/cg-*.tar.gz</code><br><code>/releases/vX.Y.Z/cg-*.zip</code></p>
+    <!-- Hero Section -->
+    <div class="rel-hero">
+      <div class="rel-panel rel-hero-content">
+        <div class="rel-eyebrow">Two products, two release tracks</div>
+        <h1>ClipGate Releases</h1>
+        <p class="rel-hero-sub">Get the latest versions of the ClipGate CLI and Browser Extension. Both are free, open-source focused, and regularly updated.</p>
+        <div>
+          <a href="#cli-track" class="rel-track-link">↓ CLI Releases</a>
+          <a href="#ext-track" class="rel-track-link">↓ Browser Extension</a>
         </div>
       </div>
     </div>
 
-    <section class="panel section">
-      <h2>Artifact Layout</h2>
-      <p>Each release folder is designed to hold platform archives plus matching checksum files. The same structure is used by the installer and manual downloads.</p>
-      <div class="artifact-grid" style="margin-top:1rem">
-        <div class="artifact">
-          <h3>macOS</h3>
-          <p>Apple Silicon and Intel archives.</p>
-          <div class="code">/releases/vX.Y.Z/cg-aarch64-apple-darwin.tar.gz
+    <!-- Track Selector Tabs -->
+    <div class="rel-tabs" role="tablist" aria-label="Release tracks">
+      <button class="rel-tab-btn rel-cli rel-active" role="tab" aria-selected="true" aria-controls="cli-panel" data-track="cli">CLI Releases</button>
+      <button class="rel-tab-btn rel-ext" role="tab" aria-selected="false" aria-controls="ext-panel" data-track="ext">Browser Extension</button>
+    </div>
+
+    <!-- CLI Track -->
+    <div id="cli-panel" class="rel-track-container rel-cli-track rel-cli-accent rel-active" role="tabpanel" aria-labelledby="cli-tab">
+      <div id="cli-track"></div>
+
+      <div class="rel-hero-section rel-panel">
+        <div class="rel-hero-main">
+          <h2 style="font-size:1.6rem;margin-bottom:1rem">ClipGate CLI</h2>
+          <p class="rel-hero-sub" style="font-size:1rem;margin-bottom:1.5rem">Typed clipboard manager for the terminal. Available for macOS, Linux, and Windows.</p>
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem">
+            <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">PyPI packages</span>
+            <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Homebrew tap</span>
+            <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Site-hosted binaries</span>
+            <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Checksums</span>
+          </div>
+        </div>
+        <div class="rel-hero-side">
+          <div class="rel-download">
+            <h3>Installer script</h3>
+            <p><code>https://clipgate.github.io/install.sh</code></p>
+          </div>
+          <div class="rel-download">
+            <h3>Latest version</h3>
+            <p><code>https://clipgate.github.io/releases/latest.txt</code></p>
+          </div>
+          <div class="rel-download">
+            <h3>Download path</h3>
+            <p><code>/releases/vX.Y.Z/cg-*.tar.gz</code><br><code>/releases/vX.Y.Z/cg-*.zip</code></p>
+          </div>
+        </div>
+      </div>
+
+      <section class="rel-panel rel-section">
+        <h2>Artifact Layout</h2>
+        <p>Platform-specific archives with matching checksum files for verification and integrity checks.</p>
+        <div class="rel-artifact-grid" style="margin-top:1rem">
+          <div class="rel-artifact">
+            <h3>macOS</h3>
+            <p>Apple Silicon and Intel.</p>
+            <div class="rel-code">/releases/vX.Y.Z/cg-aarch64-apple-darwin.tar.gz
 /releases/vX.Y.Z/cg-x86_64-apple-darwin.tar.gz</div>
-        </div>
-        <div class="artifact">
-          <h3>Linux</h3>
-          <p>x86_64 and ARM64 tarballs.</p>
-          <div class="code">/releases/vX.Y.Z/cg-x86_64-unknown-linux-gnu.tar.gz
+          </div>
+          <div class="rel-artifact">
+            <h3>Linux</h3>
+            <p>x86_64 and ARM64 support.</p>
+            <div class="rel-code">/releases/vX.Y.Z/cg-x86_64-unknown-linux-gnu.tar.gz
 /releases/vX.Y.Z/cg-aarch64-unknown-linux-gnu.tar.gz</div>
+          </div>
+          <div class="rel-artifact">
+            <h3>Windows</h3>
+            <p>MSVC build for Windows.</p>
+            <div class="rel-code">/releases/vX.Y.Z/cg-x86_64-pc-windows-msvc.zip</div>
+          </div>
         </div>
-        <div class="artifact">
-          <h3>Windows</h3>
-          <p>MSVC zip archive for manual download.</p>
-          <div class="code">/releases/vX.Y.Z/cg-x86_64-pc-windows-msvc.zip</div>
+      </section>
+
+      <section class="rel-panel rel-section">
+        <h2>CLI Release History</h2>
+        <div class="rel-timeline">
+          <article class="rel-entry">
+            <div class="rel-entry-head">
+              <h3>v0.1.4</h3>
+              <span class="rel-status rel-live">Current stable release</span>
+            </div>
+            <p>Latest improvements and fixes for the CLI.</p>
+            <ul>
+              <li>Performance optimizations for clipboard operations.</li>
+              <li>Enhanced error messaging and diagnostic tools.</li>
+              <li>Additional platform-specific hardening.</li>
+            </ul>
+          </article>
+
+          <article class="rel-entry">
+            <div class="rel-entry-head">
+              <h3>v0.1.3</h3>
+              <span class="rel-status rel-next">Distribution milestone</span>
+            </div>
+            <p>Formalized public binary distribution through the official site.</p>
+            <ul>
+              <li>Site-hosted installer, release notes, docs, support, and license pages.</li>
+              <li>Versioned artifact layout under <code>/releases/vX.Y.Z/</code>.</li>
+              <li>Public download flow aligned with PyPI, Homebrew tap, and manual binaries.</li>
+            </ul>
+          </article>
+
+          <article class="rel-entry">
+            <div class="rel-entry-head">
+              <h3>v0.1.1 · 2026-04-02</h3>
+              <span class="rel-status rel-live">Security hardening</span>
+            </div>
+            <ul>
+              <li>Fixed SQL injection risk in list and search LIMIT handling.</li>
+              <li>Locked down Unix file permissions for the SQLite DB, config, and PID files.</li>
+              <li>Hardened PID writes and macOS process liveness checks.</li>
+              <li>Redacted secret content in MCP responses and clamped MCP query limits.</li>
+            </ul>
+          </article>
+
+          <article class="rel-entry">
+            <div class="rel-entry-head">
+              <h3>v0.1.0 · 2026-04-02</h3>
+              <span class="rel-status rel-base">Product launch</span>
+            </div>
+            <ul>
+              <li>Typed clipboard classification and type-aware copy, paste, list, search, and pack flows.</li>
+              <li>Named stacks, watcher support, fuzzy picker, shell integration, doctor, and MCP server.</li>
+              <li>Secret detection with TTL-based expiry and local-only storage defaults.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="rel-panel rel-section">
+        <h2>How CLI Publishing Works</h2>
+        <p>Build privately, publish publicly — a simple, transparent release flow.</p>
+        <div class="rel-flow">
+          <div class="rel-flow-card"><h3>1. Build</h3><p>Tag version in CLI repo and compile supported platform targets.</p></div>
+          <div class="rel-flow-card"><h3>2. Package</h3><p>Create tar.gz/zip archives and generate checksums for artifacts.</p></div>
+          <div class="rel-flow-card"><h3>3. Publish</h3><p>Copy files to <code>/releases/&lt;tag&gt;/</code>, update <code>latest.txt</code>, publish to PyPI and Homebrew.</p></div>
+          <div class="rel-flow-card"><h3>4. Serve</h3><p>GitHub Pages, PyPI, and Homebrew stay aligned with the same tagged release.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Browser Extension Track -->
+    <div id="ext-panel" class="rel-track-container rel-ext-track rel-ext-accent" role="tabpanel" aria-labelledby="ext-tab">
+      <div id="ext-track"></div>
+
+      <div class="rel-panel rel-section">
+        <div class="rel-ext-hero">
+          <div class="rel-ext-hero-left">
+            <h2>Browser Extension</h2>
+            <p>Copy, classify, and retrieve clipboard content directly from your browser. Sync with ClipGate CLI and boost productivity across web and terminal.</p>
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <div class="rel-ext-badge">Live on Chrome Web Store</div>
+              <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer" class="rel-ext-cta">
+                <span>Install from Chrome Web Store</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+          <div class="rel-ext-hero-right">
+            <div class="rel-entry">
+              <div class="rel-entry-head">
+                <h3>v1.0.0 Release</h3>
+                <span class="rel-status rel-live">Now available</span>
+              </div>
+              <p style="margin-bottom:1rem">Launched April 2026 — the official ClipGate Browser Extension for Chrome.</p>
+              <ul style="margin-bottom:1.2rem">
+                <li>Content type detection and classification</li>
+                <li>Clipboard history search and filtering</li>
+                <li>Sync with ClipGate CLI on your machine</li>
+                <li>Privacy-focused: local storage by default</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <section class="panel section">
-      <h2>Release History</h2>
-      <div class="timeline">
-        <article class="entry">
-          <div class="entry-head">
-            <h3>v0.1.3</h3>
-            <span class="status next">Current distribution milestone</span>
+      <section class="rel-panel rel-section">
+        <h2>Key Features at Launch</h2>
+        <div class="rel-feature-grid">
+          <div class="rel-feature-card">
+            <h3>Type-Aware History</h3>
+            <p>Automatically classify clipboard items as code, text, secrets, URLs, or structured data. Find what you need instantly.</p>
           </div>
-          <p>This release formalizes the public binary distribution flow through the official site.</p>
-          <ul>
-            <li>Site-hosted installer, release notes, docs, support, and license pages.</li>
-            <li>Versioned artifact layout under <code>/releases/vX.Y.Z/</code>.</li>
-            <li>Public download flow aligned with PyPI, the Homebrew tap, and manual binaries.</li>
-          </ul>
-        </article>
-
-        <article class="entry">
-          <div class="entry-head">
-            <h3>v0.1.1 · 2026-04-02</h3>
-            <span class="status live">Security hardening</span>
+          <div class="rel-feature-card">
+            <h3>Secure Search</h3>
+            <p>Search your clipboard history with confidence. All data stays local by default—no cloud sync unless you opt in.</p>
           </div>
-          <ul>
-            <li>Fixed SQL injection risk in list and search LIMIT handling.</li>
-            <li>Locked down Unix file permissions for the SQLite DB, config, and PID files.</li>
-            <li>Hardened PID writes and macOS process liveness checks.</li>
-            <li>Redacted secret content in MCP responses and clamped MCP query limits.</li>
-          </ul>
-        </article>
-
-        <article class="entry">
-          <div class="entry-head">
-            <h3>v0.1.0 · 2026-04-02</h3>
-            <span class="status base">Initial product baseline</span>
+          <div class="rel-feature-card">
+            <h3>CLI Integration</h3>
+            <p>Bridge browser and terminal. Sync clipboard items between the extension and ClipGate CLI for seamless workflows.</p>
           </div>
-          <ul>
-            <li>Typed clipboard classification and type-aware copy, paste, list, search, and pack flows.</li>
-            <li>Named stacks, watcher support, fuzzy picker, shell integration, doctor, and MCP server.</li>
-            <li>Secret detection with TTL-based expiry and local-only storage defaults.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
+          <div class="rel-feature-card">
+            <h3>Instant Access</h3>
+            <p>Popup interface for quick retrieval. One keystroke to access your clipboard history without disrupting your work.</p>
+          </div>
+          <div class="rel-feature-card">
+            <h3>Privacy First</h3>
+            <p>No tracking, no analytics, no third-party integrations. Your clipboard data belongs to you alone.</p>
+          </div>
+          <div class="rel-feature-card">
+            <h3>Lightweight</h3>
+            <p>Minimal resource footprint. Runs cleanly in the background and gets out of your way.</p>
+          </div>
+        </div>
+      </section>
 
-    <section class="panel section">
-      <h2>How Publishing Works</h2>
-      <p>The release pipeline is intentionally simple: build privately, publish publicly.</p>
-      <div class="flow">
-        <div class="flow-card"><h3>1. Build</h3><p>Tag a version in the private CLI repo and compile the supported platform targets.</p></div>
-        <div class="flow-card"><h3>2. Package</h3><p>Create tar.gz or zip archives and generate checksum files for each artifact.</p></div>
-        <div class="flow-card"><h3>3. Publish</h3><p>Copy files into the public site repo under <code>/releases/&lt;tag&gt;/</code>, update <code>latest.txt</code>, publish the Python package to PyPI, and rewrite the Homebrew tap formula.</p></div>
-        <div class="flow-card"><h3>4. Serve</h3><p>GitHub Pages exposes the binaries, docs, and release metadata while PyPI and the public Homebrew tap stay aligned with the same tagged release.</p></div>
-      </div>
-    </section>
+      <section class="rel-panel rel-section">
+        <h2>Browser Support</h2>
+        <p>Currently available on Chrome and Chromium-based browsers. Firefox and Safari support coming soon.</p>
+        <div class="rel-feature-grid" style="margin-top:1rem">
+          <div class="rel-feature-card">
+            <h3>Chrome Web Store</h3>
+            <p>Fully supported and regularly updated. Install from the official store for automatic updates.</p>
+          </div>
+          <div class="rel-feature-card">
+            <h3>Chromium Forks</h3>
+            <p>Works on Edge, Brave, Opera, and other Chromium-based browsers via Chrome Web Store.</p>
+          </div>
+          <div class="rel-feature-card">
+            <h3>Coming Soon</h3>
+            <p>Firefox and Safari versions in active development. Stay tuned for announcements.</p>
+          </div>
+        </div>
+
+        <div class="rel-coming-soon">
+          <h4>What's Coming Next</h4>
+          <ul>
+            <li>Firefox Add-on release (Q2 2026)</li>
+            <li>Safari App Extension (Q3 2026)</li>
+            <li>Cloud sync option for multi-device clipboard</li>
+            <li>Advanced filtering and tagging features</li>
+            <li>Keyboard shortcut customization</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="rel-panel rel-section">
+        <h2>Extension Release History</h2>
+        <div class="rel-timeline">
+          <article class="rel-entry">
+            <div class="rel-entry-head">
+              <h3>v1.0.0 · April 2026</h3>
+              <span class="rel-status rel-live">Public launch</span>
+            </div>
+            <p>Official launch of ClipGate Browser Extension on Chrome Web Store.</p>
+            <ul>
+              <li>Type-aware clipboard classification engine.</li>
+              <li>Instant search and filter across clipboard history.</li>
+              <li>Secure local storage with optional sync to ClipGate CLI.</li>
+              <li>Privacy-first architecture with no telemetry or tracking.</li>
+              <li>Clean, intuitive popup interface for fast access.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
 
     <div id="cgSiteFooter"></div>
   </div>
+
   <script src="../shared/site-chrome.js"></script>
   <script src="../shared/site-scroll-ui.js"></script>
+  <script>
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.rel-tab-btn');
+    const trackContainers = document.querySelectorAll('.rel-track-container');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const trackName = this.dataset.track;
+
+        // Update button states
+        tabButtons.forEach(btn => {
+          btn.classList.remove('rel-active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('rel-active');
+        this.setAttribute('aria-selected', 'true');
+
+        // Update container visibility
+        trackContainers.forEach(container => {
+          container.classList.remove('rel-active');
+        });
+
+        if (trackName === 'cli') {
+          document.getElementById('cli-panel').classList.add('rel-active');
+        } else if (trackName === 'ext') {
+          document.getElementById('ext-panel').classList.add('rel-active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

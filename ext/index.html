@@ -51,6 +51,7 @@
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+    <script>document.documentElement.classList.add('js')</script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
@@ -71,20 +72,33 @@
         header{position:fixed;top:0;width:100%;padding:1rem 2rem;background:rgba(10,14,23,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000;display:flex;justify-content:space-between;align-items:center}
         .logo{font-weight:800;font-size:1.4rem;letter-spacing:-0.5px;display:flex;align-items:center;gap:0.6rem}
         .logo b{color:var(--cyan)}
-        .logo-ext{font-size:0.7rem;font-weight:600;color:var(--bg);background:var(--cyan);padding:0.15rem 0.55rem;border-radius:4px;letter-spacing:0.5px;text-transform:uppercase}
+        .logo-ext{position:relative;font-size:0.7rem;font-weight:700;color:#051018;background:linear-gradient(135deg,#39e991 0%,#00d4ff 55%,#00b8e6 100%);background-size:180% 180%;background-position:0% 50%;padding:0.2rem 0.6rem;border-radius:5px;letter-spacing:0.5px;text-transform:uppercase;border:1px solid rgba(57,233,145,0.55);box-shadow:0 0 0 1px rgba(0,212,255,0.22),0 4px 12px rgba(0,212,255,0.22),0 3px 10px rgba(57,233,145,0.18),inset 0 1px 0 rgba(255,255,255,0.45)}
         nav{display:flex;gap:2rem;align-items:center}
         nav a{color:var(--text2);font-size:0.9rem;font-weight:500;transition:color var(--ease)}
         nav a:hover{color:var(--cyan)}
         .nav-cta{background:var(--cyan);color:var(--bg);padding:0.55rem 1.4rem;border-radius:6px;font-weight:600;font-size:0.9rem;border:none;cursor:pointer;transition:all var(--ease);display:inline-flex;align-items:center;gap:0.5rem;font-family:inherit}
         .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.35);color:var(--bg)}
-        .nav-cli{display:inline-flex;align-items:center;gap:0.4rem;color:var(--cyan);font-size:0.85rem;font-weight:600;padding:0.5rem 1.2rem;border:1.5px solid rgba(0,212,255,0.4);border-radius:6px;transition:all var(--ease);background:rgba(0,212,255,0.06)}
-        .nav-cli:hover{border-color:var(--cyan);background:rgba(0,212,255,0.12);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,212,255,0.2)}
+        .nav-cta-grad{position:relative;background:linear-gradient(135deg,#39e991 0%,#00d4ff 55%,#00b8e6 100%);background-size:180% 180%;background-position:0% 50%;color:#051018 !important;border:1px solid rgba(57,233,145,0.55);font-weight:700;letter-spacing:0.01em;box-shadow:0 0 0 1px rgba(0,212,255,0.25),0 6px 18px rgba(0,212,255,0.28),0 4px 14px rgba(57,233,145,0.22),inset 0 1px 0 rgba(255,255,255,0.45);transition:background-position 0.5s ease,transform 0.25s ease,box-shadow 0.25s ease;overflow:hidden}
+        .nav-cta-grad::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.35) 50%,transparent 70%);background-size:220% 100%;background-position:200% 0;pointer-events:none;mix-blend-mode:overlay;opacity:0.6;transition:background-position 0.8s ease}
+        .nav-cta-grad:hover{transform:translateY(-2px);background-position:100% 50%;box-shadow:0 0 0 1px rgba(57,233,145,0.55),0 10px 26px rgba(0,212,255,0.4),0 6px 18px rgba(57,233,145,0.32),inset 0 1px 0 rgba(255,255,255,0.55);color:#051018 !important}
+        .nav-cta-grad:hover::after{background-position:-120% 0}
+
+        /* ── Chrome Web Store Badge ── */
+        .cws-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.35rem 0.8rem;border-radius:6px;font-size:0.75rem;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+        .cws-badge svg{width:16px;height:16px}
+        .nav-cli{display:inline-flex;align-items:center;gap:0.45rem;color:#051018;font-size:0.82rem;font-weight:700;padding:0.5rem 1.05rem;border:1px solid rgba(0,212,255,0.55);border-radius:7px;transition:all var(--ease);background:linear-gradient(135deg,#00d4ff 0%,#00b8e6 100%);box-shadow:0 0 0 1px rgba(0,212,255,0.25),0 6px 18px rgba(0,212,255,0.28),inset 0 1px 0 rgba(255,255,255,0.45);letter-spacing:0.01em}
+        .nav-cli:hover{transform:translateY(-2px);background:linear-gradient(135deg,#19dcff 0%,#00c7f5 100%);box-shadow:0 0 0 1px rgba(0,212,255,0.6),0 10px 26px rgba(0,212,255,0.4),inset 0 1px 0 rgba(255,255,255,0.55);color:#051018}
 
         /* ── Hero ── */
         #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:7rem 3rem 4rem;gap:3rem;max-width:1300px;margin:0 auto}
         .hero-left{flex:1;max-width:540px}
         .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 1rem;border-radius:20px;font-size:0.8rem;color:var(--cyan);font-weight:500}
         .hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+        .hero-badges-row{display:flex;gap:0.5rem;flex-wrap:nowrap;align-items:center;margin-bottom:1.5rem}
+        .hero-badge-compact{padding:0.32rem 0.65rem;font-size:0.7rem;border-radius:16px;white-space:nowrap;gap:0.35rem}
+        .hero-badge-compact .pulse{width:6px;height:6px}
+        .hero-badge-compact svg{width:11px;height:11px}
+        @media(max-width:900px){.hero-badges-row{flex-wrap:wrap}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         h1{font-size:3.4rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px}
         h1 span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -157,8 +171,10 @@
 
         /* ── Feature Grid ── */
         .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-        .feat{padding:2rem;border-radius:12px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,0.08),transparent 44%),linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease)}
+        .feat{padding:2rem;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease);position:relative;overflow:hidden}
+        .feat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(0,212,255,0.04),transparent 60%);opacity:0;transition:opacity 0.3s ease;pointer-events:none;border-radius:inherit}
         .feat:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
+        .feat:hover::before{opacity:1}
         .feat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
         .feat h4{font-size:1rem;font-weight:600;margin-bottom:0.5rem}
         .feat p{color:var(--text2-strong);font-size:0.88rem;line-height:1.5}
@@ -170,14 +186,7 @@
         .type-pill .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
         /* ── Secret Protection Section ── */
-        .secret-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-        .secret-demo{background:var(--bg2);border:1px solid rgba(248,113,113,0.2);border-radius:12px;overflow:hidden}
-        .secret-demo-header{background:rgba(248,113,113,0.06);padding:0.8rem 1.2rem;border-bottom:1px solid rgba(248,113,113,0.15);display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;font-weight:600;color:var(--red)}
-        .secret-demo-body{padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem}
-        .secret-row{display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0.8rem;background:var(--bg3);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem}
-        .secret-label{font-size:0.7rem;font-weight:700;padding:2px 6px;border-radius:3px;background:rgba(248,113,113,0.15);color:var(--red);text-transform:uppercase;flex-shrink:0}
-        .secret-masked{color:var(--text3);letter-spacing:0.5px}
-        .secret-banner{display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1rem;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:6px;color:var(--green);font-size:0.8rem;font-weight:500;margin:0 1.2rem 1.2rem}
+        .secret-grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center}
         .secret-features{display:flex;flex-direction:column;gap:1.5rem}
         .secret-feat{display:flex;gap:1rem;align-items:flex-start}
         .secret-feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
@@ -192,26 +201,7 @@
         .priv-item h4{font-size:0.9rem;font-weight:600;margin-bottom:0.3rem;color:var(--green)}
         .priv-item p{color:var(--text2-strong);font-size:0.82rem;line-height:1.4}
 
-        /* ── Comparison ── */
-        .comp-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
-        .comp-table th,.comp-table td{padding:0.9rem 1.2rem;text-align:left;border-bottom:1px solid var(--border);font-size:0.88rem}
-        .comp-table th{background:var(--bg3);font-weight:600;color:var(--text2);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px}
-        .comp-table td{background:var(--bg2)}
-        .comp-table tr:last-child td{border-bottom:none}
-        .comp-table .comp-feat{color:var(--text);font-weight:500}
-        .comp-yes{color:var(--green);font-weight:600}
-        .comp-no{color:var(--text3)}
-        .comp-highlight{background:rgba(0,212,255,0.04) !important;border-left:2px solid var(--cyan)}
-
-        /* ── Browsers ── */
-        .browser-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.2rem;max-width:900px;margin:0 auto}
-        .browser-card{padding:1.5rem 1rem;border-radius:12px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,0.07),transparent 46%),linear-gradient(180deg,rgba(18,24,36,0.9),rgba(12,17,26,0.97));text-align:center;transition:all var(--ease)}
-        .browser-card:hover{border-color:rgba(0,212,255,0.25);transform:translateY(-3px)}
-        .browser-card-icon{margin-bottom:0.8rem}
-        .browser-card h4{font-size:0.95rem;font-weight:600;margin-bottom:0.4rem}
-        .browser-card-status{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:500;color:var(--green)}
-
-        /* ── CTA ── */
+/* ── CTA ── */
         #cta{padding:8rem 4rem;text-align:center}
         #cta h2{font-size:2.8rem;font-weight:800;margin-bottom:1rem;letter-spacing:-1px}
         #cta p{color:var(--text2-strong);font-size:1.15rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
@@ -231,11 +221,21 @@
         @keyframes slideL{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
         @keyframes slideR{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        @keyframes stepConnect{0%{transform:scaleX(0);opacity:0}50%{opacity:0.5}100%{transform:scaleX(1);opacity:1}}
+        @keyframes stepReveal{0%{opacity:0;transform:translateY(15px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes stepPulse{0%{box-shadow:0 0 0 0 rgba(0,212,255,0.3)}50%{box-shadow:0 0 0 8px rgba(0,212,255,0)}100%{box-shadow:0 0 0 0 rgba(0,212,255,0)}}
         .anim-l{animation:slideL .7s ease-out}
         .anim-r{animation:slideR .7s ease-out}
-        .reveal{opacity:0;transform:translateY(25px);transition:all 0.7s ease-out}
+        .reveal{transform:translateY(25px);transition:all 0.7s ease-out}
+        .js .reveal{opacity:0}
         .reveal.visible{opacity:1;transform:translateY(0)}
         .shimmer{background:linear-gradient(90deg,var(--cyan),var(--blue),var(--cyan));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
+        .steps.visible::before{animation:stepConnect 0.8s ease-out 0.3s forwards}
+        .steps.visible .step{animation:stepReveal 0.6s ease-out forwards}
+        .steps.visible .step:nth-child(1){animation-delay:0.15s}
+        .steps.visible .step:nth-child(2){animation-delay:0.3s}
+        .steps.visible .step:nth-child(3){animation-delay:0.45s}
+        .steps.visible .step-num{animation:stepPulse 2.5s ease-in-out 0.8s infinite}
 
         /* ── Floating Glow ── */
         .glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
@@ -260,9 +260,6 @@
             .footer-inner{grid-template-columns:1fr}
             .mockup{transform:none}
             .mockup:hover{transform:none}
-            .browser-grid{grid-template-columns:repeat(3,1fr)}
-            .comp-table{font-size:0.8rem}
-            .comp-table th,.comp-table td{padding:0.6rem 0.8rem}
         }
         @media(max-width:500px){
             .hero-actions{flex-direction:column}
@@ -283,15 +280,14 @@
             <a href="#features">Features</a>
             <a href="#security">Security</a>
             <a href="#types">Content Types</a>
-            <a href="#privacy">Privacy</a>
             <a href="/blog/">Blog</a>
             <a href="/" class="nav-cli">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
                 CLI Version
             </a>
-            <a href="#install" class="nav-cta">
+            <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer" class="nav-cta nav-cta-grad">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Add to Browser
+                Add to Chrome
             </a>
         </nav>
     </header>
@@ -300,9 +296,13 @@
         <!-- ════ Hero ════ -->
         <section id="hero">
             <div class="hero-left anim-l">
-                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
-                    <div class="hero-badge"><span class="pulse"></span> Free Browser Extension</div>
-                    <div class="hero-badge" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)">
+                <div class="hero-badges-row">
+                    <div class="hero-badge hero-badge-compact"><span class="pulse"></span> Free Browser Extension</div>
+                    <div class="cws-badge hero-badge-compact">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 1v6M12 17v6M23 12h-6M7 12H1M20.5 20.5l-4.2-4.2M7.7 7.7l-4.2-4.2M20.5 3.5l-4.2 4.2M7.7 16.3l-4.2 4.2"/></svg>
+                        Live on Chrome Web Store
+                    </div>
+                    <div class="hero-badge hero-badge-compact" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v4c0 3.5 2.5 6.2 6 7 3.5-.8 6-3.5 6-7V4L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
                         100% Local &middot; Zero Cloud
                     </div>
@@ -310,11 +310,19 @@
                 <h1>Every copy, <span>automatically saved</span> and classified</h1>
                 <p style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--cyan);margin-bottom:1rem;letter-spacing:0.3px;opacity:0.85">A browser extension that remembers everything you copy</p>
                 <p class="hero-sub">Install once and forget. Every time you copy text in your browser, ClipGate automatically saves it, classifies it into 13 content types, and if it's a secret &mdash; encrypts it. Prefer control? Turn off auto-capture and save only what you choose via right-click or keyboard shortcut. 100% local, nothing leaves your machine.</p>
-                <div class="hero-actions">
-                    <a href="#install" class="btn btn-p">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Add to Browser &mdash; Free
-                    </a>
+                <div style="display:flex;gap:1.5rem;flex-direction:column;margin-bottom:2rem">
+                    <div style="display:flex;gap:1rem;padding:1.2rem;border-radius:10px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15)">
+                        <div style="font-size:1.1rem;flex-shrink:0;margin-top:2px">🔐</div>
+                        <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--green)">AES-256 Encrypted</strong><br><span style="font-size:0.85em">Secrets encrypted at rest</span></div>
+                    </div>
+                    <div style="display:flex;gap:1rem;padding:1.2rem;border-radius:10px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15)">
+                        <div style="font-size:1.1rem;flex-shrink:0;margin-top:2px">⏱</div>
+                        <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--green)">Secrets Auto-Expire</strong><br><span style="font-size:0.85em">Configurable timer (default: 2 hours)</span></div>
+                    </div>
+                    <div style="display:flex;gap:1rem;padding:1.2rem;border-radius:10px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15)">
+                        <div style="font-size:1.1rem;flex-shrink:0;margin-top:2px">🌐</div>
+                        <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--green)">Zero Network Requests</strong><br><span style="font-size:0.85em">100% local. Everything stays on your machine.</span></div>
+                    </div>
                 </div>
                 <div class="hero-trust">
                     <span class="hero-trust-item">
@@ -429,7 +437,6 @@
 
         <!-- ════ Stats Strip ════ -->
         <div class="stats-strip">
-            <div class="ss-item"><div class="ss-num">AES-256</div><div class="ss-label">Secrets encrypted at rest</div></div>
             <div class="ss-item"><div class="ss-num">13</div><div class="ss-label">Content types detected</div></div>
             <div class="ss-item"><div class="ss-num">0</div><div class="ss-label">Network requests made</div></div>
             <div class="ss-item"><div class="ss-num">0</div><div class="ss-label">Bytes sent to cloud</div></div>
@@ -441,22 +448,74 @@
             <div class="sec-badge">How It Works</div>
             <h2 class="sec-title reveal">Three steps. Zero setup. Your way.</h2>
             <p class="sec-sub reveal">Install the extension and let it run automatically &mdash; or turn off auto-capture and save only what matters via right-click or <code style="color:var(--cyan);background:rgba(0,212,255,0.08);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.85em">Ctrl+Shift+S</code>.</p>
-            <div class="steps reveal">
-                <div class="step">
-                    <div class="step-num" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.3);color:var(--cyan)">1</div>
-                    <h3>You Copy</h3>
-                    <p>Copy anything on any webpage. In auto mode, it's saved instantly. In selective mode, right-click &rarr; <strong>Save to ClipGate</strong> or press <code style="color:var(--cyan);background:rgba(0,212,255,0.08);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.85em">Ctrl+Shift+S</code>.</p>
+            <div class="reveal" style="margin-top:2rem">
+              <style>
+                .ext3-pipeline{position:relative;max-width:1180px;margin:0 auto;padding:2rem 1.75rem 2.25rem;border-radius:18px;border:1px solid var(--border);background:radial-gradient(circle,rgba(255,255,255,0.045) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(135deg,rgba(0,212,255,0.025) 0%,rgba(168,85,247,0.02) 50%,rgba(52,211,153,0.025) 100%);overflow:hidden}
+                .ext3-stages-row{display:grid;grid-template-columns:1fr 56px 1fr 56px 1fr;align-items:stretch;gap:0;position:relative}
+                .ext3-stage{position:relative;display:flex;flex-direction:column;text-align:center;padding:1.6rem 1.3rem 1.5rem;border-radius:16px;border:1.5px solid;background:linear-gradient(165deg,var(--ext3-tint-strong) 0%,var(--ext3-tint-soft) 100%);transition:transform 0.35s ease,border-color 0.35s ease,box-shadow 0.35s ease,background 0.35s ease;overflow:hidden}
+                .ext3-stage::after{content:"";position:absolute;inset:0;border-radius:16px;background:radial-gradient(circle at 50% 0%,var(--ext3-glow) 0%,transparent 65%);opacity:0;transition:opacity 0.35s ease;pointer-events:none}
+                .ext3-stage:hover{transform:translateY(-5px);border-color:var(--ext3-color);box-shadow:0 0 0 1px var(--ext3-glow),0 22px 55px rgba(0,0,0,0.35),0 0 40px var(--ext3-glow)}
+                .ext3-stage:hover::after{opacity:1}
+                .ext3-stage > *{position:relative;z-index:1}
+                .ext3-stage--cyan{--ext3-color:#00d4ff;--ext3-glow:rgba(0,212,255,0.32);--ext3-tint-strong:rgba(0,212,255,0.14);--ext3-tint-soft:rgba(0,212,255,0.02);border-color:rgba(0,212,255,0.55)}
+                .ext3-stage--purple{--ext3-color:#a855f7;--ext3-glow:rgba(168,85,247,0.32);--ext3-tint-strong:rgba(168,85,247,0.14);--ext3-tint-soft:rgba(168,85,247,0.02);border-color:rgba(168,85,247,0.55)}
+                .ext3-stage--green{--ext3-color:#34d399;--ext3-glow:rgba(52,211,153,0.32);--ext3-tint-strong:rgba(52,211,153,0.14);--ext3-tint-soft:rgba(52,211,153,0.02);border-color:rgba(52,211,153,0.55)}
+                .ext3-stage-icon{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin:0 auto 0.9rem;background:rgba(255,255,255,0.04);border:1.5px solid var(--ext3-color);box-shadow:0 0 18px var(--ext3-glow),inset 0 1px 0 rgba(255,255,255,0.06)}
+                .ext3-stage-title{font-family:'JetBrains Mono',monospace;font-size:0.95rem;font-weight:700;letter-spacing:0.4px;color:#e8eaf0;margin-bottom:0.7rem}
+                .ext3-stage-title b{color:var(--ext3-color);font-weight:700;margin-right:0.35rem}
+                .ext3-stage-text{color:var(--text2-strong);font-size:0.88rem;line-height:1.55;margin:0 0 0.95rem;max-width:300px;margin-left:auto;margin-right:auto}
+                .ext3-stage-meta{margin-top:auto;padding-top:0.85rem;border-top:1px dashed rgba(255,255,255,0.08);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--ext3-color);letter-spacing:0.3px;text-transform:uppercase}
+                .ext3-conn{position:relative;align-self:center;height:2px;width:100%;background-image:linear-gradient(90deg,rgba(255,255,255,0.22) 50%,transparent 50%);background-size:10px 2px;background-repeat:repeat-x;animation:ext3-conn-flow 1.1s linear infinite}
+                .ext3-conn::before{content:"";position:absolute;top:50%;left:0;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 10px currentColor}
+                .ext3-conn--a{color:#00d4ff}
+                .ext3-conn--a::before{background:#00d4ff;animation:ext3-packet-a 2.4s ease-in-out infinite}
+                .ext3-conn--b{color:#a855f7}
+                .ext3-conn--b::before{background:#a855f7;animation:ext3-packet-b 2.4s ease-in-out infinite;animation-delay:1.2s}
+                @keyframes ext3-conn-flow{0%{background-position:0 0}100%{background-position:-20px 0}}
+                @keyframes ext3-packet-a{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+                @keyframes ext3-packet-b{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+                .ext3-flow-caption{text-align:center;color:var(--text2);font-size:0.82rem;margin-top:1.5rem;font-family:'JetBrains Mono',monospace;letter-spacing:0.4px}
+                .ext3-flow-caption span{color:var(--cyan)}
+                .ext3-flow-caption b{color:var(--purple);font-weight:400}
+                .ext3-flow-caption i{color:var(--green);font-style:normal}
+                @media (max-width:900px){
+                  .ext3-stages-row{grid-template-columns:1fr;gap:1.5rem}
+                  .ext3-conn{height:36px;width:2px;background-image:linear-gradient(180deg,rgba(255,255,255,0.22) 50%,transparent 50%);background-size:2px 10px;justify-self:center}
+                  .ext3-conn::before{top:0;left:50%;animation:none}
+                  .ext3-pipeline{padding:1.5rem 1rem}
+                }
+              </style>
+              <div class="ext3-pipeline">
+                <div class="ext3-stages-row">
+                  <article class="ext3-stage ext3-stage--cyan">
+                    <div class="ext3-stage-icon">
+                      <svg width="26" height="26" viewBox="0 0 36 28" fill="none" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="34" height="26" rx="3"/><path d="M 7 9 L 29 9 M 7 15 L 23 15 M 7 21 L 27 21"/></svg>
+                    </div>
+                    <h3 class="ext3-stage-title"><b>1</b>You Copy</h3>
+                    <p class="ext3-stage-text">Copy anything on any webpage. In auto mode it's saved instantly. In selective mode, right-click &rarr; <strong>Save to ClipGate</strong> or press <code style="color:var(--cyan);background:rgba(0,212,255,0.1);padding:0.08rem 0.36rem;border-radius:3px;font-size:0.85em;font-family:'JetBrains Mono',monospace">Ctrl+Shift+S</code>.</p>
+                    <div class="ext3-stage-meta">auto &middot; right-click &middot; shortcut</div>
+                  </article>
+                  <div class="ext3-conn ext3-conn--a" aria-hidden="true"></div>
+                  <article class="ext3-stage ext3-stage--purple">
+                    <div class="ext3-stage-icon">
+                      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#a855f7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="30" height="30" rx="3"/><line x1="1" y1="11" x2="31" y2="11"/><line x1="1" y1="21" x2="31" y2="21"/><line x1="11" y1="1" x2="11" y2="31"/><line x1="21" y1="1" x2="21" y2="31"/></svg>
+                    </div>
+                    <h3 class="ext3-stage-title"><b>2</b>We Classify</h3>
+                    <p class="ext3-stage-text">In under 5ms, ClipGate identifies what you copied &mdash; error trace, JSON, secret, command, URL &mdash; using pattern matching and entropy analysis.</p>
+                    <div class="ext3-stage-meta">13 types &middot; 60+ patterns &middot; &lt; 5ms</div>
+                  </article>
+                  <div class="ext3-conn ext3-conn--b" aria-hidden="true"></div>
+                  <article class="ext3-stage ext3-stage--green">
+                    <div class="ext3-stage-icon">
+                      <svg width="26" height="26" viewBox="0 0 28 34" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M 14 1 L 27 6 L 27 17 Q 27 27 14 33 Q 1 27 1 17 L 1 6 Z"/><path d="M 8 17 L 12 21 L 20 12"/></svg>
+                    </div>
+                    <h3 class="ext3-stage-title"><b>3</b>We Protect</h3>
+                    <p class="ext3-stage-text">Secrets are detected, encrypted with AES-256-GCM, masked in the UI, and auto-expired. Everything stays on your machine. Nothing leaves.</p>
+                    <div class="ext3-stage-meta">AES-256 &middot; masked &middot; 100% local</div>
+                  </article>
                 </div>
-                <div class="step">
-                    <div class="step-num" style="background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.3);color:var(--purple)">2</div>
-                    <h3>We Classify</h3>
-                    <p>In under 5ms, ClipGate identifies what you copied &mdash; error trace, JSON, secret, command, URL &mdash; using pattern matching and entropy analysis.</p>
-                </div>
-                <div class="step">
-                    <div class="step-num" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.3);color:var(--green)">3</div>
-                    <h3>We Protect</h3>
-                    <p>Secrets are detected, encrypted with AES-256-GCM, masked in the UI, and auto-expired. Everything stays on your machine. Nothing leaves.</p>
-                </div>
+                <p class="ext3-flow-caption"><span>capture</span> &rarr; <b>classify</b> &rarr; <i>protect</i> &middot; runs entirely in your browser</p>
+              </div>
             </div>
         </section>
 
@@ -517,17 +576,12 @@
             <div class="type-grid reveal">
                 <div class="type-pill" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.25);color:var(--red)"><span class="dot" style="background:var(--red)"></span>secret</div>
                 <div class="type-pill" style="background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.25);color:var(--red)"><span class="dot" style="background:var(--red)"></span>error</div>
-                <div class="type-pill" style="background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.25);color:var(--purple)"><span class="dot" style="background:var(--purple)"></span>sha</div>
-                <div class="type-pill" style="background:rgba(251,146,60,0.08);border-color:rgba(251,146,60,0.25);color:var(--orange)"><span class="dot" style="background:var(--orange)"></span>diff</div>
-                <div class="type-pill" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)"><span class="dot" style="background:var(--blue)"></span>path</div>
                 <div class="type-pill" style="background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:var(--gold)"><span class="dot" style="background:var(--gold)"></span>json</div>
                 <div class="type-pill" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.25);color:var(--cyan)"><span class="dot" style="background:var(--cyan)"></span>url</div>
-                <div class="type-pill" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)"><span class="dot" style="background:var(--blue)"></span>sql</div>
-                <div class="type-pill" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span class="dot" style="background:var(--green)"></span>ip</div>
-                <div class="type-pill" style="background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:var(--gold)"><span class="dot" style="background:var(--gold)"></span>env</div>
-                <div class="type-pill" style="background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.25);color:var(--cyan)"><span class="dot" style="background:var(--cyan)"></span>docker</div>
                 <div class="type-pill" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span class="dot" style="background:var(--green)"></span>command</div>
-                <div class="type-pill" style="background:rgba(139,148,158,0.08);border-color:rgba(139,148,158,0.25);color:var(--text2)"><span class="dot" style="background:var(--text2)"></span>text</div>
+                <div class="type-pill" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)"><span class="dot" style="background:var(--blue)"></span>path</div>
+                <div class="type-pill" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span class="dot" style="background:var(--green)"></span>ip</div>
+                <a href="/docs" class="type-pill" style="background:transparent;border-color:rgba(139,148,158,0.25);color:var(--text2);opacity:0.8">+6 more types →</a>
             </div>
             <p class="reveal" style="color:var(--text2-strong);font-size:0.95rem;max-width:550px;margin:0 auto">Every time you copy in your browser, ClipGate tags it automatically. Secrets get masked and encrypted. Everything else is instantly searchable and filterable from the extension popup.</p>
         </section>
@@ -538,35 +592,7 @@
             <div class="sec-badge">Secret Protection</div>
             <h2 class="sec-title reveal">Your API keys deserve better<br>than plaintext storage.</h2>
             <p class="sec-sub reveal">Most browser clipboard tools store everything in plain text. ClipGate encrypts secrets, masks them in the UI, and auto-deletes them. Because a clipboard extension that leaks your credentials is worse than no extension at all.</p>
-            <div class="secret-grid reveal">
-                <div class="secret-demo">
-                    <div class="secret-demo-header">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                        Detected Secrets
-                    </div>
-                    <div class="secret-demo-body">
-                        <div class="secret-row">
-                            <span class="secret-label">Stripe Key</span>
-                            <span class="secret-masked">sk_live_&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;9xKf</span>
-                        </div>
-                        <div class="secret-row">
-                            <span class="secret-label">GitHub PAT</span>
-                            <span class="secret-masked">github_pat_&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;nR7q</span>
-                        </div>
-                        <div class="secret-row">
-                            <span class="secret-label">AWS Key</span>
-                            <span class="secret-masked">AKIA&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;X4BN</span>
-                        </div>
-                        <div class="secret-row">
-                            <span class="secret-label">OpenAI Key</span>
-                            <span class="secret-masked">sk-&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;m8Jw</span>
-                        </div>
-                    </div>
-                    <div class="secret-banner">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 4v4c0 3.5 2.5 6.2 6 7 3.5-.8 6-3.5 6-7V4L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 8l2 2 3-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Encrypted at rest &middot; Auto-expires &middot; Never leaves your machine
-                    </div>
-                </div>
+            <div class="secret-grid reveal" style="grid-template-columns:1fr">
                 <div class="secret-features">
                     <div class="secret-feat">
                         <div class="secret-feat-icon" style="background:rgba(248,113,113,0.08)">
@@ -644,147 +670,71 @@
             </div>
         </section>
 
-        <!-- ════ Comparison ════ -->
-        <section class="sec" id="compare">
+<!-- ════ Why ClipGate ════ -->
+        <section class="sec" id="why">
             <div class="sec-badge">Why ClipGate</div>
             <h2 class="sec-title reveal">Built different.</h2>
-            <p class="sec-sub reveal">Most browser clipboard extensions store flat text sorted by time. ClipGate classifies, encrypts, and protects.</p>
-            <div class="reveal" style="overflow-x:auto">
-                <table class="comp-table">
-                    <thead>
-                        <tr>
-                            <th class="comp-feat">Feature</th>
-                            <th>Generic Clipboard Ext</th>
-                            <th class="comp-highlight">ClipGate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="comp-feat">Content classification</td>
-                            <td class="comp-no">No &mdash; flat text list</td>
-                            <td class="comp-highlight comp-yes">13 types, auto-detected</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Secret detection</td>
-                            <td class="comp-no">No &mdash; secrets shown in plain text</td>
-                            <td class="comp-highlight comp-yes">18 patterns + entropy analysis</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Encryption at rest</td>
-                            <td class="comp-no">No &mdash; plaintext in storage</td>
-                            <td class="comp-highlight comp-yes">AES-256-GCM for all secrets</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Secret auto-expiry</td>
-                            <td class="comp-no">No &mdash; secrets persist forever</td>
-                            <td class="comp-highlight comp-yes">Configurable TTL, auto-purge</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Smart masking</td>
-                            <td class="comp-no">No &mdash; full secret visible</td>
-                            <td class="comp-highlight comp-yes">Prefix + masked + last 4</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Selective capture</td>
-                            <td class="comp-no">No &mdash; always captures everything</td>
-                            <td class="comp-highlight comp-yes">Auto or manual &mdash; your choice</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Filter by type</td>
-                            <td class="comp-no">No &mdash; search text only</td>
-                            <td class="comp-highlight comp-yes">Type chips with counts</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Network activity</td>
-                            <td class="comp-no">Often syncs to cloud</td>
-                            <td class="comp-highlight comp-yes">Zero. Verified zero.</td>
-                        </tr>
-                        <tr>
-                            <td class="comp-feat">Free to use</td>
-                            <td class="comp-no">Often paid</td>
-                            <td class="comp-highlight comp-yes">100% free &mdash; no hidden costs</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="ext-why-grid reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem">
+                <div style="padding:2rem;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease);cursor:default">
+                    <div style="font-size:1.8rem;margin-bottom:1rem">🤖</div>
+                    <h4 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem">Smart Classification</h4>
+                    <div style="font-size:0.9rem;color:var(--text2-strong);margin-bottom:1rem"><strong style="color:var(--text)">The Problem:</strong> Other tools store everything as flat text.</div>
+                    <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--text)">Our Approach:</strong> 13 types auto-detected (errors, JSON, URLs, secrets, commands, paths, IPs). Instantly tagged and filterable.</div>
+                </div>
+                <div style="padding:2rem;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease);cursor:default">
+                    <div style="font-size:1.8rem;margin-bottom:1rem">🔐</div>
+                    <h4 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem">Secrets Protected</h4>
+                    <div style="font-size:0.9rem;color:var(--text2-strong);margin-bottom:1rem"><strong style="color:var(--text)">The Problem:</strong> API keys stay in plain text. One breach exposes everything.</div>
+                    <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--text)">Our Approach:</strong> Detected secrets are AES-256 encrypted, masked in UI, and auto-expire. Encrypted key stored separately.</div>
+                </div>
+                <div style="padding:2rem;border-radius:12px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,0.06),transparent 50%),linear-gradient(180deg,rgba(18,24,36,0.92),rgba(12,17,26,0.97));transition:all var(--ease);cursor:default">
+                    <div style="font-size:1.8rem;margin-bottom:1rem">🛡</div>
+                    <h4 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem">Privacy by Design</h4>
+                    <div style="font-size:0.9rem;color:var(--text2-strong);margin-bottom:1rem"><strong style="color:var(--text)">The Problem:</strong> Most clipboard tools sync to cloud or track usage.</div>
+                    <div style="font-size:0.9rem;color:var(--text2-strong)"><strong style="color:var(--text)">Our Approach:</strong> Zero network requests, zero cloud, zero analytics. Everything stays on your machine. We can't see you.</div>
+                </div>
+            </div>
+            <div style="margin-top:3rem;padding:1.5rem;border-radius:10px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.15);text-align:center;color:var(--text2-strong);font-size:0.9rem" class="reveal">
+                <strong style="color:var(--green)">Built on Manifest V3</strong> &middot; <strong>One install</strong>, works on Chrome, Edge, Brave, Opera, Arc &middot; <strong>Firefox coming soon</strong>
             </div>
         </section>
 
-        <!-- ════ Browser Support ════ -->
-        <section class="sec" id="browsers" style="text-align:center;padding-top:3rem;padding-bottom:1.5rem">
-            <div class="sec-badge">Supported Browsers</div>
-            <h2 class="sec-title reveal" style="font-size:2rem;margin-bottom:0.5rem">Install once. Works everywhere.</h2>
-            <p class="sec-sub reveal" style="margin:0 auto 2.5rem;max-width:480px;text-align:center">Built on Manifest V3 &mdash; the standard extension platform. One install works across all Chromium-based browsers. Same features, same privacy, same experience.</p>
-            <div class="browser-grid reveal">
-                <div class="browser-card">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--cyan)" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="var(--cyan)" opacity="0.2" stroke="var(--cyan)" stroke-width="1.2"/><path d="M12 2a10 10 0 0110 10h-10" stroke="var(--cyan)" stroke-width="1.5" opacity="0.5"/></svg>
-                    </div>
-                    <h4>Chrome</h4>
-                    <span class="browser-card-status">
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="var(--green)" opacity="0.2"/><circle cx="8" cy="8" r="3" fill="var(--green)"/></svg>
-                        Supported
-                    </span>
+        <!-- ════ FAQ ════ -->
+        <section class="sec" id="faq" style="max-width:900px">
+            <div class="sec-badge">Questions?</div>
+            <h2 class="sec-title reveal">Common questions about ClipGate</h2>
+            <div class="ext-faq-grid reveal" style="display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:2.5rem">
+                <div style="padding:1.5rem;border-radius:10px;border:1px solid var(--border);background:rgba(22,27,34,0.4)">
+                    <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:0.6rem;color:var(--cyan)">Does it work offline?</h4>
+                    <p style="font-size:0.85rem;color:var(--text2-strong);line-height:1.5">Yes. ClipGate works 100% offline. Everything happens in your browser. No internet connection needed, no data sent anywhere.</p>
                 </div>
-                <div class="browser-card">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 019-9 9 9 0 019 9 9 9 0 01-9 9 9 9 0 01-9-9z" stroke="var(--blue)" stroke-width="1.5"/><path d="M3 12h18" stroke="var(--blue)" stroke-width="1.2" opacity="0.4"/><path d="M12 3c-2 3-2 6 0 9s2 6 0 9" stroke="var(--blue)" stroke-width="1.2" opacity="0.5"/></svg>
-                    </div>
-                    <h4>Edge</h4>
-                    <span class="browser-card-status">
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="var(--green)" opacity="0.2"/><circle cx="8" cy="8" r="3" fill="var(--green)"/></svg>
-                        Supported
-                    </span>
+                <div style="padding:1.5rem;border-radius:10px;border:1px solid var(--border);background:rgba(22,27,34,0.4)">
+                    <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:0.6rem;color:var(--cyan)">What if I uninstall it?</h4>
+                    <p style="font-size:0.85rem;color:var(--text2-strong);line-height:1.5">Your clips stay in your browser profile's storage. Uninstalling the extension removes it from your browser but doesn't touch stored data. Reinstall anytime to recover.</p>
                 </div>
-                <div class="browser-card">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="var(--orange)" stroke-width="1.5"/></svg>
-                    </div>
-                    <h4>Brave</h4>
-                    <span class="browser-card-status">
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="var(--green)" opacity="0.2"/><circle cx="8" cy="8" r="3" fill="var(--green)"/></svg>
-                        Supported
-                    </span>
+                <div style="padding:1.5rem;border-radius:10px;border:1px solid var(--border);background:rgba(22,27,34,0.4)">
+                    <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:0.6rem;color:var(--cyan)">Can anyone see my clips?</h4>
+                    <p style="font-size:0.85rem;color:var(--text2-strong);line-height:1.5">No. Clips are stored locally in your browser. Secrets are AES-256 encrypted. No cloud sync, no accounts, no third parties have access.</p>
                 </div>
-                <div class="browser-card">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--red)" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="var(--red)" stroke-width="1.2"/></svg>
-                    </div>
-                    <h4>Opera</h4>
-                    <span class="browser-card-status">
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="var(--green)" opacity="0.2"/><circle cx="8" cy="8" r="3" fill="var(--green)"/></svg>
-                        Supported
-                    </span>
-                </div>
-                <div class="browser-card">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--purple)" stroke-width="1.5"/><path d="M7 12h10" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    </div>
-                    <h4>Arc</h4>
-                    <span class="browser-card-status">
-                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="var(--green)" opacity="0.2"/><circle cx="8" cy="8" r="3" fill="var(--green)"/></svg>
-                        Supported
-                    </span>
-                </div>
-                <div class="browser-card" style="opacity:0.45">
-                    <div class="browser-card-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--text3)" stroke-width="1.5"/><path d="M8 12a4 4 0 018 0" stroke="var(--text3)" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="2" stroke="var(--text3)" stroke-width="1.5"/></svg>
-                    </div>
-                    <h4>Firefox</h4>
-                    <span class="browser-card-status" style="color:var(--text3)">
-                        Coming soon
-                    </span>
+                <div style="padding:1.5rem;border-radius:10px;border:1px solid var(--border);background:rgba(22,27,34,0.4)">
+                    <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:0.6rem;color:var(--cyan)">How much storage does it use?</h4>
+                    <p style="font-size:0.85rem;color:var(--text2-strong);line-height:1.5">Typically 2-10MB depending on history size. You can clear old clips anytime. Secrets auto-expire, freeing space. The extension itself is ~50KB.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ════ CTA ════ -->
+<!-- ════ CTA ════ -->
         <section id="install" style="padding:3rem 4rem 8rem;text-align:center">
+            <div class="reveal" style="display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.6rem 1.2rem;border-radius:8px;margin-bottom:2rem;font-size:0.85rem;color:var(--cyan);font-weight:500">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L15 10H23L17 15L19 23L12 18L5 23L7 15L1 10H9L12 2Z"/></svg>
+                Launched April 2026 on Chrome Web Store
+            </div>
             <h2 style="font-size:2.8rem;font-weight:800;margin-bottom:1rem;letter-spacing:-1px" class="reveal">Stop losing what you copy.</h2>
             <p style="color:var(--text2-strong);font-size:1.15rem;margin-bottom:1.5rem;max-width:560px;margin-left:auto;margin-right:auto" class="reveal">Add the browser extension once. Let it auto-capture everything, or save only what you choose. Secrets are encrypted and auto-expired. Nothing ever leaves your machine.</p>
             <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem" class="reveal">
-                <a href="#" class="btn btn-p" style="font-size:1.05rem;padding:1rem 2.5rem">
+                <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer" class="btn btn-p" style="font-size:1.05rem;padding:1rem 2.5rem">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Add to Browser &mdash; Free
+                    Add to Chrome &mdash; Free
                 </a>
             </div>
             <div class="reveal" style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;font-size:0.85rem;color:var(--text3)">
@@ -814,10 +764,11 @@
             <div class="footer-section">
                 <h4>Resources</h4>
                 <div class="footer-links">
-                    <a href="/ext/privacy">Privacy Policy</a>
-                    <a href="/ext/contact">Contact & Support</a>
+                    <a href="/ext/privacy/">Privacy</a>
+                    <a href="/ext/contact/">Contact &amp; Support</a>
                     <a href="/blog/">Blog</a>
                     <a href="/support/">Site Support</a>
+                    <a href="/license/">License</a>
                 </div>
             </div>
             <div class="footer-section">
@@ -826,7 +777,8 @@
                     <a href="/">ClipGate CLI</a>
                     <a href="/docs/">CLI Docs</a>
                     <a href="/releases/">Releases</a>
-                    <a href="/privacy/">Site Privacy</a>
+                    <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer">Chrome Web Store</a>
+                    <a href="/privacy/">CLI Privacy</a>
                 </div>
             </div>
         </div>
@@ -853,10 +805,35 @@
         }
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
-                e.preventDefault();
-                smoothNav(a.getAttribute('href'));
+                if (a.target !== '_blank') {
+                    e.preventDefault();
+                    smoothNav(a.getAttribute('href'));
+                }
             });
         });
+
+        // ── Parallax Glow Effect ──
+        const glowElements = document.querySelectorAll('.glow');
+        if (glowElements.length > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            window.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                glowElements.forEach(glow => {
+                    const offsetX = (x - 0.5) * 40;
+                    const offsetY = (y - 0.5) * 40;
+                    glow.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+                });
+            });
+        }
+
+        // ── Respect prefers-reduced-motion ──
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--ease', '0.1s linear');
+            document.querySelectorAll('.reveal, .feat, .step, .step-num').forEach(el => {
+                el.style.animation = 'none';
+                el.style.transition = 'none';
+            });
+        }
 
     </script>
 </body>

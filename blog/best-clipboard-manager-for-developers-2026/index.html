@@ -135,13 +135,13 @@
     section p:first-of-type{margin-top:0}
     .lede{font-size:1.06rem;color:var(--text)}
     .pain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:1rem}
-    .pain-card{padding:1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .pain-card{padding:1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
     .pain-card h3{font-size:.95rem;margin-bottom:.35rem}
     .pain-card p{font-size:.85rem;color:var(--text2-strong);margin:0}
     .callout{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05);margin-top:1rem}
     .callout p{margin:0;color:var(--text)}
     .list{margin-top:1rem;display:grid;gap:.75rem}
-    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
     .list-item h3{font-size:1rem;margin-bottom:.3rem}
     .list-item p{margin:0;color:var(--text2-strong)}
     .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:1rem}
@@ -152,12 +152,12 @@
     .quote{padding:1rem 1.1rem;border-radius:16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);margin-top:1rem}
     .quote p{margin:0;color:var(--text)}
     .workflow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-    .workflow-card{padding:1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .workflow-card{padding:1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
     .workflow-card h3{font-size:1rem;margin-bottom:.35rem}
     .workflow-card p{font-size:.9rem;color:var(--text2-strong);margin-bottom:.8rem}
     .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.75;white-space:pre-wrap;color:var(--green)}
     .install-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
-    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.06),transparent 48%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
     .install-card h3{font-size:1rem;margin-bottom:.35rem}
     .install-card p{font-size:.88rem;color:var(--text2-strong);margin-bottom:.75rem}
     .cta-band{padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -167,6 +167,25 @@
     .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.18rem;border-radius:10px;font-weight:700;border:1px solid transparent}
     .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
     .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .blog-cp-wrapper{position:relative}
+    .blog-cp-btn{position:absolute;top:.65rem;right:.75rem;opacity:0;transition:opacity .2s ease;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.4rem .7rem;border-radius:8px;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+    .blog-cp-wrapper:hover .blog-cp-btn{opacity:1}
+    .blog-cp-btn:hover{background:rgba(0,212,255,.2);border-color:rgba(0,212,255,.5)}
+    .blog-share-row{display:flex;gap:.6rem;margin-top:1.2rem}
+    .blog-share-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s ease;text-decoration:none}
+    .blog-share-btn:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);box-shadow:0 4px 12px rgba(0,212,255,.1)}
+    .blog-related-section{background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid rgba(0,212,255,.12);border-radius:20px;padding:1.5rem;margin:2rem 0}
+    .blog-related-section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:1.3rem}
+    .blog-related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .blog-related-card{padding:1.2rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,255,.12);display:flex;flex-direction:column;gap:.8rem}
+    .blog-related-card h3{font-size:1rem;line-height:1.22;margin:0;color:var(--text)}
+    .blog-related-card a{color:var(--cyan);font-weight:700}
+    .blog-related-card p{font-size:.9rem;color:var(--text2-strong);margin:0}
+    .blog-related-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--gold);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;width:fit-content}
+    .blog-related-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--text3)}
+    @media(max-width:768px){
+      .blog-related-grid{grid-template-columns:1fr}
+    }
     @media(max-width:980px){
       .hero-shell,.layout,.hero-summary,.pain-grid,.workflow,.install-grid{grid-template-columns:1fr}
       h1{font-size:2.45rem}
@@ -198,6 +217,11 @@
             <span class="topic">Secrets</span>
             <span class="topic">Terminal</span>
             <span class="topic">AI context</span>
+          </div>
+          <div class="blog-share-row">
+            <a class="blog-share-btn" href="https://twitter.com/intent/tweet?url=https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/&text=Best%20Clipboard%20Manager%20for%20Developers%20in%202026:%20Local-First,%20Terminal-Friendly,%20and%20AI-Ready%20via%20@ClipGate" target="_blank" rel="noopener noreferrer" title="Share on Twitter" aria-label="Share on Twitter">𝕏</a>
+            <a class="blog-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">in</a>
+            <button class="blog-share-btn" type="button" title="Copy link" aria-label="Copy article link" id="blogShareCopy">🔗</button>
           </div>
         </article>
         <div class="panel hero-art">
@@ -350,14 +374,14 @@
             <div class="workflow-card">
               <h3>Terminal-friendly</h3>
               <p>The best tools reduce friction at the shell. You should be able to capture, search, inspect, and retrieve without reaching for a mouse-heavy desktop UI every time.</p>
-              <div class="code">echo "TypeError: x is undefined" | cg copy
+              <div class="blog-cp-wrapper"><div class="code">echo "TypeError: x is undefined" | cg copy
 cg list
-cg paste -t error</div>
+cg paste -t error</div></div>
             </div>
             <div class="workflow-card">
               <h3>AI-ready</h3>
               <p>AI-ready should not mean sending the whole clipboard to a model. It should mean packaging the right commands, errors, and notes together when you choose to ask for help.</p>
-              <div class="code">cg pack -t error -n 5 | claude "fix these issues"</div>
+              <div class="blog-cp-wrapper"><div class="code">cg pack -t error -n 5 | claude "fix these issues"</div></div>
             </div>
           </div>
           <p>That distinction matters. A good tool helps you decide what context to forward, and helps you avoid forwarding the wrong context by accident.</p>
@@ -397,17 +421,17 @@ cg paste -t error</div>
             <div class="install-card">
               <h3>Site installer</h3>
               <p>Fastest path for macOS and Linux if you want the official binary with minimal setup.</p>
-              <div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div>
+              <div class="blog-cp-wrapper"><div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div></div>
             </div>
             <div class="install-card">
               <h3>PyPI</h3>
               <p>Useful when Python is already part of your environment, including Windows workflows.</p>
-              <div class="code">pip install clipgate</div>
+              <div class="blog-cp-wrapper"><div class="code">pip install clipgate</div></div>
             </div>
             <div class="install-card">
               <h3>Homebrew</h3>
               <p>Best fit for terminal-native installs if Homebrew already manages the rest of your toolchain.</p>
-              <div class="code">brew install clipgate/tap/cg</div>
+              <div class="blog-cp-wrapper"><div class="code">brew install clipgate/tap/cg</div></div>
             </div>
           </div>
         </section>
@@ -420,6 +444,28 @@ cg paste -t error</div>
           <div class="cta-row">
             <a class="btn primary" href="/">Install Free</a>
             <a class="btn secondary" href="/docs/">Read Docs</a>
+          </div>
+        </section>
+
+        <section class="blog-related-section">
+          <h2>Read next</h2>
+          <div class="blog-related-grid">
+            <div class="blog-related-card">
+              <h3><a href="/blog/how-to-stop-losing-errors-commands-and-paths/">How to stop losing errors, commands, and paths</a></h3>
+              <p>A workflow-first post about reducing context loss in shell-heavy sessions and why the wrong clipboard habit quietly burns time every day.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Coming soon</span>
+                <span>~7 min read</span>
+              </div>
+            </div>
+            <div class="blog-related-card">
+              <h3><a href="/blog/clipboard-history-vs-typed-clipboard/">Clipboard history vs. typed clipboard</a></h3>
+              <p>A calmer comparison of flat recency lists versus typed, semantic retrieval when the clipboard carries errors, secrets, and paths.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Coming soon</span>
+                <span>~7 min read</span>
+              </div>
+            </div>
           </div>
         </section>
       </main>
@@ -481,6 +527,41 @@ cg paste -t error</div>
       window.addEventListener('resize', updateActiveSection);
       window.addEventListener('hashchange', updateActiveSection);
     })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const codeBlocks = Array.from(document.querySelectorAll('.blog-cp-wrapper .code'));
+      codeBlocks.forEach((block) => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-cp-btn';
+        btn.textContent = 'Copy';
+        btn.type = 'button';
+        const wrapper = block.parentElement;
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const text = block.textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      });
+      const shareCopyBtn = document.getElementById('blogShareCopy');
+      if (shareCopyBtn) {
+        shareCopyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareCopyBtn.textContent = '✓';
+            setTimeout(() => { shareCopyBtn.textContent = '🔗'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>

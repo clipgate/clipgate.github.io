@@ -62,6 +62,49 @@
         strong{color:var(--text)}
         code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:0.15rem 0.4rem;border-radius:4px;font-size:0.88rem}
 
+        /* ── WOW FACTOR: Ext Privacy Badges ── */
+        @keyframes extpriv-wow-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(0, 212, 255, 0); }
+        }
+        .extpriv-wow-badge-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .extpriv-wow-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            color: var(--cyan);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            animation: extpriv-wow-glow 2.2s ease-in-out infinite;
+        }
+        .extpriv-wow-badge::before {
+            content: '✓';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 12px;
+            height: 12px;
+            font-size: 0.6rem;
+            font-weight: 800;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .extpriv-wow-badge { animation: none; }
+        }
+
         footer{text-align:center;padding:2rem;color:var(--text3);font-size:0.85rem;border-top:1px solid var(--border);position:relative;z-index:1}
     </style>
 </head>

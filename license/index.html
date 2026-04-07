@@ -55,6 +55,18 @@
     p,li{color:var(--text2-strong)}
     ul{padding-left:1.15rem}
     li{margin:.35rem 0}
+
+    /* ── WOW FACTOR: License Page Embossed Title ── */
+    @keyframes license-wow-emboss {
+      0%, 100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(255, 255, 255, 0.1); }
+      50% { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6), -1px -1px 2px rgba(255, 255, 255, 0.15); }
+    }
+    .hero h1 {
+      animation: license-wow-emboss 2.5s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero h1 { animation: none; }
+    }
   </style>
 </head>
 <body data-page="license" data-back-to-top="true" data-scroll-progress="true">
