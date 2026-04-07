@@ -7,6 +7,8 @@
     <title>Clip Gate — Official downloads, docs, and releases</title>
     <meta name="description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
     <meta name="keywords" content="clipboard manager, clipboard history, CLI tool, Rust, terminal, developer tools, clipboard classification, secret detection, encryption, local-first, privacy">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0a0e17">
     <link rel="canonical" href="https://clipgate.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://clipgate.github.io/">
@@ -14,11 +16,13 @@
     <meta property="og:description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
     <meta property="og:site_name" content="ClipGate">
     <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+    <meta property="og:image:alt" content="Clip Gate official downloads, docs, and releases">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Clip Gate — Official downloads, docs, and releases">
     <meta name="twitter:description" content="Clip Gate is a typed clipboard for AI-assisted developers. Install the free binary, read the docs, and grab release notes from the official site.">
     <meta name="twitter:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+    <meta name="twitter:url" content="https://clipgate.github.io/">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -220,9 +224,12 @@
 
         /* ── Principles ── */
         .prin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-        .prin-card{padding:2rem;border-radius:12px;border:1px solid var(--border);background:var(--card);transition:all var(--ease)}
+        .prin-card{padding:2rem;border-radius:12px;border:1px solid var(--border);background:var(--card);transition:all var(--ease);position:relative}
         .prin-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-3px)}
         .prin-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+        .prin-head{margin-bottom:0.5rem}
+        .plan-badge{display:inline-flex;align-items:center;padding:0.18rem 0.58rem;border-radius:999px;border:1px solid rgba(0,212,255,0.24);background:rgba(0,212,255,0.08);color:var(--cyan);font-size:0.68rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
+        .plan-badge.corner{position:absolute;top:1rem;right:1rem}
         .prin-card h4{font-size:1rem;font-weight:600;margin-bottom:0.5rem}
         .prin-card p{color:var(--text2);font-size:0.88rem;line-height:1.5}
 
@@ -308,7 +315,6 @@
             <a href="/docs/">Docs</a>
             <a href="/releases/">Release Notes</a>
             <a href="/support/">Support</a>
-            <a href="#pricing">Pricing</a>
             <a href="#install">Download</a>
             <a href="/ext" style="display:inline-flex;align-items:center;gap:0.4rem;color:var(--bg);background:linear-gradient(135deg,var(--cyan),#0099cc);padding:0.45rem 1rem;border-radius:6px;font-weight:600;font-size:0.82rem;transition:all 0.3s;white-space:nowrap" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,212,255,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
@@ -1126,7 +1132,7 @@
         <section class="sec" id="pricing">
             <div class="sec-badge">Pricing</div>
             <h2 class="sec-title reveal">Simple now, scalable later</h2>
-            <p class="sec-sub reveal">Start with the free binary. When pro lands, it will sit on top of the same official distribution flow.</p>
+            <p class="sec-sub reveal">Start with the free binary. Advanced capabilities can arrive later on top of the same official distribution flow.</p>
             <div class="prin-grid reveal" style="margin-top:0">
                 <div class="prin-card">
                     <span class="prin-icon" style="color:var(--green)">Free</span>
@@ -1134,9 +1140,12 @@
                     <p>Core clipboard capture, classification, search, packing, and local storage. Download from the official site and use it on your own machine.</p>
                 </div>
                 <div class="prin-card">
-                    <span class="prin-icon" style="color:var(--cyan)">Pro</span>
-                    <h4>Pro later</h4>
-                    <p>Advanced workflow automation, larger sync-aware surfaces, and premium integrations when you are ready to expand beyond the base binary.</p>
+                    <span class="plan-badge corner">Coming Soon</span>
+                    <span class="prin-icon" style="color:var(--cyan)">Advance</span>
+                    <div class="prin-head">
+                        <h4 style="margin-bottom:0">Advance</h4>
+                    </div>
+                    <p>Advanced workflow automation, larger sync-aware surfaces, and deeper integrations planned on top of the same base binary.</p>
                 </div>
                 <div class="prin-card">
                     <span class="prin-icon" style="color:var(--gold)">Docs</span>
