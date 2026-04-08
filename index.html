@@ -10,12 +10,15 @@
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#0a0e17">
     <link rel="canonical" href="https://clipgate.github.io/">
+    <link rel="alternate" type="text/plain" title="LLM Context" href="/llms.txt">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://clipgate.github.io/">
     <meta property="og:title" content="ClipGate — Terminal-native clipboard vault for developers">
     <meta property="og:description" content="ClipGate is a terminal-native clipboard vault for developers. Auto-classifies everything you copy and lets you retrieve by type instead of by order.">
     <meta property="og:site_name" content="ClipGate">
     <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="ClipGate — terminal-native clipboard vault for developers">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
@@ -42,12 +45,66 @@
         "@type": "Organization",
         "name": "ClipGate",
         "url": "https://clipgate.github.io/"
+      },
+      "downloadUrl": "https://pypi.org/project/clipgate/",
+      "softwareVersion": "0.1.4",
+      "sameAs": ["https://pypi.org/project/clipgate/", "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/",
+      "description": "Terminal-native, secret-aware clipboard vault. 100% local, encrypted, no cloud.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ClipGate",
+        "url": "https://clipgate.github.io/",
+        "sameAs": [
+          "https://pypi.org/project/clipgate/",
+          "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"
+        ]
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Install ClipGate",
+      "description": "How to install the ClipGate terminal-native clipboard vault on macOS, Linux, or Windows.",
+      "totalTime": "PT2M",
+      "supply": [],
+      "tool": [{"@type": "HowToTool", "name": "Terminal"}],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Install via PyPI",
+          "text": "Run pip install clipgate from your terminal.",
+          "url": "https://pypi.org/project/clipgate/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Install via the official installer",
+          "text": "Run curl -fsSL https://clipgate.github.io/install.sh | sh",
+          "url": "https://clipgate.github.io/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Install the browser extension (optional)",
+          "text": "Install the ClipGate companion extension from the Chrome Web Store.",
+          "url": "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"
+        }
+      ]
     }
     </script>
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="shared/site-scroll-ui.css">
     <script>document.documentElement.classList.add('js')</script>
@@ -865,6 +922,12 @@
                     <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Need help? Read the docs, check release notes, or contact support from the official site.</p>
                 </div>
 
+                <div style="margin-top:2rem;padding:1rem;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.1);border-radius:8px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+                    <span style="color:var(--text2-strong);font-size:0.9rem">Also available on:</span>
+                    <a href="https://pypi.org/project/clipgate/" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);font-size:0.9rem;font-weight:600;border-bottom:1px solid rgba(0,212,255,0.3)">PyPI</a>
+                    <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);font-size:0.9rem;font-weight:600;border-bottom:1px solid rgba(0,212,255,0.3)">Chrome Web Store</a>
+                </div>
+
                 <div style="margin-top:2rem">
                     <p style="color:var(--text2-strong);font-size:0.95rem;margin-bottom:1rem">Then try your first commands:</p>
                     <div class="term">
@@ -913,6 +976,30 @@
                     <p>Use the support page for install help, release questions, and product feedback.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- ════ Blog ════ -->
+        <section class="sec" id="blog">
+            <div class="sec-badge">Latest from the blog</div>
+            <h2 class="sec-title reveal">Latest from the blog</h2>
+            <div class="blog-grid reveal">
+                <a href="/blog/best-clipboard-manager-for-developers-2026/" class="blog-card">
+                    <h3>Best Clipboard Manager for Developers in 2026</h3>
+                    <p>How to evaluate local-first, terminal-friendly, secret-aware clipboard tools.</p>
+                </a>
+                <a href="/blog/accidentally-pasted-password-or-api-key/" class="blog-card">
+                    <h3>I accidentally pasted a password or API key — what to do next</h3>
+                    <p>A calm step-by-step recovery playbook and how to stop it forever.</p>
+                </a>
+            </div>
+            <style>
+                .blog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:1000px;margin:2.5rem auto 0}
+                .blog-card{display:block;padding:1.8rem;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all var(--ease);text-decoration:none}
+                .blog-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,212,255,0.15)}
+                .blog-card h3{font-size:1.15rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);line-height:1.4}
+                .blog-card p{margin:0;font-size:0.95rem;color:var(--text2-strong);line-height:1.55}
+                @media (max-width:768px){.blog-grid{grid-template-columns:1fr}}
+            </style>
         </section>
 
         <!-- ════ CTA ════ -->

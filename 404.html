@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page not found. Get back on track with ClipGate.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#0a0e17">
+    <title>404 - Page Not Found | ClipGate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e17;
+            color: #e6edf3;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #00d4ff;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #8b949e;
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 24px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #e6edf3;
+            transition: all 0.3s ease;
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .link-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(30, 41, 59, 1);
+            transform: translateY(-4px);
+        }
+
+        .link-card:hover::before {
+            opacity: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #00d4ff;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-desc {
+            font-size: 0.85rem;
+            color: #8b949e;
+            position: relative;
+            z-index: 1;
+            line-height: 1.4;
+        }
+
+        .external-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .ext-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 6px;
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .ext-link:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 32px;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .link-card {
+                min-height: 120px;
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <p class="subtitle">Page not found. Let's get you back on track.</p>
+
+        <div class="links-grid">
+            <a href="/" class="link-card">
+                <div class="link-title">Home</div>
+                <div class="link-desc">Back to the main page</div>
+            </a>
+            <a href="/blog/" class="link-card">
+                <div class="link-title">Blog</div>
+                <div class="link-desc">All articles and posts</div>
+            </a>
+            <a href="/blog/accidentally-pasted-password-or-api-key/" class="link-card">
+                <div class="link-title">Quick Guide</div>
+                <div class="link-desc">I accidentally pasted a password or API key — what to do next</div>
+            </a>
+            <a href="/blog/best-clipboard-manager-for-developers-2026/" class="link-card">
+                <div class="link-title">Best Tools</div>
+                <div class="link-desc">Best clipboard manager for developers in 2026</div>
+            </a>
+            <a href="/docs/" class="link-card">
+                <div class="link-title">Docs</div>
+                <div class="link-desc">Full documentation</div>
+            </a>
+        </div>
+
+        <div class="external-links">
+            <a href="https://pypi.org/project/clipgate/" class="ext-link" target="_blank" rel="noopener noreferrer">Install on PyPI</a>
+            <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" class="ext-link" target="_blank" rel="noopener noreferrer">Browser Extension</a>
+        </div>
+    </div>
+</body>
+</html>

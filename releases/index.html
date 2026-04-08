@@ -15,6 +15,8 @@
   <meta property="og:description" content="Official ClipGate release notes for CLI and Browser Extension with downloads for all platforms.">
   <meta property="og:site_name" content="ClipGate">
   <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="ClipGate releases for CLI and Browser Extension">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary">
@@ -32,9 +34,31 @@
     "isPartOf": "https://clipgate.github.io/"
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate CLI",
+    "description": "Terminal-native, secret-aware clipboard vault. 100% local, encrypted, no cloud.",
+    "url": "https://clipgate.github.io/releases/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "softwareVersion": "0.1.4",
+    "downloadUrl": "https://pypi.org/project/clipgate/",
+    "releaseNotes": "https://clipgate.github.io/releases/",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+    "sameAs": [
+      "https://pypi.org/project/clipgate/",
+      "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"
+    ],
+    "publisher": {"@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/"}
+  }
+  </script>
   <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared/site-chrome.css">
   <link rel="stylesheet" href="../shared/site-scroll-ui.css">
@@ -182,7 +206,7 @@
           <h2 style="font-size:1.6rem;margin-bottom:1rem">ClipGate CLI</h2>
           <p class="rel-hero-sub" style="font-size:1rem;margin-bottom:1.5rem">Typed clipboard manager for the terminal. Available for macOS, Linux, and Windows.</p>
           <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem">
-            <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">PyPI packages</span>
+            <a href="https://pypi.org/project/clipgate/" style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan);text-decoration:none" target="_blank" rel="noopener noreferrer">PyPI packages</a>
             <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Homebrew tap</span>
             <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Site-hosted binaries</span>
             <span style="padding:.35rem .68rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid var(--border);font-size:.78rem;color:var(--cyan)">Checksums</span>

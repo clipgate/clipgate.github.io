@@ -15,6 +15,8 @@
   <meta property="og:description" content="Official ClipGate CLI docs hub: install, first-run workflows, a comprehensive quick reference, configuration guidance, and architecture notes.">
   <meta property="og:site_name" content="ClipGate">
   <meta property="og:image" content="https://clipgate.github.io/assets/icons/icon-192.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="ClipGate docs and CLI quick reference">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary">
@@ -49,6 +51,8 @@
   <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared/site-chrome.css">
   <link rel="stylesheet" href="../shared/site-scroll-ui.css">
@@ -286,6 +290,22 @@
       h1{font-size:2.25rem}
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Install and use ClipGate",
+    "description": "Install ClipGate and run your first commands.",
+    "totalTime": "PT3M",
+    "tool": [{"@type": "HowToTool", "name": "Terminal"}],
+    "step": [
+      {"@type": "HowToStep", "name": "Install via PyPI", "text": "pip install clipgate", "url": "https://pypi.org/project/clipgate/"},
+      {"@type": "HowToStep", "name": "Install via official installer", "text": "curl -fsSL https://clipgate.github.io/install.sh | sh"},
+      {"@type": "HowToStep", "name": "Verify install", "text": "Run cg --version to confirm the install."},
+      {"@type": "HowToStep", "name": "Capture your first item", "text": "Run echo 'hello' | cg copy and then cg list."}
+    ]
+  }
+  </script>
 </head>
 <body data-page="docs" data-back-to-top="true" data-scroll-progress="true">
   <div id="cgSiteHeader"></div>
@@ -352,7 +372,7 @@
             </thead>
             <tbody>
               <tr><td>Quick install</td><td><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code></td><td>Fastest path for macOS and Linux.</td></tr>
-              <tr><td>PyPI</td><td><code>pip install clipgate</code></td><td>Works anywhere Python is available, including Windows.</td></tr>
+              <tr><td>PyPI</td><td><code>pip install clipgate</code></td><td>Works anywhere Python is available, including Windows. <a href="https://pypi.org/project/clipgate/" style="color:var(--cyan)">View on PyPI</a></td></tr>
               <tr><td>Homebrew</td><td><code>brew install clipgate/tap/cg</code></td><td>Official tap recipe; binaries still download from the public site.</td></tr>
               <tr><td>Manual download</td><td><code>/releases/vX.Y.Z/...</code></td><td>Use the Release Notes page for versioned binaries and checksums.</td></tr>
             </tbody>
