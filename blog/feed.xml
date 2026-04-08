@@ -10,8 +10,8 @@
     <description>Notes on local-first clipboard workflows, secret hygiene, terminal productivity, and the small ways context gets lost — and recovered — during a developer's day.</description>
     <language>en-us</language>
     <copyright>Copyright 2026 ClipGate</copyright>
-    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 +0000</lastBuildDate>
-    <pubDate>Tue, 07 Apr 2026 00:00:00 +0000</pubDate>
+    <lastBuildDate>Wed, 08 Apr 2026 19:27:43 +0000</lastBuildDate>
+    <pubDate>Wed, 08 Apr 2026 19:27:43 +0000</pubDate>
     <ttl>1440</ttl>
     <generator>ClipGate static site</generator>
     <image>
@@ -19,6 +19,34 @@
       <title>ClipGate Blog</title>
       <link>https://clipgate.github.io/blog/</link>
     </image>
+
+    <item>
+      <title>Your AI Coding Assistant Is Watching Your Clipboard: A 2026 Secret Hygiene Playbook</title>
+      <link>https://clipgate.github.io/blog/ai-coding-assistant-clipboard-secrets-2026/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/ai-coding-assistant-clipboard-secrets-2026/</guid>
+      <pubDate>Wed, 08 Apr 2026 19:27:43 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>security</category>
+      <category>ai</category>
+      <category>devops</category>
+      <category>productivity</category>
+      <description>AI coding assistants are the fastest-growing source of accidental secret exposure in 2026. Here's a developer-friendly playbook for keeping tokens out of Copilot, Cursor, and Claude Code — without slowing down.</description>
+      <content:encoded><![CDATA[<p>You pasted a failing `curl` into Copilot chat to ask why it returns 401. The paste included the `Authorization: Bearer eyJhb...` header. Your token is now in the Copilot request log, and — depending on your org's settings — in a model provider's cache too. You didn't "leak" it in the old sense. No commit, no push, no public repo. But it left your machine.</p><p><a href="https://clipgate.github.io/blog/ai-coding-assistant-clipboard-secrets-2026/">Read the full post →</a></p>]]></content:encoded>
+    </item>
+
+    <item>
+      <title>How to Stop Losing Errors, Commands, and Paths in Your Clipboard</title>
+      <link>https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/</guid>
+      <pubDate>Wed, 08 Apr 2026 19:27:31 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>workflow</category>
+      <category>productivity</category>
+      <category>terminal</category>
+      <category>devops</category>
+      <description>Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollback hunts.</description>
+      <content:encoded><![CDATA[<p>You copied a stack trace to paste into a bug report. Then a teammate pinged you, and you copied their Slack link to open it. Then you hit up-arrow, re-ran the failing command, and copied the *new* error because you wanted to diff it against the first. By the time you came back to the bug report tab, the original stack trace was gone — three clipboard overwrites deep.</p><p><a href="https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/">Read the full post →</a></p>]]></content:encoded>
+    </item>
 
     <item>
       <title>I Accidentally Pasted a Password or API Key — What to Do Next (and How to Stop It Forever)</title>
