@@ -1,0 +1,31 @@
+# launch automation lives in the Clip Gate Private repo under launch/.
+# defensive rule below: if scripts/launch/ ever reappears here by accident, stay ignored.
+scripts/launch/
+
+# defensive: never commit API keys, PATs, or .env files anywhere in the tree.
+# real keys live in $HOME (e.g. ~/.clipgate_devto_key), NOT in the repo.
+# these patterns exist so a stray copy into the repo is blocked automatically.
+.clipgate_devto_key
+.clipgate_hashnode_key
+*.clipgate_*_key
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# python scratch
+__pycache__/
+*.pyc
+.venv/
+venv/
