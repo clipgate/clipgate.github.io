@@ -5,6 +5,10 @@ tags: security, devops, productivity, webdev
 canonical_url: https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/
 cover_image: https://clipgate.github.io/assets/social-card.png
 published: false
+seo_title: "Pasted a Password or API Key by Accident? Recovery Playbook"
+seo_description: "Step-by-step playbook for the 60 seconds after you paste a secret in the wrong window: rotate, audit, and prevent it from happening again."
+hashnode_slug: accidentally-pasted-password-or-api-key
+enable_toc: true
 ---
 
 Take a breath. This happens to senior engineers, security people, and everyone in between. Below is the calm, step-by-step playbook for the next sixty seconds, the next hour, and the next time it almost happens.
