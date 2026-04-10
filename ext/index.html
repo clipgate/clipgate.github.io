@@ -137,8 +137,7 @@
         .ext-logo .c{color:var(--cyan)}
         .ext-icons{display:flex;gap:4px;align-items:center}
         .ext-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:10px}
-        .ext-toggle{width:32px;height:16px;border-radius:9px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.55);position:relative;display:inline-block;margin-right:2px;box-shadow:inset 0 0 6px rgba(0,212,255,0.25)}
-        .ext-toggle::after{content:'';position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px rgba(0,212,255,0.8),0 0 1px rgba(255,255,255,0.6) inset}
+        /* ext-toggle removed — replaced by ext-mode-pill (inline styled) */
         .ext-search{margin:6px 10px;background:#111827;border:1px solid #1e293b;border-radius:5px;padding:5px 10px 5px 26px;color:var(--text3);font-size:11px;position:relative}
         .ext-search::before{content:'';position:absolute;left:9px;top:50%;transform:translateY(-50%);width:10px;height:10px;border:1.3px solid var(--text3);border-radius:50%}
         .ext-chips{display:flex;gap:3px;padding:0 10px 6px;flex-wrap:wrap}
@@ -368,7 +367,11 @@
                         <div class="ext-header">
                             <div class="ext-logo"><span class="p">&gt;_</span> Clip<span class="c">Gate</span></div>
                             <div class="ext-icons">
-                                <span class="ext-toggle" title="Auto-capture: ON"></span>
+                                <span class="ext-mode-pill" title="Capture mode: Auto" style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border:1px solid rgba(0,212,255,0.4);border-radius:11px;background:rgba(0,212,255,0.08);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:600;letter-spacing:0.2px">
+                                    <span style="font-size:0.55rem">&#9679;</span>
+                                    Auto
+                                    <span style="font-size:0.55rem;opacity:0.7">&#9662;</span>
+                                </span>
                                 <span class="ext-icon" style="color:var(--gold)">
                                     <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="3" height="7" rx="0.5" fill="currentColor" opacity="0.6"/><rect x="5.5" y="5" width="3" height="10" rx="0.5" fill="currentColor" opacity="0.8"/><rect x="10" y="2" width="3" height="13" rx="0.5" fill="currentColor"/></svg>
                                 </span>
@@ -383,12 +386,20 @@
                         <div class="ext-search">Search clips...</div>
                         <div class="ext-chips">
                             <span class="ext-chip ext-chip-active">All</span>
-                            <span class="ext-chip" style="color:var(--red);border-color:rgba(248,113,113,0.3)">Error <span style="opacity:0.6">3</span></span>
+                            <span class="ext-chip" style="color:#e5e7eb;border-color:rgba(229,231,235,0.3)">Text <span style="opacity:0.6">2</span></span>
+                            <span class="ext-chip" style="color:#f472b6;border-color:rgba(244,114,182,0.3)">SQL <span style="opacity:0.6">1</span></span>
                             <span class="ext-chip" style="color:var(--gold);border-color:rgba(245,158,11,0.3)">JSON <span style="opacity:0.6">2</span></span>
-                            <span class="ext-chip" style="color:var(--green);border-color:rgba(52,211,153,0.3)">Command <span style="opacity:0.6">4</span></span>
-                            <span class="ext-chip" style="color:var(--cyan);border-color:rgba(0,212,255,0.3)">URL <span style="opacity:0.6">1</span></span>
+                            <span class="ext-chip" style="color:var(--red);border-color:rgba(248,113,113,0.3)">Error <span style="opacity:0.6">3</span></span>
+                            <span class="ext-chip" style="color:#ef4444;border-color:rgba(239,68,68,0.35)">Secret <span style="opacity:0.6">1</span></span>
+                            <span class="ext-chip" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">Docker <span style="opacity:0.6">1</span></span>
                         </div>
                         <div style="padding:0 6px">
+                            <div style="display:flex;align-items:center;gap:6px;padding:6px 2px 4px 2px;color:var(--text2);font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.6px;text-transform:uppercase;opacity:0.7">
+                                <span style="font-size:0.55rem">&#9662;</span>
+                                <span>Today</span>
+                                <span style="flex:1;height:1px;background:rgba(255,255,255,0.06);margin-left:4px"></span>
+                                <span style="background:rgba(255,255,255,0.06);padding:1px 7px;border-radius:9px;font-size:0.6rem">6</span>
+                            </div>
                             <div class="ext-clip">
                                 <span class="ext-badge" style="background:rgba(248,113,113,0.12);color:var(--red)">
                                     <svg width="8" height="8" viewBox="0 0 16 16" fill="none" style="vertical-align:-1px;margin-right:2px"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
