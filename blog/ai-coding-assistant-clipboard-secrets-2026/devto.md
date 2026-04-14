@@ -1,6 +1,6 @@
 ---
-title: "Your AI Coding Assistant Is Watching Your Clipboard: A 2026 Secret Hygiene Playbook"
-description: "AI coding assistants are the fastest-growing source of accidental secret exposure in 2026. Here's a developer-friendly playbook for keeping tokens out of Copilot, Cursor, and Claude Code — without slowing down."
+title: "Your AI Coding Assistant Is Watching Your Clipboard (2026)"
+description: "AI coding assistants are the fastest-growing source of accidental secret exposure in 2026. A developer playbook to keep tokens out of suggestions."
 tags: security, ai, devops, productivity
 canonical_url: https://clipgate.github.io/blog/ai-coding-assistant-clipboard-secrets-2026/
 cover_image: https://clipgate.github.io/assets/social-card.png
@@ -8,8 +8,8 @@ published: false
 category: Security
 category_class: secrets
 icon: "🛡️"
-seo_title: "AI Assistants & Secret Leaks: The 2026 Clipboard Hygiene Playbook"
-seo_description: "Copilot, Cursor, and Claude Code have become the #1 new vector for accidental secret exposure. Here's how to keep tokens out of prompts and completions."
+seo_title: "Your AI Coding Assistant Is Watching Your Clipboard (2026)"
+seo_description: "AI coding assistants are the fastest-growing source of accidental secret exposure in 2026. A developer playbook to keep tokens out of suggestions."
 hashnode_slug: ai-coding-assistant-clipboard-secrets-2026
 enable_toc: true
 ---

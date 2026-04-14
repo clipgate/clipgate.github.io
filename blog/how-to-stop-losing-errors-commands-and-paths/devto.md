@@ -1,6 +1,6 @@
 ---
-title: "How to Stop Losing Errors, Commands, and Paths in Your Clipboard"
-description: "How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster without scrollback hunts."
+title: "Stop Losing Errors, Commands, and Paths in Your Clipboard"
+description: "A workflow-first guide to stop losing errors, commands, and paths in your clipboard — reduce context loss and recover faster without scrollback hunts."
 tags: cli, productivity, terminal, devops
 canonical_url: https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 cover_image: https://clipgate.github.io/assets/social-card.png
@@ -8,8 +8,8 @@ published: false
 category: Workflow
 category_class: workflow
 icon: "🔁"
-seo_title: "Stop Losing Commands, Errors & Paths: A Clipboard Workflow Playbook"
-seo_description: "Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's how to recover errors, commands, and paths without scrollback hunts."
+seo_title: "Stop Losing Errors, Commands, and Paths in Your Clipboard"
+seo_description: "A workflow-first guide to stop losing errors, commands, and paths in your clipboard — reduce context loss and recover faster without scrollback hunts."
 hashnode_slug: how-to-stop-losing-errors-commands-and-paths
 enable_toc: true
 ---
