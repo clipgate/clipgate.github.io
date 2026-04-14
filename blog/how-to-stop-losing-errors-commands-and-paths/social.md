@@ -10,11 +10,11 @@ Canonical URL: <https://clipgate.github.io/blog/how-to-stop-losing-errors-comman
 
 How to Stop Losing Errors, Commands, and Paths in Your Clipboard
 
-Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollback hunts.
+How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster without scrollback hunts.
 
 https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 
-#workflow #productivity #terminal
+#cli #productivity #terminal
 
 ---
 
@@ -22,7 +22,7 @@ https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 
 🧵 How to Stop Losing Errors, Commands, and Paths in Your Clipboard
 
-1/ Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollback hunts.
+1/ How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster without scrollback hunts.
 
 (full post → https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/)
 
@@ -32,13 +32,13 @@ https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 
 How to Stop Losing Errors, Commands, and Paths in Your Clipboard
 
-Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollback hunts.
+How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster without scrollback hunts.
 
 I wrote this up because — (personal hook: why this matters to you, what you learned, who it's for).
 
 Read it here: https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 
-#workflow #productivity #terminal #devops
+#cli #productivity #terminal #devops
 
 ---
 
@@ -48,7 +48,7 @@ Read it here: https://clipgate.github.io/blog/how-to-stop-losing-errors-commands
 
 **Body:**
 
-Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollback hunts.
+How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster without scrollback hunts.
 
 I built ClipGate because (one-line context). This post walks through (what the post covers in 2-3 bullets — fill in):
 
@@ -78,7 +78,7 @@ Author here. Short context on why I wrote this: (2–3 sentences on motivation �
 
 Just published: How to Stop Losing Errors, Commands, and Paths in Your Clipboard → https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
 
-Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a workflow-first playbook to recover errors, commands, and paths without scrollba…
+How to stop losing errors, commands, and paths in your clipboard. A workflow-first guide to reducing context loss in shell-heavy sessions and recovering faster…
 
 ---
 
@@ -86,7 +86,7 @@ Shell-heavy sessions overwrite your clipboard dozens of times an hour. Here's a 
 
 **Title:** How to Stop Losing Errors, Commands, and Paths in Your Clipboard
 **URL:** https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/
-**Tags:** workflow, productivity, terminal, devops
+**Tags:** cli, productivity, terminal, devops
 
 ---
 
