@@ -77,9 +77,16 @@ fi
 
 chmod +x "${INSTALL_DIR}/${BINARY}"
 
+# Create 'clipgate' symlink so both commands work
+if [ -w "${INSTALL_DIR}" ]; then
+    ln -sf "${INSTALL_DIR}/${BINARY}" "${INSTALL_DIR}/clipgate"
+else
+    sudo ln -sf "${INSTALL_DIR}/${BINARY}" "${INSTALL_DIR}/clipgate"
+fi
+
 echo ""
 echo "Clip Gate installed successfully!"
-echo "Run 'cg --help' to get started."
+echo "Run 'cg --help' or 'clipgate --help' to get started."
 echo ""
 echo "Tip: add shell integration to your profile:"
 echo "  echo 'eval \"\$(cg shell-init)\"' >> ~/.zshrc"
