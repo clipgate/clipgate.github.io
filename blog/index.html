@@ -257,7 +257,7 @@
     .article-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
     .post-card{padding:1.25rem;border-radius:18px;border:1px solid var(--border);background:
       radial-gradient(circle at top left, rgba(0,212,255,.04), transparent 52%),
-      linear-gradient(180deg, rgba(18,24,36,.92), rgba(12,17,26,.97));display:flex;flex-direction:column;gap:.95rem;min-height:250px;transition:all .24s ease}
+      linear-gradient(180deg, rgba(18,24,36,.92), rgba(12,17,26,.97));display:flex;flex-direction:column;gap:.95rem;min-height:250px;transition:all .24s ease;cursor:pointer}
     .post-card.planned{position:relative}
     .blog-coming-badge{position:absolute;top:1.25rem;right:1.25rem;display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;border-radius:999px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
     .post-card.planned .card-link{color:var(--text2)}
@@ -618,6 +618,16 @@
       });
 
       applyFilter('all');
+
+      // Make entire post-card clickable
+      cards.forEach((card) => {
+        const link = card.querySelector('.card-link');
+        if (!link) return;
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('a')) return; // let actual links work normally
+          link.click();
+        });
+      });
     })();
   </script>
 </body>
