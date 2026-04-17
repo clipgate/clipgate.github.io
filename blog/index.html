@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClipGate Blog — Clipboard Workflows for Developers</title>
   <meta name="description" content="Practical ClipGate blog posts on local-first clipboard workflows, secret safety, terminal productivity, installation, and release notes for developers.">
-  <meta name="keywords" content="ClipGate blog, clipboard manager blog, local-first clipboard, terminal productivity, secret safety, developer workflow, CLI blog">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#0a0e17">
   <link rel="canonical" href="https://clipgate.github.io/blog/">
@@ -290,10 +289,51 @@
       .hero-copy,.hero-visual,.feature-copy,.feature-cover{padding:1.35rem}
       .feature-cover{min-height:220px}
     }
+
+    /* ── Install Banner ── */
+    .install-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, rgba(0,212,255,0.08), rgba(0,212,255,0.02));
+      border-bottom: 1px solid rgba(0,212,255,0.2);
+      font-size: 0.92rem;
+    }
+    .install-banner__text { color: var(--muted, #8b94a8); }
+    .install-banner__cmd {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      background: rgba(0,0,0,0.3);
+      padding: 4px 10px;
+      border-radius: 4px;
+      color: var(--cyan, #00d4ff);
+      user-select: all;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    .install-banner__copy, .install-banner__dismiss {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: inherit;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .install-banner__copy:hover, .install-banner__dismiss:hover { background: rgba(255,255,255,0.06); }
+    .install-banner--hidden { display: none; }
+    @media (max-width: 640px) { .install-banner__text { display: none; } }
   </style>
 </head>
 <body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
   <div id="cgSiteHeader"></div>
+  <div id="install-banner" class="install-banner" role="region" aria-label="Install ClipGate">
+    <span class="install-banner__text">Install the CLI:</span>
+    <code class="install-banner__cmd" id="install-banner-cmd">curl -fsSL https://clipgate.github.io/install.sh | sh</code>
+    <button type="button" class="install-banner__copy" data-action="copy-install" aria-label="Copy install command">Copy</button>
+    <button type="button" class="install-banner__dismiss" data-action="dismiss-install" aria-label="Dismiss install banner">×</button>
+  </div>
   <div class="page cg-chrome-shell">
 
     <section class="hero">
@@ -401,6 +441,37 @@
         <button class="filter-btn" type="button" data-filter="releases">Releases</button>
       </div>
       <div class="article-grid">
+        <article class="post-card panel" data-filter-card data-tags="engineering cli benchmarks" data-search="benchmarking clipgate v0.1.4 latency performance cg copy p50 p99 5ms local-first rust hyperfine engineering benchmarks clipboard manager latency fast clipboard manager cli classifier throughput disk footprint">
+          <div class="post-head">
+            <div class="post-icon">⚡</div>
+            <div>
+              <div class="badge-row">
+                <span class="badge">Published</span>
+                <span class="badge category engineering">Engineering</span>
+              </div>
+              <div class="meta" style="margin:.45rem 0 0">
+                <span>Apr 16, 2026</span>
+                <span>•</span>
+                <span>9 min read</span>
+              </div>
+            </div>
+          </div>
+          <h3><a href="/blog/clipgate-benchmarks-v0-1-4/">Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From</a></h3>
+          <p>Preliminary latency numbers for <code>cg copy</code> and <code>cg paste</code>, the methodology behind them, and a reproducible harness you can run on your own machine. Published ahead of the formal v0.1.5 benchmark suite.</p>
+          <div class="topic-row">
+            <span class="topic">Engineering</span>
+            <span class="topic">Performance</span>
+            <span class="topic">CLI</span>
+          </div>
+          <div class="card-tags">
+            <span>latency</span>
+            <span>hyperfine</span>
+            <span>p50/p99</span>
+            <span>rust</span>
+          </div>
+          <a class="card-link" href="/blog/clipgate-benchmarks-v0-1-4/">Read article →</a>
+        </article>
+
         <article class="post-card panel" data-filter-card data-tags="workflow cli" data-search="how to stop losing errors, commands, and paths in your clipboard shell-heavy sessions overwrite your clipboard dozens of times an hour. workflow-first guidance for faster recovery, fewer scrollback hunts, and less context loss in terminal sessions. workflow cli terminal productivity devops command recovery error triage path recall">
           <div class="post-head">
             <div class="post-icon">🔁</div>
@@ -629,6 +700,26 @@
         });
       });
     })();
+  </script>
+  <script>
+  (function(){
+    const b = document.getElementById('install-banner');
+    if (!b) return;
+    if (localStorage.getItem('cg_install_banner_dismissed') === '1') { b.classList.add('install-banner--hidden'); return; }
+    b.addEventListener('click', (e) => {
+      const t = e.target.closest('[data-action]');
+      if (!t) return;
+      if (t.dataset.action === 'dismiss-install') {
+        b.classList.add('install-banner--hidden');
+        try { localStorage.setItem('cg_install_banner_dismissed', '1'); } catch {}
+      } else if (t.dataset.action === 'copy-install') {
+        const cmd = document.getElementById('install-banner-cmd').textContent.trim();
+        navigator.clipboard?.writeText(cmd);
+        t.textContent = '✓ Copied';
+        setTimeout(() => { t.textContent = 'Copy'; }, 1500);
+      }
+    });
+  })();
   </script>
 </body>
 </html>

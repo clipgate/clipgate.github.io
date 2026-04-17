@@ -1,3 +1,12 @@
+(function injectAnalytics() {
+  if (document.querySelector('script[data-domain="clipgate.github.io"]')) return;
+  const s = document.createElement('script');
+  s.defer = true;
+  s.dataset.domain = 'clipgate.github.io';
+  s.src = 'https://plausible.io/js/script.outbound-links.js';
+  document.head.appendChild(s);
+})();
+
 (function () {
   const page = document.body.dataset.page || "";
   const headerMount = document.getElementById("cgSiteHeader");
@@ -90,8 +99,18 @@
             <span class="cg-copyright">&copy; 2025-2026 ClipGate</span>
             <span class="cg-footer-divider">&middot;</span>
             <span class="cg-footer-powered">Built with Rust</span>
+            <span class="cg-footer-divider">&middot;</span>
+            <span>Local-first &middot; Secret-aware</span>
+            <span class="cg-footer-divider">&middot;</span>
+            <a href="https://www.saashub.com/clipgate?utm_source=badge&utm_campaign=badge&utm_content=clipgate&badge_variant=color&badge_kind=approved" class="cg-footer-saashub" target="_blank" rel="noopener noreferrer" aria-label="Approved on SaaSHub"><img src="https://cdn-b.saashub.com/img/badges/approved-color.png?v=1" alt="ClipGate approved on SaaSHub" loading="lazy"></a>
           </div>
           <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" class="cg-footer-cws" target="_blank" rel="noopener noreferrer">Chrome Web Store</a>
+        </div>
+        <div class="sc-footer-badges" aria-label="Project status">
+          <a href="https://pypi.org/project/clipgate/" rel="noopener" target="_blank"><img alt="PyPI version" src="https://img.shields.io/pypi/v/clipgate?style=flat&color=00d4ff&label=pypi" loading="lazy"></a>
+          <a href="https://pypi.org/project/clipgate/" rel="noopener" target="_blank"><img alt="PyPI downloads/month" src="https://img.shields.io/pypi/dm/clipgate?style=flat&color=00d4ff&label=installs" loading="lazy"></a>
+          <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" rel="noopener" target="_blank"><img alt="Chrome Web Store users" src="https://img.shields.io/chrome-web-store/users/iceplcknbihmnogljpmdhjelckohpice?style=flat&color=00d4ff&logo=googlechrome&label=chrome%20users" loading="lazy"></a>
+          <a href="https://alternativeto.net/software/clipgate/" rel="noopener" target="_blank"><img alt="Listed on AlternativeTo" src="https://img.shields.io/badge/Listed_on-AlternativeTo-3b5998?style=flat&logo=alternativeto&logoColor=white" loading="lazy"></a>
         </div>
       </footer>
     `;

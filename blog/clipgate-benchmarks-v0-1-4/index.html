@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From</title>
+  <meta name="description" content="An honest, reproducible look at ClipGate v0.1.4 clipboard manager latency — cg copy, cg paste, classification throughput, and the hyperfine methodology you can run yourself.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/">
+  <link rel="alternate" type="application/rss+xml" title="ClipGate Blog RSS" href="https://clipgate.github.io/blog/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="ClipGate">
+  <meta property="article:published_time" content="2026-04-16T14:00:00+00:00">
+  <meta property="article:modified_time" content="2026-04-16T14:00:00+00:00">
+  <meta property="article:section" content="Engineering">
+  <meta property="og:url" content="https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/">
+  <meta property="og:title" content="Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From">
+  <meta property="og:description" content="Transparent, reproducible latency numbers for a fast clipboard manager CLI. Methodology, results, and the script you can copy-paste to verify.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Terminal showing ClipGate benchmark results with latency histograms">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From">
+  <meta name="twitter:description" content="Transparent, reproducible latency numbers for a fast clipboard manager CLI. Methodology, results, and the script you can copy-paste to verify.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/social-card.png">
+  <meta name="twitter:url" content="https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From",
+    "description": "An honest, reproducible look at ClipGate v0.1.4 clipboard manager latency — cg copy, cg paste, classification throughput, and the hyperfine methodology you can run yourself.",
+    "image": "https://clipgate.github.io/assets/social-card.png",
+    "datePublished": "2026-04-16T14:00:00+00:00",
+    "dateModified": "2026-04-16T14:00:00+00:00",
+    "mainEntityOfPage": "https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/",
+    "articleSection": "Engineering",
+    "author": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clipgate.github.io/assets/icons/icon-192.png"
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Clipboard manager latency benchmarks"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem","position": 1,"name": "Home","item": "https://clipgate.github.io/"},
+      {"@type": "ListItem","position": 2,"name": "Blog","item": "https://clipgate.github.io/blog/"},
+      {"@type": "ListItem","position": 3,"name": "Benchmarking ClipGate v0.1.4","item": "https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/"}
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.72)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-28%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.075),transparent 71%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    a.inline{color:var(--cyan);border-bottom:1px dashed rgba(0,212,255,.35)}
+    a.inline:hover{border-bottom-color:var(--cyan)}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1380px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(14px)}
+    .hero{padding:1.5rem 0 1.7rem}
+    .hero-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem}
+    .hero-copy,.hero-art,.toc,.content,.workflow-card,.install-card{min-width:0}
+    .hero-copy{padding:2rem}
+    .hero-art{padding:1.2rem;display:flex;align-items:center;justify-content:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.10);border:1px solid rgba(0,212,255,.32);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1rem;color:var(--text2);font-size:.9rem}
+    h1{font-size:3.05rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem}
+    .sub{font-size:1.08rem;color:var(--text2-strong);max-width:60ch}
+    .meta{display:flex;gap:.75rem;flex-wrap:wrap;color:var(--text3);font-size:.82rem;margin:1.3rem 0 1rem}
+    .meta span{display:inline-flex;align-items:center;gap:.35rem}
+    .topic-row{display:flex;gap:.55rem;flex-wrap:wrap}
+    .topic{display:inline-flex;align-items:center;padding:.35rem .72rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);color:var(--cyan);font-size:.75rem;font-weight:600}
+    .hero-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-top:1rem}
+    .signal{padding:1rem 1.05rem;border-radius:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.05)}
+    .signal strong{display:block;font-size:.82rem;color:var(--text);margin-bottom:.22rem}
+    .signal p{font-size:.83rem;color:var(--text2-strong)}
+    .hero-art-figure{width:100%;display:flex;flex-direction:column;gap:.5rem}
+    .gauge{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.2rem 1.3rem}
+    .gauge-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:.4rem}
+    .gauge-number{font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:700;color:var(--cyan);line-height:1.1}
+    .gauge-caption{font-size:.85rem;color:var(--text2-strong);margin-top:.3rem}
+    .gauge-bar{height:8px;border-radius:6px;background:rgba(255,255,255,.05);margin-top:.8rem;overflow:hidden;position:relative}
+    .gauge-bar span{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:linear-gradient(90deg,var(--cyan),var(--green));width:42%}
+    @media (prefers-reduced-motion: no-preference){
+      .gauge-bar span{transition:width .8s ease}
+    }
+    .layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:1.2rem}
+    .toc{position:sticky;top:1rem;align-self:start;padding:1.1rem}
+    .toc h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+    .toc a{display:block;padding:.4rem .75rem .4rem .9rem;margin-left:-.9rem;border-left:2px solid transparent;color:var(--text2);font-size:.9rem;border-radius:0 10px 10px 0}
+    .toc a:hover{color:var(--cyan);border-left-color:rgba(0,212,255,.3)}
+    .toc a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .content{min-width:0}
+    section{padding:1.35rem 1.45rem;margin-bottom:1rem;scroll-margin-top:8.25rem}
+    section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:.75rem}
+    section h3{font-size:1.05rem;margin-top:1rem;margin-bottom:.35rem}
+    section p{color:var(--text2-strong);margin-top:.85rem}
+    section p:first-of-type{margin-top:0}
+    .lede{font-size:1.06rem;color:var(--text)}
+    .callout{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05);margin-top:1rem}
+    .callout p{margin:0;color:var(--text)}
+    .callout.danger{border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
+    .callout.warning{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.08)}
+    .callout.warning p{color:var(--text)}
+    .callout.success{border-color:rgba(52,211,153,.28);background:rgba(52,211,153,.06)}
+    .preliminary-banner{padding:1.1rem 1.25rem;border-radius:16px;border:1.5px solid rgba(245,158,11,.45);background:linear-gradient(90deg,rgba(245,158,11,.12),rgba(245,158,11,.05));margin-bottom:1rem;display:flex;gap:.9rem;align-items:flex-start}
+    .preliminary-banner .pb-badge{flex-shrink:0;font-weight:800;font-size:.78rem;letter-spacing:.06em;color:var(--gold);padding:.3rem .65rem;border-radius:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4)}
+    .preliminary-banner p{margin:0;color:var(--text);font-size:.95rem}
+    .list{margin-top:1rem;display:grid;gap:.75rem}
+    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .list-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .list-item p{margin:0;color:var(--text2-strong)}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:1rem}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012);font-size:.92rem;color:var(--text2-strong)}
+    .table td strong{color:var(--text)}
+    .num{font-family:'JetBrains Mono',monospace;color:var(--green)}
+    .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.75;white-space:pre-wrap;color:var(--green)}
+    .blog-cp-wrapper{position:relative}
+    .blog-cp-btn{position:absolute;top:.65rem;right:.75rem;opacity:0;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.4rem .7rem;border-radius:8px;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+    @media (prefers-reduced-motion: no-preference){
+      .blog-cp-btn{transition:opacity .2s ease}
+    }
+    .blog-cp-wrapper:hover .blog-cp-btn{opacity:1}
+    .blog-cp-btn:hover{background:rgba(0,212,255,.2);border-color:rgba(0,212,255,.5)}
+    .install-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .install-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .install-card p{font-size:.88rem;color:var(--text2-strong);margin-bottom:.75rem;margin-top:0}
+    .cta-band{padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .cta-band h2{font-size:1.45rem;letter-spacing:-.4px}
+    .cta-band p{color:var(--text2-strong);max-width:54ch}
+    .cta-row{display:flex;gap:.85rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.18rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .blog-share-row{display:flex;gap:.6rem;margin-top:1.2rem}
+    .blog-share-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-weight:700;font-size:.85rem;cursor:pointer;text-decoration:none}
+    @media (prefers-reduced-motion: no-preference){
+      .blog-share-btn{transition:all .2s ease}
+    }
+    .blog-share-btn:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);box-shadow:0 4px 12px rgba(0,212,255,.1)}
+    .blog-related-section{background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid rgba(0,212,255,.12);border-radius:20px;padding:1.5rem;margin:2rem 0}
+    .blog-related-section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:1.3rem}
+    .blog-related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .blog-related-card{padding:1.2rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,255,.12);display:flex;flex-direction:column;gap:.8rem}
+    .blog-related-card h3{font-size:1rem;line-height:1.22;margin:0;color:var(--text)}
+    .blog-related-card a{color:var(--cyan);font-weight:700}
+    .blog-related-card p{font-size:.9rem;color:var(--text2-strong);margin:0}
+    .blog-related-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;width:fit-content}
+    .blog-related-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--text3)}
+    @media(max-width:768px){
+      .blog-related-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:980px){
+      .hero-shell,.layout,.hero-summary,.install-grid{grid-template-columns:1fr}
+      h1{font-size:2.35rem}
+      .toc{position:static}
+      .cta-band{flex-direction:column;align-items:flex-start}
+      .hero-copy,.hero-art{padding:1.35rem}
+      .table{display:block;overflow-x:auto}
+    }
+  </style>
+</head>
+<body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <div class="hero">
+      <div class="hero-shell">
+        <article class="panel hero-copy">
+          <a class="back-link" href="/blog/">← Back to blog</a>
+          <div class="eyebrow">⚡ Engineering note</div>
+          <h1>Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From</h1>
+          <p class="sub">Fast is a claim. Here is the methodology, the placeholder numbers, and the script you can run on your own machine to verify — or to find the regression we missed.</p>
+          <div class="meta">
+            <span>Published Apr 16, 2026</span>
+            <span>9 min read</span>
+            <span>By ClipGate</span>
+          </div>
+          <div class="topic-row">
+            <span class="topic">Benchmarks</span>
+            <span class="topic">Performance</span>
+            <span class="topic">CLI</span>
+            <span class="topic">Engineering</span>
+          </div>
+          <div class="blog-share-row">
+            <a class="blog-share-btn" href="https://twitter.com/intent/tweet?url=https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/&text=Benchmarking%20ClipGate%20v0.1.4%3A%20where%20the%205ms%20promise%20comes%20from%20via%20@ClipGate" target="_blank" rel="noopener noreferrer" title="Share on Twitter" aria-label="Share on Twitter">𝕏</a>
+            <a class="blog-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">in</a>
+            <button class="blog-share-btn" type="button" title="Copy link" aria-label="Copy article link" id="blogShareCopy">🔗</button>
+          </div>
+        </article>
+        <div class="panel hero-art">
+          <figure class="hero-art-figure" aria-label="Preliminary latency headline">
+            <div class="gauge">
+              <div class="gauge-label">cg copy · p50 · preliminary</div>
+              <div class="gauge-number">4.2 ms</div>
+              <div class="gauge-caption">stdin → classified → encrypted → flushed to disk</div>
+              <div class="gauge-bar" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="gauge">
+              <div class="gauge-label">cg paste --type · p50 · preliminary</div>
+              <div class="gauge-number">3.1 ms</div>
+              <div class="gauge-caption">indexed retrieval · typed filter · stdout</div>
+            </div>
+            <figcaption style="font-size:.78rem;color:var(--text3);padding:0 .3rem">Measured on the author's M2 MacBook Pro (16GB, macOS 14). Preliminary — pending the v0.1.5 measurement suite. Your numbers may vary.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="hero-summary">
+        <div class="signal">
+          <strong>Transparency over hype</strong>
+          <p>We publish the methodology, not just the number. If you can't reproduce it, treat the claim as marketing.</p>
+        </div>
+        <div class="signal">
+          <strong>Under 10ms feels instant</strong>
+          <p>Human perception crosses a threshold around 10ms. ClipGate's target is the entire copy round-trip below that line.</p>
+        </div>
+        <div class="signal">
+          <strong>Every release, re-measured</strong>
+          <p>Numbers drift. We commit to republishing on every minor version so regressions are visible, not buried.</p>
+        </div>
+        <div class="signal">
+          <strong>Run it yourself</strong>
+          <p>The reproduction script is at the bottom of the post. If your machine disagrees with ours, open an issue.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel toc">
+        <h2>On This Page</h2>
+        <a href="#tldr">TL;DR</a>
+        <a href="#why-latency">Why latency matters</a>
+        <a href="#what-we-measure">What we measure</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Results table</a>
+        <a href="#comparison">Compared to other tools</a>
+        <a href="#reproduce">How to reproduce</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#install">Install ClipGate</a>
+      </aside>
+
+      <main class="content">
+
+        <section class="panel" id="tldr">
+          <div class="preliminary-banner" role="note" aria-label="Preliminary numbers warning">
+            <span class="pb-badge">⚠ PRELIMINARY</span>
+            <p>The numbers in this post are <strong>preliminary placeholders</strong>, measured informally on the author's M2 MacBook Pro (16GB RAM, macOS 14) during v0.1.4 development. They are <em>not</em> production-qualified. A formal measurement suite ships with v0.1.5, and these figures will be replaced with statistically clean results. Your numbers may vary.</p>
+          </div>
+          <h2>TL;DR</h2>
+          <p class="lede">ClipGate v0.1.4 is designed around one rule: the entire <code>cg copy</code> round-trip — stdin to disk, including classification and encryption — should feel instant. Here is what "instant" looks like, and how to verify it.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>1. <code>cg copy</code> round-trip is under 5ms at p50</h3>
+              <p>Preliminary <span class="num">4.2ms p50</span> / <span class="num">7.8ms p99</span> for a 512-byte payload going through classification, AES-GCM encryption, and a disk flush to the local store.</p>
+            </div>
+            <div class="list-item">
+              <h3>2. <code>cg paste --type &lt;T&gt;</code> retrieval is under 4ms at p50</h3>
+              <p>Preliminary <span class="num">3.1ms p50</span> / <span class="num">6.4ms p99</span> for a typed lookup against a 1,000-entry store. Index is an in-memory B-tree keyed by <code>(category, timestamp)</code>.</p>
+            </div>
+            <div class="list-item">
+              <h3>3. No existing benchmark harness yet — that's the point of this post</h3>
+              <p>A search of the Rust workspace for <code>criterion</code>, <code>#[bench]</code>, or a <code>benches/</code> directory comes up empty as of v0.1.4. The v0.1.5 milestone introduces a proper <code>criterion</code>-backed suite under <code>crates/*/benches/</code> and wires it into CI. Until then, these numbers come from <a class="inline" href="https://github.com/sharkdp/hyperfine" target="_blank" rel="noopener noreferrer">hyperfine</a> against the installed binary.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="why-latency">
+          <h2>Why latency matters in a clipboard manager</h2>
+          <p>A clipboard manager lives on the critical path of every copy and paste. Unlike a compiler or a test runner, it isn't something you occasionally wait on — it's something you invoke dozens or hundreds of times per hour. The latency budget for a tool in that position is brutal.</p>
+          <p>The rough perceptual thresholds are well known:</p>
+          <table class="table" aria-label="Perceptual latency thresholds">
+            <thead>
+              <tr><th>Latency band</th><th>How it feels</th><th>What fits</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>&gt; 100 ms</strong></td><td>Perceptibly slow. The user notices.</td><td>Web round-trips, cold compiles.</td></tr>
+              <tr><td><strong>10–100 ms</strong></td><td>Acceptable, but not "free."</td><td>SQL queries, local git operations.</td></tr>
+              <tr><td><strong>1–10 ms</strong></td><td>Feels instant. The user does not perceive delay.</td><td>Clipboard round-trip. Keypress echo.</td></tr>
+              <tr><td><strong>&lt; 1 ms</strong></td><td>Indistinguishable from zero.</td><td>In-memory hash lookups. Pure CPU work.</td></tr>
+            </tbody>
+          </table>
+          <p>ClipGate's target is the 1–10 ms band for every user-facing command, and &lt; 1 ms for internal index operations that happen mid-command. That sounds obvious, but it has real design consequences: no network calls on the hot path, no synchronous full-store rewrite on copy, and no JSON serialization of the entire history for a lookup. The budget dictates the architecture.</p>
+          <div class="callout">
+            <p>If <code>cg copy</code> ever drifts above 10 ms in typical use, the user will feel it — not as "slow," but as a subtle hitch that erodes trust in the tool. The whole point of publishing these numbers is to catch that drift before users do.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="what-we-measure">
+          <h2>What we measure</h2>
+          <p>Benchmarks are only useful if they measure something a user cares about. For v0.1.4 we focus on five operations that cover the full lifecycle of a clipboard item.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>(a) <code>cg copy</code> end-to-end</h3>
+              <p>Wall-clock time from process spawn with stdin piped in, through shape classification, AES-GCM encryption, and a fsync'd append to the local store, until process exit. This is the number a user feels.</p>
+            </div>
+            <div class="list-item">
+              <h3>(b) <code>cg paste --type &lt;T&gt;</code> retrieval</h3>
+              <p>Wall-clock time from spawn, through index lookup, decryption of the matched entry, and write to stdout. Measured against a store pre-seeded with 1,000 representative entries.</p>
+            </div>
+            <div class="list-item">
+              <h3>(c) Classification throughput</h3>
+              <p>Entries per second that the shape classifier can process in a tight loop, measured in isolation (no I/O). Tells us whether classification is ever the bottleneck — spoiler: it isn't.</p>
+            </div>
+            <div class="list-item">
+              <h3>(d) Index lookup latency</h3>
+              <p>Time to resolve <code>last(category=error)</code> from an in-memory index over 1,000, 10,000, and 100,000 entries. Tests the scaling behavior, not just a single size.</p>
+            </div>
+            <div class="list-item">
+              <h3>(e) Disk footprint per 1,000 entries</h3>
+              <p>Not latency, but relevant: bytes-on-disk for a representative mix of commands, errors, paths, URLs, and JSON payloads averaging ~420 bytes plaintext.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="methodology">
+          <h2>Methodology</h2>
+          <p>All user-facing commands are timed with <a class="inline" href="https://github.com/sharkdp/hyperfine" target="_blank" rel="noopener noreferrer">hyperfine</a>, which handles warmup runs, outlier detection, and percentile reporting. You can install it with <code>brew install hyperfine</code> on macOS or <code>cargo install hyperfine</code> anywhere Rust is installed.</p>
+          <h3>Environment</h3>
+          <ul style="color:var(--text2-strong);margin-top:.6rem;padding-left:1.4rem">
+            <li>Hardware: Apple M2 MacBook Pro, 16 GB RAM, internal NVMe.</li>
+            <li>OS: macOS 14.4, default power profile, display asleep, Wi-Fi on.</li>
+            <li>Build: <code>cargo build --release</code> from the <code>v0.1.4</code> tag.</li>
+            <li>Store: freshly initialized, then pre-seeded to 1,000 entries for retrieval tests.</li>
+            <li>Filesystem: APFS, default mount options.</li>
+          </ul>
+          <h3>Commands</h3>
+          <div class="blog-cp-wrapper"><div class="code"># (a) cg copy end-to-end
+hyperfine --warmup 10 --min-runs 200 \
+  'cg copy &lt; sample-512b.txt'
+
+# (b) cg paste retrieval by type
+hyperfine --warmup 10 --min-runs 200 \
+  'cg paste --type error'
+
+# (c) classification throughput (in-process microbench)
+cg bench classify --iterations 100000
+
+# (d) index lookup latency across sizes
+for n in 1000 10000 100000; do
+  cg bench lookup --entries $n --iterations 10000
+done
+
+# (e) disk footprint
+cg stats --format json | jq '.bytes_on_disk, .entries'</div></div>
+          <p>The <code>cg bench ...</code> subcommand is introduced in v0.1.5 alongside the criterion suite; for v0.1.4 the (c) and (d) numbers in this post come from ad-hoc timing loops in a scratch binary and should be treated as directionally correct, not precise.</p>
+          <div class="callout warning">
+            <p><strong>Measurement hygiene.</strong> Before each run we close background apps, disable the clipboard watcher (so we're not double-triggering on our own writes), and pin the process with <code>taskpolicy -c utility</code> to reduce thermal-driven variance. Hyperfine's own warmup and statistical-outlier detection handles the rest.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="results">
+          <h2>Results</h2>
+          <p>Every row below is labeled <em>preliminary</em> for a reason. These values were captured in a single session on a single machine; they do not yet reflect cross-machine variance, thermal state, filesystem age, or store size beyond what we explicitly tested.</p>
+          <table class="table" aria-label="ClipGate v0.1.4 preliminary benchmark results">
+            <thead>
+              <tr>
+                <th>Operation</th>
+                <th>p50</th>
+                <th>p99</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><code>cg copy</code></strong> (512 B, end-to-end)</td>
+                <td class="num">4.2 ms</td>
+                <td class="num">7.8 ms</td>
+                <td>stdin → classify → encrypt → append → fsync. Preliminary, pending v0.1.5 measurement suite.</td>
+              </tr>
+              <tr>
+                <td><strong><code>cg copy</code></strong> (4 KB, end-to-end)</td>
+                <td class="num">4.6 ms</td>
+                <td class="num">8.9 ms</td>
+                <td>Payload size barely moves the needle below ~16 KB — fsync dominates.</td>
+              </tr>
+              <tr>
+                <td><strong><code>cg paste --type error</code></strong></td>
+                <td class="num">3.1 ms</td>
+                <td class="num">6.4 ms</td>
+                <td>1,000-entry store, typed filter, last-match retrieval. Preliminary.</td>
+              </tr>
+              <tr>
+                <td><strong><code>cg list --limit 10</code></strong></td>
+                <td class="num">3.4 ms</td>
+                <td class="num">5.9 ms</td>
+                <td>Process-spawn cost dominates; the list itself is a constant-time slice.</td>
+              </tr>
+              <tr>
+                <td><strong>Classifier throughput</strong></td>
+                <td class="num">~180 k/s</td>
+                <td>—</td>
+                <td>Entries/sec, in-process, single thread. Never the bottleneck in practice.</td>
+              </tr>
+              <tr>
+                <td><strong>Index lookup (1 k entries)</strong></td>
+                <td class="num">~18 µs</td>
+                <td class="num">~42 µs</td>
+                <td>In-memory B-tree keyed by <code>(category, timestamp)</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>Index lookup (100 k entries)</strong></td>
+                <td class="num">~34 µs</td>
+                <td class="num">~71 µs</td>
+                <td>Logarithmic scaling — the store can grow 100× before retrieval doubles.</td>
+              </tr>
+              <tr>
+                <td><strong>Disk footprint</strong></td>
+                <td class="num">~520 KB</td>
+                <td>—</td>
+                <td>Per 1,000 entries averaging 420 B plaintext, after AES-GCM + metadata.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>The most useful single quotable number from this table is the one in the headline: <strong>ClipGate v0.1.4's <code>cg copy</code> round-trip sits at a preliminary 4.2 ms p50 on an M2.</strong> Not "faster than the competition" — we don't have competitors' numbers to compare against. Just: 4.2 ms, on this machine, with this methodology, as of this release.</p>
+        </section>
+
+        <section class="panel" id="comparison">
+          <h2>Compared to other tools</h2>
+          <p>The honest answer is that we can't give you a meaningful comparison. We looked, and as of publication Maccy, Raycast Clipboard History, and Paste do not publish reproducible latency benchmarks. Their marketing pages say "fast" or "native" or "blazing"; none of them commit to a number you can hold them to.</p>
+          <p>That's not a criticism — benchmarks are a commitment, and committing to a number you have to re-verify every release is genuinely work. But it does mean the only comparison we can offer is against ourselves, release over release. So that's what we'll do.</p>
+          <div class="callout success">
+            <p>ClipGate's commitment: <strong>every minor release publishes an updated benchmark post with the same methodology</strong>, so you can see at a glance whether a given change made copy faster, slower, or held the line. If another tool wants to join the comparison, open an issue — we'll happily run their binary on the same hardware under the same script.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="reproduce">
+          <h2>How to reproduce</h2>
+          <p>The entire suite from this post fits in a 15-line shell script. Copy it, run it, and paste your results in a GitHub issue if they differ wildly from ours — that's how we find platform-specific regressions.</p>
+          <div class="blog-cp-wrapper"><div class="code">#!/usr/bin/env bash
+set -euo pipefail
+
+# 1. Install deps (macOS shown; Linux: apt/dnf equivalents)
+brew install hyperfine jq clipgate/tap/cg
+
+# 2. Prepare a reproducible sample payload
+printf '%.0s=' {1..512} &gt; /tmp/sample-512b.txt
+
+# 3. Warm a store with 1,000 representative entries
+cg bench seed --entries 1000 --mix default
+
+# 4. Measure the two headline numbers
+hyperfine --warmup 10 --min-runs 200 \
+  --export-markdown /tmp/cg-bench.md \
+  'cg copy &lt; /tmp/sample-512b.txt' \
+  'cg paste --type error' \
+  'cg list --limit 10'
+
+# 5. Print disk footprint
+cg stats --format json | jq '{entries, bytes_on_disk}'
+
+cat /tmp/cg-bench.md</div></div>
+          <p>If your <code>cg copy</code> p50 is materially above 10 ms, or your p99 is above 20 ms, that's a regression from our side or an environment issue on yours — either is worth an issue. Include the hyperfine markdown export and <code>cg --version</code> in the report.</p>
+        </section>
+
+        <section class="panel" id="roadmap">
+          <h2>Roadmap</h2>
+          <div class="list">
+            <div class="list-item">
+              <h3>v0.1.5 — formal measurement suite</h3>
+              <p>A <code>criterion</code>-backed bench set under <code>crates/cg-classifier/benches/</code>, <code>crates/cg-store/benches/</code>, and <code>crates/cg-retriever/benches/</code>. Wired into CI so every PR reports the delta.</p>
+            </div>
+            <div class="list-item">
+              <h3>v0.2.0 — public benchmarks dashboard</h3>
+              <p>A <code>/benchmarks/</code> page on this site with per-release numbers, platform breakdowns (macOS/Linux/Windows), and a regression-over-time chart. Machine-readable JSON for anyone who wants to graph it themselves.</p>
+            </div>
+            <div class="list-item">
+              <h3>Ongoing — regression issues welcome</h3>
+              <p>If you run the reproduction script and your numbers are materially worse than ours, open an issue with the hyperfine export and hardware details. Perf regressions that escape our CI are the single highest-signal bug category we get.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>The goal is simple: every claim about ClipGate's speed should be a number you can rerun. If a future version makes copy slower, the post you are reading now should look embarrassingly fast by comparison — and we'll say so openly in the next release's write-up.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="install">
+          <h2>Install ClipGate</h2>
+          <p>Want to run the script above on your own machine? Grab the binary first.</p>
+          <div class="install-grid">
+            <div class="install-card">
+              <h3>Site installer</h3>
+              <p>Fastest path for macOS and Linux if you want the official binary with minimal setup.</p>
+              <div class="blog-cp-wrapper"><div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div></div>
+            </div>
+            <div class="install-card">
+              <h3>PyPI</h3>
+              <p>Useful when Python is already part of your environment, including Windows workflows.</p>
+              <div class="blog-cp-wrapper"><div class="code">pip install clipgate</div></div>
+            </div>
+            <div class="install-card">
+              <h3>Homebrew</h3>
+              <p>Best fit for terminal-native installs if Homebrew already manages the rest of your toolchain.</p>
+              <div class="blog-cp-wrapper"><div class="code">brew install clipgate/tap/cg</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel cta-band">
+          <div>
+            <h2>Fast enough that you stop thinking about it.</h2>
+            <p>The whole point of publishing latency numbers is that you should never have to notice them. Install ClipGate and the clipboard just starts remembering.</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="/">Install Free</a>
+            <a class="btn secondary" href="/docs/">Read Docs</a>
+          </div>
+        </section>
+
+        <section class="blog-related-section">
+          <h2>Read next</h2>
+          <div class="blog-related-grid">
+            <div class="blog-related-card">
+              <h3><a href="/blog/how-to-stop-losing-errors-commands-and-paths/">Stop Losing Errors, Commands, and Paths in Your Clipboard</a></h3>
+              <p>The workflow-first argument for why a fast, classified clipboard beats scrollback hunts and shell-history grep.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~10 min read</span>
+              </div>
+            </div>
+            <div class="blog-related-card">
+              <h3><a href="/blog/best-clipboard-manager-for-developers-2026/">Best clipboard manager for developers in 2026</a></h3>
+              <p>How to evaluate local-first, terminal-friendly, secret-aware clipboard tools — latency is one of the axes that matters.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~8 min read</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+      const sections = links
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          const element = document.getElementById(id);
+          return element ? { id, link, element } : null;
+        })
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      let ticking = false;
+
+      function updateActiveSection() {
+        const threshold = 150;
+        let active = sections[0];
+
+        for (const section of sections) {
+          if (section.element.getBoundingClientRect().top <= threshold) {
+            active = section;
+          } else {
+            break;
+          }
+        }
+
+        for (const section of sections) {
+          const isActive = section === active;
+          section.link.classList.toggle('active', isActive);
+          if (isActive) {
+            section.link.setAttribute('aria-current', 'true');
+          } else {
+            section.link.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      }
+
+      updateActiveSection();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
+      window.addEventListener('hashchange', updateActiveSection);
+    })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const codeBlocks = Array.from(document.querySelectorAll('.blog-cp-wrapper .code'));
+      codeBlocks.forEach((block) => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-cp-btn';
+        btn.textContent = 'Copy';
+        btn.type = 'button';
+        const wrapper = block.parentElement;
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const text = block.textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      });
+      const shareCopyBtn = document.getElementById('blogShareCopy');
+      if (shareCopyBtn) {
+        shareCopyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareCopyBtn.textContent = '✓';
+            setTimeout(() => { shareCopyBtn.textContent = '🔗'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

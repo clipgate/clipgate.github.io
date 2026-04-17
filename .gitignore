@@ -29,3 +29,6 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# Backup/preview HTML should never be committed
+index.html.bak*

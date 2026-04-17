@@ -65,6 +65,44 @@ if ! curl -fsSL "${URL}" -o "${ARCHIVE}"; then
     exit 1
 fi
 
+# Verify SHA256 checksum before extracting
+SHA_URL="${URL}.sha256"
+SHA_FILE="${ARCHIVE}.sha256"
+
+if ! curl -fsSL "${SHA_URL}" -o "${SHA_FILE}"; then
+    echo "Error: failed to download checksum ${SHA_URL}"
+    echo "Refusing to extract an unverified archive. Please re-run the installer."
+    exit 1
+fi
+
+EXPECTED_SHA=$(awk '{print $1}' "${SHA_FILE}")
+
+if [ -z "${EXPECTED_SHA}" ]; then
+    echo "Error: checksum file ${SHA_URL} is empty or malformed"
+    exit 1
+fi
+
+if command -v shasum >/dev/null 2>&1; then
+    ACTUAL_SHA=$(shasum -a 256 "${ARCHIVE}" | awk '{print $1}')
+elif command -v sha256sum >/dev/null 2>&1; then
+    ACTUAL_SHA=$(sha256sum "${ARCHIVE}" | awk '{print $1}')
+elif command -v openssl >/dev/null 2>&1; then
+    ACTUAL_SHA=$(openssl dgst -sha256 "${ARCHIVE}" | awk '{print $NF}')
+else
+    echo "Error: no SHA256 tool found (need shasum, sha256sum, or openssl)"
+    exit 1
+fi
+
+if [ "${EXPECTED_SHA}" != "${ACTUAL_SHA}" ]; then
+    printf '\033[1;31mError: SHA256 mismatch for %s\033[0m\n' "${TARGET}.tar.gz"
+    echo "  expected: ${EXPECTED_SHA}"
+    echo "  actual:   ${ACTUAL_SHA}"
+    echo "Refusing to extract. The download may be corrupted or tampered with."
+    exit 1
+fi
+
+printf '\033[2m  ✓ SHA256 verified\033[0m\n'
+
 tar xzf "${ARCHIVE}" -C "${TMPDIR}"
 
 # Install

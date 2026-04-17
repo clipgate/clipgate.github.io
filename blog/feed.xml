@@ -10,8 +10,8 @@
     <description>Notes on local-first clipboard workflows, secret hygiene, terminal productivity, and the small ways context gets lost — and recovered — during a developer's day.</description>
     <language>en-us</language>
     <copyright>Copyright 2026 ClipGate</copyright>
-    <lastBuildDate>Mon, 13 Apr 2026 14:00:00 +0000</lastBuildDate>
-    <pubDate>Mon, 13 Apr 2026 14:00:00 +0000</pubDate>
+    <lastBuildDate>Thu, 16 Apr 2026 14:00:00 +0000</lastBuildDate>
+    <pubDate>Thu, 16 Apr 2026 14:00:00 +0000</pubDate>
     <ttl>1440</ttl>
     <generator>ClipGate static site</generator>
     <image>
@@ -19,6 +19,20 @@
       <title>ClipGate Blog</title>
       <link>https://clipgate.github.io/blog/</link>
     </image>
+
+    <item>
+      <title>Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From</title>
+      <link>https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/</guid>
+      <pubDate>Thu, 16 Apr 2026 14:00:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>engineering</category>
+      <category>performance</category>
+      <category>cli</category>
+      <category>benchmarks</category>
+      <description>Preliminary latency numbers for cg copy and cg paste, the methodology behind them, and a reproducible harness you can run on your own machine. Published ahead of the formal v0.1.5 benchmark suite.</description>
+      <content:encoded><![CDATA[<p><strong>Preliminary numbers — final suite lands with v0.1.5.</strong> We talk about "5ms end-to-end" on the home page. This post opens the hood: what exactly we measure, how the numbers break down between classification, encryption, and disk, and how you can reproduce the measurements on your own machine with <code>hyperfine</code> before v0.1.5 ships the formal benchmark suite.</p><p><a href="https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/">Read the full post →</a></p>]]></content:encoded>
+    </item>
 
     <item>
       <title>Stop Losing Errors, Commands, and Paths in Your Clipboard</title>

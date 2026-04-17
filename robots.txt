@@ -3,3 +3,6 @@ Allow: /
 
 Sitemap: https://clipgate.github.io/sitemap.xml
 Sitemap: https://clipgate.github.io/blog/feed.xml
+
+# Binaries in /releases/ are tarballs, not web pages.
+Disallow: /releases/v

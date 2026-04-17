@@ -6,7 +6,6 @@
     <meta name="google-site-verification" content="IIbTW2aNtd0fRdgGlBBESLr_nAKpzAtK3eOyTzkjjc4" />
     <title>ClipGate — Terminal-native clipboard vault for developers</title>
     <meta name="description" content="ClipGate is a terminal-native clipboard vault for developers. Auto-classifies copies by type, retrieves by type, secret-aware and local-first.">
-    <meta name="keywords" content="clipboard manager, clipboard history, CLI tool, Rust, terminal, developer tools, clipboard classification, secret detection, encryption, local-first, privacy">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#0a0e17">
     <link rel="canonical" href="https://clipgate.github.io/">
@@ -49,7 +48,7 @@
       },
       "downloadUrl": "https://pypi.org/project/clipgate/",
       "softwareVersion": "0.1.4",
-      "sameAs": ["https://pypi.org/project/clipgate/", "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"]
+      "sameAs": ["https://pypi.org/project/clipgate/", "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice", "https://alternativeto.net/software/clipgate/"]
     }
     </script>
     <script type="application/ld+json">
@@ -65,7 +64,8 @@
         "url": "https://clipgate.github.io/",
         "sameAs": [
           "https://pypi.org/project/clipgate/",
-          "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"
+          "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice",
+          "https://alternativeto.net/software/clipgate/"
         ]
       }
     }
@@ -110,6 +110,14 @@
     <link rel="stylesheet" href="shared/site-scroll-ui.css">
     <script>document.documentElement.classList.add('js')</script>
     <style>
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0s !important;
+            transition-duration: 0s !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
+          }
+        }
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
             --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#1c2333;
@@ -175,13 +183,6 @@
         .cursor{display:inline-block;width:8px;height:1.1em;background:var(--cyan);margin-left:2px;animation:blink .7s infinite;vertical-align:text-bottom}
         @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 
-        /* ── Stats Strip ── */
-        .stats-strip{display:flex;justify-content:center;gap:4rem;padding:3.5rem 2rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(0,212,255,0.015)}
-        .ss-item{text-align:center}
-        .ss-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--cyan);line-height:1}
-        .ss-num small{font-size:1rem;font-weight:500}
-        .ss-label{font-size:0.85rem;color:var(--text2);margin-top:0.4rem}
-
         /* ── Section Shared ── */
         .sec{padding:7rem 4rem;max-width:1200px;margin:0 auto}
         .sec-badge{color:var(--cyan);font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:0.75rem}
@@ -242,11 +243,7 @@
         .tag-env{background:rgba(245,158,11,0.15);color:var(--gold)}
         .tag-docker{background:rgba(0,212,255,0.15);color:var(--cyan)}
 
-        /* ── Scenario Tabs ── */
-        .sc-nav{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:2rem}
-        .sc-tab{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--text2);padding:0.65rem 1.2rem;border-radius:10px;font:inherit;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all var(--ease)}
-        .sc-tab:hover{border-color:rgba(0,212,255,0.3);color:var(--text);transform:translateY(-1px)}
-        .sc-tab.active{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.4);color:var(--cyan);box-shadow:0 4px 16px rgba(0,212,255,0.12)}
+        /* ── Scenario Panes ── */
         .sc-pane{display:none}
         .sc-pane.active{display:block;animation:fadeUp .3s ease}
         .sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
@@ -364,7 +361,6 @@
             .ba-grid,.class-layout,.sc-grid,.mini-grid{grid-template-columns:1fr}
             .ai-cards{grid-template-columns:repeat(2,1fr)}
             .prin-grid{grid-template-columns:repeat(2,1fr)}
-            .stats-strip{flex-wrap:wrap;gap:2rem;padding:2.5rem 1.5rem}
             .pipeline{flex-direction:column;gap:0.75rem}
             .pipe-arrow{transform:rotate(90deg);padding:0.3rem 0}
             .footer-inner{grid-template-columns:1fr;gap:2rem}
@@ -381,11 +377,12 @@
             .hero-install .copy-btn{margin-left:0;padding-left:0}
             .btn{width:100%;justify-content:center}
             .mini-pair{grid-template-columns:1fr}
-            .sc-nav{gap:0.4rem}
-            .sc-tab{font-size:0.78rem;padding:0.5rem 0.8rem}
             .term-body{font-size:0.75rem;padding:1rem}
         }
     </style>
+    <!-- Plausible analytics — privacy-respecting, no cookies. Enable the domain in plausible.io dashboard to start receiving data. -->
+    <script defer data-domain="clipgate.github.io" src="https://plausible.io/js/script.outbound-links.js"></script>
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 </head>
 <body data-back-to-top="true" data-scroll-progress="true">
     <header>
@@ -398,7 +395,7 @@
                 <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
                 Browser Extension
             </a>
-            <button class="nav-cta" onclick="smoothNav('#install')">
+            <button class="nav-cta" data-action="smooth-nav" data-target="#install">
                 <svg aria-hidden="true" focusable="false" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Install Free
             </button>
@@ -413,12 +410,13 @@
                     <div class="hero-badge"><span class="pulse"></span> Local-First</div>
                     <div class="hero-badge" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--green)"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span> Free to Use</div>
                     <div class="hero-badge" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.25);color:var(--blue)"><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block"></span> Built by Devs, for Devs</div>
+                    <a class="hero-badge" href="https://www.saashub.com/clipgate?utm_source=badge&utm_campaign=badge&utm_content=clipgate&badge_variant=color&badge_kind=approved" target="_blank" rel="noopener noreferrer" style="background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.25);color:var(--purple);text-decoration:none"><span style="width:8px;height:8px;border-radius:50%;background:var(--purple);display:inline-block"></span> As seen on SaaSHub</a>
                 </div>
                 <h1>Your clipboard, but it <span>understands your code</span></h1>
                 <p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--cyan);margin-bottom:1rem;letter-spacing:0.5px;opacity:0.85">Terminal-native clipboard vault for developers</p>
                 <p class="hero-sub">Install the official CLI, keep your workflow local-first, and retrieve clipboard context by type instead of by order. Clip Gate auto-classifies everything you copy into developer-meaningful types, then lets you retrieve it by type, not by order.</p>
                 <div class="hero-actions">
-                    <button class="btn btn-p" onclick="smoothNav('#install')">
+                    <button class="btn btn-p" data-action="smooth-nav" data-target="#install">
                         <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Install Free
                     </button>
@@ -430,7 +428,7 @@
                 <div class="hero-install">
                     <span class="dollar">$</span>
                     <span class="install-command">curl -fsSL https://clipgate.github.io/install.sh | sh</span>
-                    <button class="copy-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | sh')">Copy</button>
+                    <button class="copy-btn" data-action="copy-cmd" data-cmd="curl -fsSL https://clipgate.github.io/install.sh | sh">Copy</button>
                 </div>
                 <p style="margin-top:.9rem;color:var(--text2-strong);font-size:.84rem">Free to use. No account required. Official installs via the site, PyPI, and Homebrew.</p>
             </div>
@@ -573,19 +571,19 @@
             <p style="font-size:0.82rem;color:var(--cyan);text-align:center;margin-bottom:1rem;font-weight:500;opacity:0.75">&#8595; Click any type to see how Clip Gate detects it &#8595;</p>
 
             <div class="ctype-grid reveal">
-                <button type="button" class="ctype-pill ctype-active" data-ctype="error" onclick="ctypeShow('error',this)"><span class="dot"></span>error</button>
-                <button type="button" class="ctype-pill" data-ctype="secret" onclick="ctypeShow('secret',this)"><span class="dot"></span>secret</button>
-                <button type="button" class="ctype-pill" data-ctype="sha" onclick="ctypeShow('sha',this)"><span class="dot"></span>sha</button>
-                <button type="button" class="ctype-pill" data-ctype="path" onclick="ctypeShow('path',this)"><span class="dot"></span>path</button>
-                <button type="button" class="ctype-pill" data-ctype="json" onclick="ctypeShow('json',this)"><span class="dot"></span>json</button>
-                <button type="button" class="ctype-pill" data-ctype="url" onclick="ctypeShow('url',this)"><span class="dot"></span>url</button>
-                <button type="button" class="ctype-pill" data-ctype="sql" onclick="ctypeShow('sql',this)"><span class="dot"></span>sql</button>
-                <button type="button" class="ctype-pill" data-ctype="diff" onclick="ctypeShow('diff',this)"><span class="dot"></span>diff</button>
-                <button type="button" class="ctype-pill" data-ctype="ip" onclick="ctypeShow('ip',this)"><span class="dot"></span>ip</button>
-                <button type="button" class="ctype-pill" data-ctype="env" onclick="ctypeShow('env',this)"><span class="dot"></span>env</button>
-                <button type="button" class="ctype-pill" data-ctype="docker" onclick="ctypeShow('docker',this)"><span class="dot"></span>docker</button>
-                <button type="button" class="ctype-pill" data-ctype="command" onclick="ctypeShow('command',this)"><span class="dot"></span>command</button>
-                <button type="button" class="ctype-pill" data-ctype="text" onclick="ctypeShow('text',this)"><span class="dot"></span>text</button>
+                <button type="button" class="ctype-pill ctype-active" data-ctype="error" data-action="ctype-show" data-type="error"><span class="dot"></span>error</button>
+                <button type="button" class="ctype-pill" data-ctype="secret" data-action="ctype-show" data-type="secret"><span class="dot"></span>secret</button>
+                <button type="button" class="ctype-pill" data-ctype="sha" data-action="ctype-show" data-type="sha"><span class="dot"></span>sha</button>
+                <button type="button" class="ctype-pill" data-ctype="path" data-action="ctype-show" data-type="path"><span class="dot"></span>path</button>
+                <button type="button" class="ctype-pill" data-ctype="json" data-action="ctype-show" data-type="json"><span class="dot"></span>json</button>
+                <button type="button" class="ctype-pill" data-ctype="url" data-action="ctype-show" data-type="url"><span class="dot"></span>url</button>
+                <button type="button" class="ctype-pill" data-ctype="sql" data-action="ctype-show" data-type="sql"><span class="dot"></span>sql</button>
+                <button type="button" class="ctype-pill" data-ctype="diff" data-action="ctype-show" data-type="diff"><span class="dot"></span>diff</button>
+                <button type="button" class="ctype-pill" data-ctype="ip" data-action="ctype-show" data-type="ip"><span class="dot"></span>ip</button>
+                <button type="button" class="ctype-pill" data-ctype="env" data-action="ctype-show" data-type="env"><span class="dot"></span>env</button>
+                <button type="button" class="ctype-pill" data-ctype="docker" data-action="ctype-show" data-type="docker"><span class="dot"></span>docker</button>
+                <button type="button" class="ctype-pill" data-ctype="command" data-action="ctype-show" data-type="command"><span class="dot"></span>command</button>
+                <button type="button" class="ctype-pill" data-ctype="text" data-action="ctype-show" data-type="text"><span class="dot"></span>text</button>
             </div>
 
             <div class="ctype-stage reveal">
@@ -817,7 +815,10 @@
                         <span class="ext-mock-dot" style="background:#28c840"></span>
                         <span class="ext-mock-url">chrome-extension://clipgate</span>
                     </div>
-                    <img src="/assets/extension-popup.png" alt="Clip Gate browser extension popup" loading="lazy" />
+                    <picture>
+                        <source srcset="/assets/extension-popup.webp" type="image/webp">
+                        <img src="/assets/extension-popup.png" alt="Clip Gate browser extension popup" loading="lazy" width="1280" height="800" />
+                    </picture>
                     <div class="ext-mock-glow"></div>
                 </div>
                 <div class="ext-copy">
@@ -940,45 +941,45 @@
 
             <div class="reveal" style="max-width:640px">
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('t-curl',this)" style="display:inline-flex;align-items:center;gap:6px">
+                    <button class="tab-btn active" data-action="switch-tab" data-target="t-curl" style="display:inline-flex;align-items:center;gap:6px">
                         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
                         Quick Install
                     </button>
-                    <button class="tab-btn" onclick="switchTab('t-pip',this)" style="display:inline-flex;align-items:center;gap:6px">
+                    <button class="tab-btn" data-action="switch-tab" data-target="t-pip" style="display:inline-flex;align-items:center;gap:6px">
                         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:#3775A9"><path d="M9.585 11.692h4.328s2.432.039 2.432-2.35V5.391S16.714 3 11.936 3C7.362 3 7.647 4.968 7.647 4.968l.006 2.04h4.363v.612H7.268S4.5 7.28 4.5 12.04c0 4.757 2.42 4.588 2.42 4.588h1.444v-2.127s-.078-2.42 2.37-2.42h.003zm-.058-5.063a.786.786 0 110-1.57.786.786 0 010 1.57z"/><path d="M14.415 12.308H10.087s-2.432-.039-2.432 2.35v3.951S7.286 21 12.064 21c4.574 0 4.289-1.968 4.289-1.968l-.006-2.04h-4.363v-.612h4.748S19.5 16.72 19.5 11.96c0-4.757-2.42-4.588-2.42-4.588h-1.444v2.127s.078 2.42-2.37 2.42h-.003zm.058 5.063a.786.786 0 110 1.57.786.786 0 010-1.57z"/></svg>
                         PyPI
                     </button>
-                    <button class="tab-btn" onclick="switchTab('t-download',this)" style="display:inline-flex;align-items:center;gap:6px">
+                    <button class="tab-btn" data-action="switch-tab" data-target="t-download" style="display:inline-flex;align-items:center;gap:6px">
                         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download
                     </button>
-                    <button class="tab-btn" onclick="switchTab('t-mac',this)" style="display:inline-flex;align-items:center;gap:6px">
+                    <button class="tab-btn" data-action="switch-tab" data-target="t-mac" style="display:inline-flex;align-items:center;gap:6px">
                         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                         Homebrew
                     </button>
-                    <button class="tab-btn" onclick="switchTab('t-help',this)" style="display:inline-flex;align-items:center;gap:6px">
+                    <button class="tab-btn" data-action="switch-tab" data-target="t-help" style="display:inline-flex;align-items:center;gap:6px">
                         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                         Support
                     </button>
                 </div>
                 <div id="t-curl" class="tab-panel active">
-                    <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code><button class="cp-btn" onclick="copyCmd(this,'curl -fsSL https://clipgate.github.io/install.sh | sh')">Copy</button></div>
+                    <div class="code-block"><code>curl -fsSL https://clipgate.github.io/install.sh | sh</code><button class="cp-btn" data-action="copy-cmd" data-cmd="curl -fsSL https://clipgate.github.io/install.sh | sh">Copy</button></div>
                     <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">macOS (ARM + Intel) and Linux (x86_64 + ARM64). Auto-detects your platform.</p>
                 </div>
                 <div id="t-pip" class="tab-panel">
-                    <div class="code-block"><code>pip install clipgate</code><button class="cp-btn" onclick="copyCmd(this,'pip install clipgate')">Copy</button></div>
+                    <div class="code-block"><code>pip install clipgate</code><button class="cp-btn" data-action="copy-cmd" data-cmd="pip install clipgate">Copy</button></div>
                     <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">No Rust needed. Works on macOS, Linux, and Windows. Follow the package instructions on the docs page.</p>
                 </div>
                 <div id="t-download" class="tab-panel">
-                    <div class="code-block"><code>open https://clipgate.github.io/releases/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/releases/')">Copy</button></div>
-                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Grab a prebuilt binary from the <a href="/releases/" target="_blank" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">release notes</a> page for your platform.</p>
+                    <div class="code-block"><code>open https://clipgate.github.io/releases/</code><button class="cp-btn" data-action="copy-cmd" data-cmd="open https://clipgate.github.io/releases/">Copy</button></div>
+                    <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Grab a prebuilt binary from the <a href="/releases/" target="_blank" rel="noopener" style="color:var(--cyan);border-bottom:1px solid rgba(0,212,255,0.3)">release notes</a> page for your platform.</p>
                 </div>
                 <div id="t-mac" class="tab-panel">
-                    <div class="code-block"><code>brew install clipgate/tap/cg</code><button class="cp-btn" onclick="copyCmd(this,'brew install clipgate/tap/cg')">Copy</button></div>
+                    <div class="code-block"><code>brew install clipgate/tap/cg</code><button class="cp-btn" data-action="copy-cmd" data-cmd="brew install clipgate/tap/cg">Copy</button></div>
                     <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">macOS and Linux via the official Homebrew tap. Release binaries remain hosted on the site.</p>
                 </div>
                 <div id="t-help" class="tab-panel">
-                    <div class="code-block"><code>open https://clipgate.github.io/support/</code><button class="cp-btn" onclick="copyCmd(this,'open https://clipgate.github.io/support/')">Copy</button></div>
+                    <div class="code-block"><code>open https://clipgate.github.io/support/</code><button class="cp-btn" data-action="copy-cmd" data-cmd="open https://clipgate.github.io/support/">Copy</button></div>
                     <p style="color:var(--text2-strong);margin-top:1rem;font-size:0.85rem">Need help? Read the docs, check release notes, or contact support from the official site.</p>
                 </div>
 
@@ -1010,6 +1011,103 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- ════ Comparison ════ -->
+        <section class="sec" id="compare">
+            <div class="sec-badge">Compare</div>
+            <h2 class="sec-title reveal">How ClipGate compares</h2>
+            <p class="sec-sub reveal">Most clipboard tools remember <em>what</em> you copied. Only ClipGate also knows <em>what kind</em> of thing it is — and makes it pipeable to your terminal and AI stack.</p>
+            <div class="compare-wrap reveal">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th class="compare-row-label">Feature</th>
+                            <th class="compare-us">ClipGate</th>
+                            <th>Maccy</th>
+                            <th>Raycast</th>
+                            <th>Paste</th>
+                            <th>Alfred</th>
+                            <th>Flycut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="compare-row-label">Typed retrieval</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-partial">&mdash;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                        </tr>
+                        <tr>
+                            <td class="compare-row-label">Secret detection</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                        </tr>
+                        <tr>
+                            <td class="compare-row-label">Local-first</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-yes">&#10003;</td>
+                            <td class="compare-partial">&mdash;</td>
+                            <td class="compare-partial">&mdash;</td>
+                            <td class="compare-yes">&#10003;</td>
+                            <td class="compare-yes">&#10003;</td>
+                        </tr>
+                        <tr>
+                            <td class="compare-row-label">Terminal-native (CLI)</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                        </tr>
+                        <tr>
+                            <td class="compare-row-label">MCP / AI-stack integration</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-no">&#10007;</td>
+                        </tr>
+                        <tr>
+                            <td class="compare-row-label">Free tier</td>
+                            <td class="compare-us compare-yes">&#10003;</td>
+                            <td class="compare-yes">&#10003;</td>
+                            <td class="compare-yes">&#10003;</td>
+                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-partial">&mdash;</td>
+                            <td class="compare-yes">&#10003;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <style>
+                .compare-wrap{max-width:1080px;margin:2rem auto 0;overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+                .compare-table{width:100%;border-collapse:collapse;min-width:720px;font-size:0.92rem}
+                .compare-table th, .compare-table td{padding:0.85rem 1rem;text-align:center;border-bottom:1px solid var(--border);white-space:nowrap}
+                .compare-table thead th{background:rgba(0,212,255,0.04);color:var(--text2-strong);font-weight:600;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em}
+                .compare-table tbody tr:last-child td{border-bottom:0}
+                .compare-table tbody tr:hover{background:rgba(0,212,255,0.03)}
+                .compare-table .compare-row-label{text-align:left;color:var(--text);font-weight:500}
+                .compare-table th.compare-us, .compare-table td.compare-us{background:rgba(0,212,255,0.08);color:var(--cyan);font-weight:700;border-left:1px solid rgba(0,212,255,0.25);border-right:1px solid rgba(0,212,255,0.25)}
+                .compare-table thead th.compare-us{color:var(--cyan)}
+                .compare-yes{color:var(--green);font-weight:700;font-size:1.05rem}
+                .compare-no{color:var(--text3);font-weight:500;opacity:0.6}
+                .compare-partial{color:var(--gold);font-weight:700}
+                @media (max-width:720px){
+                    .compare-wrap{border-radius:10px}
+                    .compare-table{font-size:0.82rem;min-width:620px}
+                    .compare-table th, .compare-table td{padding:0.6rem 0.7rem}
+                }
+            </style>
         </section>
 
         <!-- ════ Pricing ════ -->
@@ -1049,19 +1147,23 @@
             <div class="sec-badge">Latest from the blog</div>
             <h2 class="sec-title reveal">Latest from the blog</h2>
             <div class="blog-grid reveal">
-                <a href="/blog/best-clipboard-manager-for-developers-2026/" class="blog-card">
-                    <h3>Best Clipboard Manager for Developers in 2026</h3>
-                    <p>How to evaluate local-first, terminal-friendly, secret-aware clipboard tools.</p>
+                <a href="/blog/how-to-stop-losing-errors-commands-and-paths/" class="blog-card">
+                    <img src="/assets/blog-errors-commands-paths.svg" alt="" class="blog-card-img" loading="lazy">
+                    <h3>How to stop losing errors, commands, and paths from your clipboard</h3>
+                    <p>Typed retrieval turns your shell history into a durable, searchable record you can pipe to any tool.</p>
                 </a>
-                <a href="/blog/accidentally-pasted-password-or-api-key/" class="blog-card">
-                    <h3>I accidentally pasted a password or API key — what to do next</h3>
-                    <p>A calm step-by-step recovery playbook and how to stop it forever.</p>
+                <a href="/blog/ai-coding-assistant-clipboard-secrets-2026/" class="blog-card">
+                    <img src="/assets/blog-notes.svg" alt="" class="blog-card-img" loading="lazy">
+                    <h3>Your AI coding assistant is leaking clipboard secrets — here's the fix in 2026</h3>
+                    <p>Why pasting into Claude Code, Cursor, or Copilot without a secret-aware vault is the new shadow-IT risk.</p>
                 </a>
             </div>
+            <p style="text-align:center;margin-top:2rem"><a href="/blog/" style="color:var(--cyan);font-weight:600;border-bottom:1px solid rgba(0,212,255,0.3)">See all posts &rarr;</a></p>
             <style>
                 .blog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:1000px;margin:2.5rem auto 0}
                 .blog-card{display:block;padding:1.8rem;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all var(--ease);text-decoration:none}
                 .blog-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,212,255,0.15)}
+                .blog-card-img{display:block;width:100%;height:auto;max-height:160px;object-fit:cover;border-radius:8px;margin-bottom:1rem;background:rgba(0,212,255,0.04)}
                 .blog-card h3{font-size:1.15rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);line-height:1.4}
                 .blog-card p{margin:0;font-size:0.95rem;color:var(--text2-strong);line-height:1.55}
                 @media (max-width:768px){.blog-grid{grid-template-columns:1fr}}
@@ -1073,7 +1175,7 @@
             <h2 class="reveal">Stop losing what you copy.</h2>
             <p class="reveal">Install the free binary and turn your clipboard into a developer tool.</p>
             <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-                <button class="btn btn-p" onclick="smoothNav('#install')" style="font-size:1.05rem;padding:1rem 2.5rem">
+                <button class="btn btn-p" data-action="smooth-nav" data-target="#install" style="font-size:1.05rem;padding:1rem 2.5rem">
                     <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Install Free
                 </button>
@@ -1082,6 +1184,36 @@
                     Read Docs
                 </a>
             </div>
+        </section>
+        <!-- ════ Release notes newsletter ════ -->
+        <!-- TODO: replace 'clipgate' with actual Buttondown username once account is created -->
+        <section class="sec" id="newsletter" style="padding-top:3rem;padding-bottom:4rem">
+            <div class="newsletter-wrap reveal">
+                <h3 class="newsletter-title">Get release notes &mdash; one email per version, no spam.</h3>
+                <p class="newsletter-sub">Every new ClipGate release, summarized. Unsubscribe in one click.</p>
+                <form class="newsletter-form" action="https://buttondown.email/api/emails/embed-subscribe/clipgate" method="post" target="_blank" rel="noopener noreferrer">
+                    <label for="newsletter-email" class="visually-hidden">Email address</label>
+                    <input id="newsletter-email" class="newsletter-input" type="email" name="email" placeholder="you@dev.example" required autocomplete="email">
+                    <input type="hidden" name="embed" value="1">
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+                <p class="newsletter-micro"><a href="https://buttondown.email/clipgate" target="_blank" rel="noopener noreferrer">Powered by Buttondown</a></p>
+            </div>
+            <style>
+                .newsletter-wrap{max-width:620px;margin:0 auto;text-align:center;padding:2.2rem 1.8rem;background:radial-gradient(circle at 50% 0,rgba(0,212,255,0.08),transparent 70%),var(--card);border:1px solid var(--border);border-radius:14px}
+                .newsletter-title{font-size:1.25rem;font-weight:700;margin:0 0 0.4rem;color:var(--text);line-height:1.35}
+                .newsletter-sub{color:var(--text2-strong);font-size:0.92rem;margin:0 0 1.3rem}
+                .newsletter-form{display:flex;gap:0.6rem;max-width:480px;margin:0 auto;flex-wrap:wrap}
+                .newsletter-input{flex:1;min-width:200px;padding:0.75rem 0.95rem;border-radius:8px;border:1px solid var(--border);background:rgba(10,14,23,0.75);color:var(--text);font-family:inherit;font-size:0.92rem;transition:border-color var(--ease),box-shadow var(--ease)}
+                .newsletter-input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.15)}
+                .newsletter-btn{padding:0.75rem 1.35rem;border-radius:8px;border:none;background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg);font-weight:600;font-size:0.9rem;cursor:pointer;font-family:inherit;transition:transform var(--ease),box-shadow var(--ease)}
+                .newsletter-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.35)}
+                .newsletter-micro{margin:1rem 0 0;font-size:0.78rem;color:var(--text3)}
+                .newsletter-micro a{color:var(--text3);border-bottom:1px dotted var(--text3)}
+                .newsletter-micro a:hover{color:var(--cyan);border-bottom-color:var(--cyan)}
+                .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+                @media (max-width:500px){.newsletter-form{flex-direction:column}.newsletter-btn{width:100%}}
+            </style>
         </section>
     </main>
 
@@ -1135,11 +1267,28 @@
                 Chrome Web Store
             </a>
         </div>
+        <div class="footer-badges" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px;opacity:0.85">
+          <a href="https://pypi.org/project/clipgate/" target="_blank" rel="noopener noreferrer"><img alt="PyPI version" src="https://img.shields.io/pypi/v/clipgate?style=flat&color=00d4ff&label=pypi" loading="lazy"></a>
+          <a href="https://pypi.org/project/clipgate/" target="_blank" rel="noopener noreferrer"><img alt="PyPI downloads" src="https://img.shields.io/pypi/dm/clipgate?style=flat&color=00d4ff&label=installs" loading="lazy"></a>
+          <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer"><img alt="Chrome users" src="https://img.shields.io/chrome-web-store/users/iceplcknbihmnogljpmdhjelckohpice?style=flat&color=00d4ff&logo=googlechrome&label=chrome%20users" loading="lazy"></a>
+          <a href="https://alternativeto.net/software/clipgate/" target="_blank" rel="noopener noreferrer"><img alt="Listed on AlternativeTo" src="https://img.shields.io/badge/Listed_on-AlternativeTo-3b5998?style=flat&logo=alternativeto&logoColor=white" loading="lazy"></a>
+        </div>
     </footer>
     <script src="shared/site-scroll-ui.js"></script>
     <script>
-    // ── Hero typing animation (plays once) ──
+    // ── Hero typing animation (plays once, respects prefers-reduced-motion) ──
     (function(){
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Short-circuit: render a static cursor line and bail.
+            const el = document.getElementById('heroTerm');
+            if (el) {
+                const c = document.createElement('div');
+                c.className = 't-line';
+                c.innerHTML = '<span class="t-p">$</span> <span class="cursor"></span>';
+                el.appendChild(c);
+            }
+            return;
+        }
         const el = document.getElementById('heroTerm');
         const lines = [
             {p:true, t:'echo "TypeError: Cannot read property \'map\'" | cg copy'},
@@ -1272,13 +1421,15 @@
         if(activeDot) activeDot.classList.add('ctype-dot-active');
     }
     window.ctypeShow = ctypeShow;
-    // Initial render + auto-cycle until first user click
+    // Initial render + auto-cycle until first user click (respects prefers-reduced-motion)
     let ctypeAutoStop = false;
     document.addEventListener('DOMContentLoaded',()=>{
         ctypeShow('error');
-        let idx=0;
-        const tick=()=>{ if(ctypeAutoStop) return; idx=(idx+1)%ctypeOrder.length; ctypeShow(ctypeOrder[idx]); setTimeout(tick,2200); };
-        setTimeout(tick,2200);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            let idx=0;
+            const tick=()=>{ if(ctypeAutoStop) return; idx=(idx+1)%ctypeOrder.length; ctypeShow(ctypeOrder[idx]); setTimeout(tick,2200); };
+            setTimeout(tick,2200);
+        }
         document.querySelectorAll('.ctype-pill').forEach(p=>p.addEventListener('click',()=>{ctypeAutoStop=true;}));
         // Dot clicks: jump to that type and stop auto-cycle
         document.querySelectorAll('.ctype-dot').forEach(dot=>{
@@ -1342,6 +1493,31 @@
     window.smoothNav = smoothNav;
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
         a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+    });
+
+    // ── Delegated action dispatcher (replaces inline onclick handlers) ──
+    function dispatchAction(el) {
+        const action = el.dataset.action;
+        if (action === 'smooth-nav') smoothNav(el.dataset.target);
+        else if (action === 'copy-cmd') copyCmd(el, el.dataset.cmd);
+        else if (action === 'ctype-show') ctypeShow(el.dataset.type, el);
+        else if (action === 'switch-tab') switchTab(el.dataset.target, el);
+    }
+    document.addEventListener('click', (e) => {
+        const el = e.target.closest('[data-action]');
+        if (!el) return;
+        dispatchAction(el);
+    });
+    // Keyboard accessibility for non-button/a elements carrying data-action
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const el = e.target.closest('[data-action]');
+        if (!el) return;
+        const tag = el.tagName;
+        // Native buttons and anchors handle Enter/Space themselves
+        if (tag === 'BUTTON' || tag === 'A') return;
+        e.preventDefault();
+        dispatchAction(el);
     });
     </script>
 </body>

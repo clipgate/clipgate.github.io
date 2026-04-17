@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipGate — Smart Clipboard Vault for Your Browser</title>
     <meta name="description" content="ClipGate is an encrypted clipboard vault for your browser. Auto-classifies copies into 13 types, AES-256 on secrets, 100% local.">
-    <meta name="keywords" content="browser extension, clipboard history, clipboard manager, content classification, secret detection, AES-256 encryption, privacy, local-first, Chrome extension, Manifest V3, developer tools">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#0a0e17">
     <link rel="canonical" href="https://clipgate.github.io/ext/">
@@ -47,7 +46,7 @@
       "downloadUrl": "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice",
       "softwareVersion": "0.1.4",
       "installUrl": "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice",
-      "sameAs": ["https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice", "https://pypi.org/project/clipgate/"]
+      "sameAs": ["https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice", "https://pypi.org/project/clipgate/", "https://alternativeto.net/software/clipgate/"]
     }
     </script>
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
@@ -56,6 +55,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/site-chrome.css">
     <link rel="stylesheet" href="../shared/site-scroll-ui.css">
     <script>document.documentElement.classList.add('js')</script>
     <style>
@@ -276,28 +276,11 @@
             .type-grid{gap:0.5rem}
         }
     </style>
+    <!-- Plausible analytics — privacy-respecting, no cookies. -->
+    <script defer data-domain="clipgate.github.io" src="https://plausible.io/js/script.outbound-links.js"></script>
 </head>
-<body data-back-to-top="true" data-scroll-progress="true">
-    <header>
-        <a href="/" class="logo">
-            <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;margin-right:0.1rem">&gt;_</span><span>clip<b>gate</b></span>
-            <span class="logo-ext">Browser Extension</span>
-        </a>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#security">Security</a>
-            <a href="#types">Content Types</a>
-            <a href="/blog/">Blog</a>
-            <a href="/" class="nav-cli">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-                CLI Version
-            </a>
-            <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer" class="nav-cta nav-cta-grad">
-                <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="cws-a" x1="3.2173" y1="15" x2="44.7812" y2="15" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d93025"/><stop offset="1" stop-color="#ea4335"/></linearGradient><linearGradient id="cws-b" x1="20.7219" y1="47.6791" x2="41.5039" y2="11.6837" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fcc934"/><stop offset="1" stop-color="#fbbc04"/></linearGradient><linearGradient id="cws-c" x1="26.5981" y1="46.5015" x2="5.8161" y2="10.506" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1e8e3e"/><stop offset="1" stop-color="#34a853"/></linearGradient></defs><circle cx="24" cy="23.9947" r="12" fill="#fff"/><path d="M24,12H44.7812a23.9939,23.9939,0,0,0-41.5639.0029L13.6079,30l.0093-.0024A11.9852,11.9852,0,0,1,24,12Z" fill="url(#cws-a)"/><circle cx="24" cy="24" r="9.5" fill="#1a73e8"/><path d="M34.3913,30.0029,24.0007,48A23.994,23.994,0,0,0,44.78,12.0031H23.9989l-.0025.0093A11.985,11.985,0,0,1,34.3913,30.0029Z" fill="url(#cws-b)"/><path d="M13.6086,30.0031,3.218,12.006A23.994,23.994,0,0,0,24.0025,48L34.3931,30.0029l-.0067-.0068a11.9852,11.9852,0,0,1-20.7778.007Z" fill="url(#cws-c)"/></svg>
-                Add to Chrome
-            </a>
-        </nav>
-    </header>
+<body data-page="ext" data-back-to-top="true" data-scroll-progress="true">
+    <div id="cgSiteHeader"></div>
 
     <main>
         <!-- ════ Hero ════ -->
@@ -785,36 +768,9 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-section">
-                <h4 style="display:flex;align-items:center;gap:0.4rem"><span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700">&gt;_</span>ClipGate Extension</h4>
-                <p>Browser extension that automatically saves and classifies everything you copy. Encrypts secrets, auto-expires them, and stays 100% on your machine. Part of the ClipGate ecosystem.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <div class="footer-links">
-                    <a href="/ext/privacy/">Privacy</a>
-                    <a href="/ext/contact/">Contact &amp; Support</a>
-                    <a href="/blog/">Blog</a>
-                    <a href="/support/">Site Support</a>
-                    <a href="/license/">License</a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h4>Ecosystem</h4>
-                <div class="footer-links">
-                    <a href="/">ClipGate CLI</a>
-                    <a href="/docs/">CLI Docs</a>
-                    <a href="/releases/">Releases</a>
-                    <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener noreferrer">Chrome Web Store</a>
-                    <a href="/privacy/">CLI Privacy</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">&copy; 2025 ClipGate &middot; Your clipboard, your machine, your rules.</div>
-    </footer>
+    <div id="cgSiteFooter"></div>
 
+    <script src="../shared/site-chrome.js"></script>
     <script src="../shared/site-scroll-ui.js"></script>
     <script>
         // ── Scroll Reveal ──
@@ -864,6 +820,36 @@
                 el.style.transition = 'none';
             });
         }
+
+        // ── Append ext-specific "Add to Chrome" CTA to shared nav ──
+        // The shared chrome injector runs synchronously via an IIFE, so by the
+        // time this script executes the nav markup is already in the DOM.
+        (function appendAddToChrome() {
+            const nav = document.querySelector('#cgSiteHeader .cg-site-nav');
+            if (!nav) return;
+            const cta = document.createElement('a');
+            cta.href = 'https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice';
+            cta.target = '_blank';
+            cta.rel = 'noopener noreferrer';
+            cta.className = 'cg-site-nav-cta cg-site-nav-cta-cws';
+            cta.setAttribute('aria-label', 'Add ClipGate to Chrome (opens in a new tab)');
+            cta.innerHTML = '<svg width="15" height="15" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cws-a" x1="3.2173" y1="15" x2="44.7812" y2="15" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d93025"/><stop offset="1" stop-color="#ea4335"/></linearGradient><linearGradient id="cws-b" x1="20.7219" y1="47.6791" x2="41.5039" y2="11.6837" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fcc934"/><stop offset="1" stop-color="#fbbc04"/></linearGradient><linearGradient id="cws-c" x1="26.5981" y1="46.5015" x2="5.8161" y2="10.506" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1e8e3e"/><stop offset="1" stop-color="#34a853"/></linearGradient></defs><circle cx="24" cy="23.9947" r="12" fill="#fff"/><path d="M24,12H44.7812a23.9939,23.9939,0,0,0-41.5639.0029L13.6079,30l.0093-.0024A11.9852,11.9852,0,0,1,24,12Z" fill="url(#cws-a)"/><circle cx="24" cy="24" r="9.5" fill="#1a73e8"/><path d="M34.3913,30.0029,24.0007,48A23.994,23.994,0,0,0,44.78,12.0031H23.9989l-.0025.0093A11.985,11.985,0,0,1,34.3913,30.0029Z" fill="url(#cws-b)"/><path d="M13.6086,30.0031,3.218,12.006A23.994,23.994,0,0,0,24.0025,48L34.3931,30.0029l-.0067-.0068a11.9852,11.9852,0,0,1-20.7778.007Z" fill="url(#cws-c)"/></svg>Add to Chrome';
+            nav.appendChild(cta);
+        })();
+
+        // ── Delegated click handler (replaces any future inline onclick) ──
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-action]');
+            if (!el) return;
+            const action = el.dataset.action;
+            if (action === 'smooth-nav') {
+                const href = el.getAttribute('href') || el.dataset.target;
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    smoothNav(href);
+                }
+            }
+        });
 
     </script>
 </body>
