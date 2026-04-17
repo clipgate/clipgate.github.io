@@ -1038,14 +1038,14 @@
                             <td class="compare-no">&#10007;</td>
                             <td class="compare-no">&#10007;</td>
                             <td class="compare-partial">&mdash;</td>
-                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-partial" title="Alfred's clipboard viewer has Text / Images / Files tabs, but no content-type awareness beyond that">&mdash;</td>
                             <td class="compare-no">&#10007;</td>
                         </tr>
                         <tr>
-                            <td class="compare-row-label">Secret detection</td>
+                            <td class="compare-row-label">Secret detection <span class="compare-asterisk" aria-hidden="true">*</span></td>
                             <td class="compare-us compare-yes">&#10003;</td>
                             <td class="compare-no">&#10007;</td>
-                            <td class="compare-no">&#10007;</td>
+                            <td class="compare-partial" title="Raycast has a user-toggled Private Mode; no automatic detection of secrets">&mdash;</td>
                             <td class="compare-no">&#10007;</td>
                             <td class="compare-no">&#10007;</td>
                             <td class="compare-no">&#10007;</td>
@@ -1089,8 +1089,18 @@
                     </tbody>
                 </table>
             </div>
+            <p class="compare-legend reveal">
+                <span class="compare-yes">&#10003;</span> yes &nbsp;
+                <span class="compare-partial">&mdash;</span> partial / limited &nbsp;
+                <span class="compare-no">&#10007;</span> no
+                <br>
+                <span class="compare-asterisk">*</span> Secret detection = <em>automatic</em> recognition of API keys, tokens, and passwords on copy. Manual privacy toggles don't count.
+            </p>
             <style>
                 .compare-wrap{max-width:1080px;margin:2rem auto 0;overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+                .compare-legend{max-width:1080px;margin:1rem auto 0;font-size:0.82rem;color:var(--text3);text-align:center;line-height:1.6}
+                .compare-legend .compare-yes, .compare-legend .compare-partial, .compare-legend .compare-no{font-size:1rem;margin-right:0.1rem}
+                .compare-asterisk{color:var(--cyan);font-weight:700;margin-left:0.15rem}
                 .compare-table{width:100%;border-collapse:collapse;min-width:720px;font-size:0.92rem}
                 .compare-table th, .compare-table td{padding:0.85rem 1rem;text-align:center;border-bottom:1px solid var(--border);white-space:nowrap}
                 .compare-table thead th{background:rgba(0,212,255,0.04);color:var(--text2-strong);font-weight:600;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em}
