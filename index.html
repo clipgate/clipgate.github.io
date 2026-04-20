@@ -682,14 +682,61 @@
                 .cc-rule{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text3);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
                 .cc-rule::before{content:'\21B3';margin-right:0.42rem;color:var(--c-accent);opacity:0.55}
 
-                .ctype-foot{margin-top:1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--text3);text-align:center;letter-spacing:0.05em}
-                .ctype-foot strong{color:var(--text2);font-weight:600}
-                .ctype-foot .dotsep{padding:0 0.6rem;opacity:0.5}
+                /* ── classify flow mini-terminal (inside engine section) ── */
+                .classify-flow{
+                    max-width:680px;
+                    margin:1.75rem auto 2.25rem;
+                    background:var(--bg);
+                    border:1px solid var(--border);
+                    border-radius:10px;
+                    padding:1rem 1.2rem;
+                    font-family:'JetBrains Mono',monospace;
+                    font-size:0.84rem;
+                    line-height:1.7;
+                    color:var(--text2);
+                    position:relative;
+                    overflow:hidden;
+                }
+                .classify-flow::before{
+                    content:"";
+                    position:absolute;
+                    inset:0 auto 0 0;
+                    width:3px;
+                    background:linear-gradient(180deg, var(--cyan) 0%, var(--green) 100%);
+                }
+                .cf-line{display:block}
+                .cf-p{color:var(--cyan); margin-right:0.4rem}
+                .cf-i{color:var(--text)}
+                .cf-tag{
+                    display:inline-block;
+                    margin-left:0.2rem;
+                    padding:0.1rem 0.5rem;
+                    border-radius:999px;
+                    background:color-mix(in srgb, var(--red) 14%, transparent);
+                    color:#fca5a5;
+                    font-size:0.72rem;
+                    font-weight:600;
+                    letter-spacing:0.02em;
+                }
+                .cf-meta{color:var(--text3); font-size:0.78rem}
+                .cf-out{color:var(--text3)}
+                .cf-hi{color:var(--green)}
+                .cf-arrow{color:var(--text3); margin:0 0.3rem}
+                @media (max-width:560px){
+                    .classify-flow{font-size:0.78rem; padding:0.9rem 1rem}
+                }
             </style>
 
             <div class="sec-badge">Classification Engine</div>
             <h2 class="sec-title reveal">13 types. 60+ patterns. Zero config.</h2>
-            <p class="sec-sub reveal">Every clipboard item is classified the instant it's captured — locally, in under 5ms. Secrets never hit disk. Everything else lands in a type-indexed vault you can query by what it is, not by when you copied it.</p>
+            <p class="sec-sub reveal">Every copy is auto-sorted into a type bucket — locally, in under 5ms. Later, you retrieve by <em style="color:var(--text);font-style:normal;font-weight:600">what it is</em>, not by what order you copied it.</p>
+
+            <div class="classify-flow reveal" aria-label="Classify then retrieve by type example">
+                <span class="cf-line"><span class="cf-p">$</span><span class="cf-i">npm run build 2&gt;&amp;1 | cg copy</span></span>
+                <span class="cf-line cf-out">&rarr; classified <span class="cf-tag">error</span> <span class="cf-meta">&middot; bucket: errors &middot; 5ms</span></span>
+                <span class="cf-line" style="margin-top:0.4rem"><span class="cf-p">$</span><span class="cf-i">cg paste --type error</span> <span class="cf-meta">&nbsp;&nbsp;# 10 minutes later</span></span>
+                <span class="cf-line cf-hi">TypeError: Cannot read properties of undefined&hellip;</span>
+            </div>
 
             <div class="ctype-wall reveal">
 
@@ -838,14 +885,71 @@
 
             </div>
 
-            <p class="ctype-foot reveal">
-                <strong>&lt; 5ms</strong> end-to-end
-                <span class="dotsep">·</span>
-                <strong>100%</strong> local
-                <span class="dotsep">·</span>
-                No training data, no telemetry, no network
-            </p>
         </section>
+
+        <!-- ════ Full-bleed stats strip (between engine and workflows) ════ -->
+        <style>
+            .engine-stats{
+                position:relative;
+                display:grid;
+                grid-template-columns:repeat(4,1fr);
+                gap:1rem 2rem;
+                padding:3.25rem 2rem;
+                border-top:1px solid var(--border);
+                border-bottom:1px solid var(--border);
+                background:
+                    radial-gradient(circle at 50% 0%, rgba(0,212,255,0.08), transparent 55%),
+                    linear-gradient(180deg, rgba(0,212,255,0.025) 0%, rgba(0,212,255,0) 100%);
+            }
+            .engine-stats::before{
+                content:"";
+                position:absolute;
+                top:-1px; left:0; right:0;
+                height:1px;
+                background:linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.6) 50%, transparent 100%);
+            }
+            .es-item{ text-align:center; position:relative }
+            .es-num{
+                font-family:'JetBrains Mono',monospace;
+                font-size:2.4rem;
+                font-weight:700;
+                color:var(--cyan);
+                line-height:1;
+                letter-spacing:-0.02em;
+            }
+            .es-num small{ font-size:1.1rem; font-weight:500; margin-left:0.1rem; opacity:0.9 }
+            .es-label{
+                font-size:0.85rem;
+                color:var(--text2);
+                margin-top:0.6rem;
+                letter-spacing:0.01em;
+            }
+            @media (max-width:720px){
+                .engine-stats{ grid-template-columns:repeat(2,1fr); gap:1.75rem 1rem; padding:2.5rem 1.25rem }
+                .es-num{ font-size:1.9rem }
+            }
+            @media (max-width:420px){
+                .engine-stats{ grid-template-columns:1fr }
+            }
+        </style>
+        <div class="engine-stats reveal" role="group" aria-label="Classification engine claims">
+            <div class="es-item">
+                <div class="es-num">13</div>
+                <div class="es-label">Content types detected</div>
+            </div>
+            <div class="es-item">
+                <div class="es-num">0</div>
+                <div class="es-label">Network requests made</div>
+            </div>
+            <div class="es-item">
+                <div class="es-num">0</div>
+                <div class="es-label">Bytes sent to cloud</div>
+            </div>
+            <div class="es-item">
+                <div class="es-num">&lt;5<small>ms</small></div>
+                <div class="es-label">Classification speed</div>
+            </div>
+        </div>
 
         <!-- ════ Cheat-sheet: 5 commands you'll actually use ════ -->
         <section class="sec" id="workflows">
