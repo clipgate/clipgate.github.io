@@ -535,7 +535,7 @@
                             <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg list</span></div>
                             <div class="t-line"><span class="t-c">ID      TYPE   AGE  PREVIEW</span></div>
                             <div class="t-line"><span class="t-o">…K5R    </span><span style="color:var(--red)">error</span><span class="t-o">  10m  TypeError: Cannot…</span></div>
-                            <div class="t-line"><span class="t-o">…K4Q    </span><span style="color:var(--green)">path</span><span class="t-o">    8m  /Users/alok/proj…</span></div>
+                            <div class="t-line"><span class="t-o">…K4Q    </span><span style="color:var(--green)">path</span><span class="t-o">    8m  /Users/dev/proj…</span></div>
                             <div class="t-line"><span class="t-o">…K40    </span><span style="color:var(--gold)">sql</span><span class="t-o">     5m  SELECT * FROM u…</span></div>
                             <div class="t-line"><span class="t-o">…K3Z    </span><span style="color:var(--cyan)">url</span><span class="t-o">     2m  localhost:3000</span></div>
                             <div class="t-line"><span class="t-p">$</span> <span class="t-i">cg paste --type error</span></div>
@@ -661,99 +661,210 @@
             </div>
         </section>
 
-        <!-- ════ Classification Engine ════ -->
+        <!-- ════ Classification Engine — 13-card receipt wall ════ -->
         <section class="sec" id="engine">
-            <div class="sec-badge">Classification Engine</div>
-            <h2 class="sec-title reveal">13 types. 60+ patterns. Zero config.</h2>
-            <p class="sec-sub reveal">Every clipboard item is automatically classified the instant it's captured.</p>
-
-            <p style="font-size:0.82rem;color:var(--cyan);text-align:center;margin-bottom:1rem;font-weight:500;opacity:0.75">&#8595; Click any type to see how Clip Gate detects it &#8595;</p>
-
-            <div class="ctype-grid reveal">
-                <button type="button" class="ctype-pill ctype-active" data-ctype="error" data-action="ctype-show" data-type="error"><span class="dot"></span>error</button>
-                <button type="button" class="ctype-pill" data-ctype="secret" data-action="ctype-show" data-type="secret"><span class="dot"></span>secret</button>
-                <button type="button" class="ctype-pill" data-ctype="sha" data-action="ctype-show" data-type="sha"><span class="dot"></span>sha</button>
-                <button type="button" class="ctype-pill" data-ctype="path" data-action="ctype-show" data-type="path"><span class="dot"></span>path</button>
-                <button type="button" class="ctype-pill" data-ctype="json" data-action="ctype-show" data-type="json"><span class="dot"></span>json</button>
-                <button type="button" class="ctype-pill" data-ctype="url" data-action="ctype-show" data-type="url"><span class="dot"></span>url</button>
-                <button type="button" class="ctype-pill" data-ctype="sql" data-action="ctype-show" data-type="sql"><span class="dot"></span>sql</button>
-                <button type="button" class="ctype-pill" data-ctype="diff" data-action="ctype-show" data-type="diff"><span class="dot"></span>diff</button>
-                <button type="button" class="ctype-pill" data-ctype="ip" data-action="ctype-show" data-type="ip"><span class="dot"></span>ip</button>
-                <button type="button" class="ctype-pill" data-ctype="env" data-action="ctype-show" data-type="env"><span class="dot"></span>env</button>
-                <button type="button" class="ctype-pill" data-ctype="docker" data-action="ctype-show" data-type="docker"><span class="dot"></span>docker</button>
-                <button type="button" class="ctype-pill" data-ctype="command" data-action="ctype-show" data-type="command"><span class="dot"></span>command</button>
-                <button type="button" class="ctype-pill" data-ctype="text" data-action="ctype-show" data-type="text"><span class="dot"></span>text</button>
-            </div>
-
-            <div class="ctype-stage reveal">
-                <div class="term ctype-term">
-                    <div class="term-bar">
-                        <div class="term-dots"><i class="d-r"></i><i class="d-y"></i><i class="d-g"></i></div>
-                        <span class="term-title">cg copy --verbose</span>
-                    </div>
-                    <div class="term-body" id="ctypeTermBody">
-                        <!-- Filled by ctypeShow() -->
-                    </div>
-                </div>
-                <div class="ctype-meta">
-                    <div class="ctype-meta-row"><span class="ctype-meta-k">type</span><span class="ctype-meta-v" id="ctypeMetaType">error</span></div>
-                    <div class="ctype-meta-row"><span class="ctype-meta-k">confidence</span><span class="ctype-meta-v" id="ctypeMetaConf">0.92</span></div>
-                    <div class="ctype-meta-row"><span class="ctype-meta-k">id</span><span class="ctype-meta-v" id="ctypeMetaId">01KN3K49</span></div>
-                    <div class="ctype-meta-row"><span class="ctype-meta-k">storage</span><span class="ctype-meta-v" id="ctypeMetaStore">sqlite</span></div>
-                </div>
-            </div>
-
             <style>
-                .ctype-grid{display:flex;flex-wrap:wrap;gap:0.55rem;justify-content:center;max-width:780px;margin:0 auto 2rem}
-                .ctype-pill{display:inline-flex;align-items:center;gap:0.45rem;padding:0.5rem 0.95rem;background:var(--card);border:1px solid var(--border);border-radius:99px;color:var(--text2-strong);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:inherit}
-                .ctype-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--text3);transition:all 0.2s}
-                .ctype-pill:hover{border-color:var(--cyan);color:#fff;transform:translateY(-1px)}
-                .ctype-pill.ctype-active{background:rgba(0,212,255,0.08);border-color:var(--cyan);color:#fff;box-shadow:0 0 0 1px var(--cyan),0 0 16px rgba(0,212,255,0.25)}
-                .ctype-pill[data-ctype="error"] .dot{background:#ef4444}
-                .ctype-pill[data-ctype="secret"] .dot{background:#f43f5e}
-                .ctype-pill[data-ctype="sha"] .dot{background:#fbbf24}
-                .ctype-pill[data-ctype="path"] .dot{background:#3b82f6}
-                .ctype-pill[data-ctype="json"] .dot{background:#a855f7}
-                .ctype-pill[data-ctype="url"] .dot{background:#06b6d4}
-                .ctype-pill[data-ctype="sql"] .dot{background:#8b5cf6}
-                .ctype-pill[data-ctype="diff"] .dot{background:#34d399}
-                .ctype-pill[data-ctype="ip"] .dot{background:#f97316}
-                .ctype-pill[data-ctype="env"] .dot{background:#84cc16}
-                .ctype-pill[data-ctype="docker"] .dot{background:#0ea5e9}
-                .ctype-pill[data-ctype="command"] .dot{background:#22d3ee}
-                .ctype-pill[data-ctype="text"] .dot{background:#94a3b8}
-                .ctype-stage{display:grid;grid-template-columns:1.6fr 1fr;gap:1.2rem;max-width:920px;margin:0 auto;align-items:stretch}
-                .ctype-stage .term{margin:0}
-                .ctype-stage .term-body{min-height:160px}
-                .ctype-meta{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.2rem;display:flex;flex-direction:column;gap:0.85rem;justify-content:center}
-                .ctype-meta-row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed rgba(255,255,255,0.06);padding-bottom:0.55rem}
-                .ctype-meta-row:last-child{border-bottom:0;padding-bottom:0}
-                .ctype-meta-k{font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
-                .ctype-meta-v{font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--cyan);font-weight:600}
-                @media (max-width:760px){.ctype-stage{grid-template-columns:1fr}}
+                .ctype-wall{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:1180px;margin:2.25rem auto 0}
+                @media (max-width:960px){.ctype-wall{grid-template-columns:repeat(2,1fr)}}
+                @media (max-width:560px){.ctype-wall{grid-template-columns:1fr}}
 
-                /* Carousel dots */
-                .ctype-dots{display:flex;justify-content:center;gap:6px;margin-top:1.5rem}
-                .ctype-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12);transition:all 0.35s ease;cursor:pointer}
-                .ctype-dot:hover{background:rgba(255,255,255,0.3)}
-                .ctype-dot.ctype-dot-active{width:28px;border-radius:5px;background:var(--cyan);box-shadow:0 0 10px rgba(0,212,255,0.4)}
+                .ctype-card{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.05rem 1.15rem 1.1rem;display:flex;flex-direction:column;gap:0.55rem;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;--c-accent:var(--cyan);overflow:hidden}
+                .ctype-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--c-accent);opacity:0.55;transition:opacity 0.2s}
+                .ctype-card:hover{border-color:color-mix(in srgb,var(--c-accent) 45%,transparent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.25)}
+                .ctype-card:hover::before{opacity:1}
+
+                .ctype-card[data-type="secret"]{--c-accent:#f43f5e;background:linear-gradient(180deg,rgba(244,63,94,0.05) 0%,var(--bg2) 40%)}
+                .ctype-card[data-type="error"]{--c-accent:#ef4444}
+                .ctype-card[data-type="sha"]{--c-accent:#fbbf24}
+                .ctype-card[data-type="path"]{--c-accent:#3b82f6}
+                .ctype-card[data-type="json"]{--c-accent:#a855f7}
+                .ctype-card[data-type="url"]{--c-accent:#06b6d4}
+                .ctype-card[data-type="sql"]{--c-accent:#8b5cf6}
+                .ctype-card[data-type="diff"]{--c-accent:#34d399}
+                .ctype-card[data-type="ip"]{--c-accent:#f97316}
+                .ctype-card[data-type="env"]{--c-accent:#84cc16}
+                .ctype-card[data-type="docker"]{--c-accent:#0ea5e9}
+                .ctype-card[data-type="command"]{--c-accent:#22d3ee}
+                .ctype-card[data-type="text"]{--c-accent:#94a3b8}
+
+                .cc-head{display:flex;align-items:center;justify-content:space-between;gap:0.6rem}
+                .cc-type{display:inline-flex;align-items:center;gap:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-accent)}
+                .cc-type .cc-dot{width:8px;height:8px;border-radius:50%;background:var(--c-accent);box-shadow:0 0 8px color-mix(in srgb,var(--c-accent) 60%,transparent)}
+                .cc-storage{font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);padding:0.22rem 0.5rem;border:1px solid var(--border);border-radius:4px;white-space:nowrap}
+                .cc-storage.cc-storage-mem{color:#f43f5e;border-color:rgba(244,63,94,0.4);background:rgba(244,63,94,0.08)}
+
+                .cc-patterns{font-size:0.78rem;color:var(--text2);line-height:1.5;letter-spacing:0.005em;min-height:2.35em}
+                .cc-patterns .sep{color:var(--text3);padding:0 0.35rem;opacity:0.6}
+
+                .cc-rule-divider{height:1px;background:linear-gradient(90deg,var(--border) 0%,transparent 85%);margin:0.15rem 0}
+
+                .cc-example{font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--text);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:0.15rem}
+                .cc-rule{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text3);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+                .cc-rule::before{content:'\21B3';margin-right:0.42rem;color:var(--c-accent);opacity:0.55}
+
+                .ctype-foot{margin-top:1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--text3);text-align:center;letter-spacing:0.05em}
+                .ctype-foot strong{color:var(--text2);font-weight:600}
+                .ctype-foot .dotsep{padding:0 0.6rem;opacity:0.5}
             </style>
 
-            <div class="ctype-dots reveal" id="ctypeDots">
-                <span class="ctype-dot ctype-dot-active" data-idx="0"></span>
-                <span class="ctype-dot" data-idx="1"></span>
-                <span class="ctype-dot" data-idx="2"></span>
-                <span class="ctype-dot" data-idx="3"></span>
-                <span class="ctype-dot" data-idx="4"></span>
-                <span class="ctype-dot" data-idx="5"></span>
-                <span class="ctype-dot" data-idx="6"></span>
-                <span class="ctype-dot" data-idx="7"></span>
-                <span class="ctype-dot" data-idx="8"></span>
-                <span class="ctype-dot" data-idx="9"></span>
-                <span class="ctype-dot" data-idx="10"></span>
-                <span class="ctype-dot" data-idx="11"></span>
-                <span class="ctype-dot" data-idx="12"></span>
+            <div class="sec-badge">Classification Engine</div>
+            <h2 class="sec-title reveal">13 types. 60+ patterns. Zero config.</h2>
+            <p class="sec-sub reveal">Every clipboard item is classified the instant it's captured — locally, in under 5ms. Secrets never hit disk. Everything else lands in a type-indexed vault you can query by what it is, not by when you copied it.</p>
+
+            <div class="ctype-wall reveal">
+
+                <article class="ctype-card" data-type="secret" id="type-secret">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Secret</span>
+                        <span class="cc-storage cc-storage-mem">Memory · 5m</span>
+                    </div>
+                    <div class="cc-patterns">Stripe<span class="sep">·</span>AWS<span class="sep">·</span>GitHub<span class="sep">·</span>JWT<span class="sep">·</span>Slack<span class="sep">·</span>Twilio<span class="sep">·</span>SSH<span class="sep">·</span>entropy</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">sk_live_4eC39HqLyjWDarjt&hellip;</div>
+                    <div class="cc-rule">Stripe sk_live_ prefix · entropy 4.71</div>
+                </article>
+
+                <article class="ctype-card" data-type="error" id="type-error">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Error</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">JS stack<span class="sep">·</span>Python traceback<span class="sep">·</span>Rust panic<span class="sep">·</span>Go<span class="sep">·</span>Java<span class="sep">·</span>C++<span class="sep">·</span>generic</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">TypeError: Cannot read properties of undefined</div>
+                    <div class="cc-rule">JS TypeError + `at &hellip; (file:line:col)`</div>
+                </article>
+
+                <article class="ctype-card" data-type="url" id="type-url">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>URL</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">http<span class="sep">·</span>https<span class="sep">·</span>ws/wss<span class="sep">·</span>ftp<span class="sep">·</span>file<span class="sep">·</span>custom schemes<span class="sep">·</span>query</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">https://api.example.com/v1/users?page=2</div>
+                    <div class="cc-rule">url::Url::parse succeeds (scheme + host)</div>
+                </article>
+
+                <article class="ctype-card" data-type="path" id="type-path">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Path</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">/Users<span class="sep">·</span>/home<span class="sep">·</span>/var<span class="sep">·</span>/tmp<span class="sep">·</span>C:\<span class="sep">·</span>~/<span class="sep">·</span>./rel</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">/Users/dev/projects/app/src/main.rs</div>
+                    <div class="cc-rule">Filesystem-root prefix + valid path glyphs</div>
+                </article>
+
+                <article class="ctype-card" data-type="json" id="type-json">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>JSON</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">object<span class="sep">·</span>array<span class="sep">·</span>nested<span class="sep">·</span>JSONL<span class="sep">·</span>pretty<span class="sep">·</span>minified</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">{"status":"ok","count":42}</div>
+                    <div class="cc-rule">serde_json::from_str succeeds</div>
+                </article>
+
+                <article class="ctype-card" data-type="command" id="type-command">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Command</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">git<span class="sep">·</span>npm<span class="sep">·</span>cargo<span class="sep">·</span>docker<span class="sep">·</span>kubectl<span class="sep">·</span>curl<span class="sep">·</span>pipes</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">cargo build --release 2&gt;&amp;1 | tee build.log</div>
+                    <div class="cc-rule">Known CLI binary + flags + pipes/redirects</div>
+                </article>
+
+                <article class="ctype-card" data-type="sha" id="type-sha">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>SHA</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">SHA-1<span class="sep">·</span>SHA-256<span class="sep">·</span>SHA-512<span class="sep">·</span>MD5<span class="sep">·</span>git commit<span class="sep">·</span>short</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">a3f9d12b8e7c4f5a1b2c3d4e5f6a7b8c9d0e1f2</div>
+                    <div class="cc-rule">40 hex chars (SHA-1 / git commit)</div>
+                </article>
+
+                <article class="ctype-card" data-type="diff" id="type-diff">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Diff</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">unified<span class="sep">·</span>git<span class="sep">·</span>patch<span class="sep">·</span>@@ hunks<span class="sep">·</span>+/- lines</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">diff --git a/src/main.rs b/src/main.rs</div>
+                    <div class="cc-rule">Leading `diff --git` or `@@ … @@` marker</div>
+                </article>
+
+                <article class="ctype-card" data-type="sql" id="type-sql">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>SQL</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">SELECT<span class="sep">·</span>INSERT<span class="sep">·</span>UPDATE<span class="sep">·</span>DELETE<span class="sep">·</span>CREATE<span class="sep">·</span>JOIN<span class="sep">·</span>WITH</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">SELECT id, name FROM users WHERE active = true</div>
+                    <div class="cc-rule">Leading SQL verb + keyword density</div>
+                </article>
+
+                <article class="ctype-card" data-type="env" id="type-env">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Env</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">KEY=val<span class="sep">·</span>DATABASE_URL<span class="sep">·</span>API_KEY<span class="sep">·</span>.env file<span class="sep">·</span>multi-line</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">DATABASE_URL=postgres://localhost/mydb</div>
+                    <div class="cc-rule">`[A-Z_]+=…` + known env-var prefix</div>
+                </article>
+
+                <article class="ctype-card" data-type="docker" id="type-docker">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Docker</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">FROM<span class="sep">·</span>RUN<span class="sep">·</span>COPY<span class="sep">·</span>ENV<span class="sep">·</span>CMD<span class="sep">·</span>ENTRYPOINT<span class="sep">·</span>compose</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">FROM rust:1.75-slim AS builder</div>
+                    <div class="cc-rule">Dockerfile instruction keyword at line start</div>
+                </article>
+
+                <article class="ctype-card" data-type="ip" id="type-ip">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>IP</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">IPv4<span class="sep">·</span>IPv6<span class="sep">·</span>CIDR<span class="sep">·</span>with port<span class="sep">·</span>private ranges</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">192.168.1.42:8080</div>
+                    <div class="cc-rule">4 octets 0–255 + optional :port</div>
+                </article>
+
+                <article class="ctype-card" data-type="text" id="type-text">
+                    <div class="cc-head">
+                        <span class="cc-type"><span class="cc-dot"></span>Text</span>
+                        <span class="cc-storage">SQLite</span>
+                    </div>
+                    <div class="cc-patterns">notes<span class="sep">·</span>prose<span class="sep">·</span>unknown<span class="sep">·</span>plain string<span class="sep">·</span>fallback</div>
+                    <div class="cc-rule-divider"></div>
+                    <div class="cc-example">meeting notes from standup</div>
+                    <div class="cc-rule">No other matcher fired — default bucket</div>
+                </article>
+
             </div>
+
+            <p class="ctype-foot reveal">
+                <strong>&lt; 5ms</strong> end-to-end
+                <span class="dotsep">·</span>
+                <strong>100%</strong> local
+                <span class="dotsep">·</span>
+                No training data, no telemetry, no network
+            </p>
         </section>
 
         <!-- ════ Scenarios (Tabbed Before/After) ════ -->
@@ -1497,65 +1608,6 @@
         });
     }
 
-    // ── Content Type Explorer ──
-    const ctypeData = {
-        error:   {input:'echo "TypeError: Cannot read properties of undefined" | cg copy --verbose', detect:'cg: error 01KN3K49 (confidence: 0.92)', conf:'0.92', id:'01KN3K49', store:'sqlite'},
-        secret:  {input:'echo "sk_live_4eC39HqLyjWDarjtT1zdp7dc" | cg copy --verbose', detect:'cg: secret 01KN3K5R (secret, memory-only)', conf:'0.99', id:'01KN3K5R', store:'memory · TTL'},
-        sha:     {input:'echo "a3f9d12b8e7c4f5a1b2c3d4e5f6a7b8c9d0e1f2" | cg copy --verbose', detect:'cg: sha 01KN3K6T (confidence: 0.97)', conf:'0.97', id:'01KN3K6T', store:'sqlite'},
-        path:    {input:'echo "/home/user/project/src/main.rs" | cg copy --verbose', detect:'cg: path 01KN3K7U (confidence: 0.94)', conf:'0.94', id:'01KN3K7U', store:'sqlite'},
-        json:    {input:'echo \'{"status":"ok","count":42}\' | cg copy --verbose', detect:'cg: json 01KN3K8V (confidence: 0.95)', conf:'0.95', id:'01KN3K8V', store:'sqlite'},
-        url:     {input:'echo "https://api.example.com/v1/users?page=2" | cg copy --verbose', detect:'cg: url 01KN3K9W (confidence: 0.98)', conf:'0.98', id:'01KN3K9W', store:'sqlite'},
-        sql:     {input:'echo "SELECT id, name FROM users WHERE active = true" | cg copy --verbose', detect:'cg: sql 01KN3KAX (confidence: 0.91)', conf:'0.91', id:'01KN3KAX', store:'sqlite'},
-        diff:    {input:'echo "diff --git a/src/main.rs b/src/main.rs" | cg copy --verbose', detect:'cg: diff 01KN3KBY (confidence: 0.96)', conf:'0.96', id:'01KN3KBY', store:'sqlite'},
-        ip:      {input:'echo "192.168.1.42:8080" | cg copy --verbose', detect:'cg: ip 01KN3KCZ (confidence: 0.93)', conf:'0.93', id:'01KN3KCZ', store:'sqlite'},
-        env:     {input:'echo "DATABASE_URL=postgres://localhost/mydb" | cg copy --verbose', detect:'cg: env 01KN3KD0 (confidence: 0.90)', conf:'0.90', id:'01KN3KD0', store:'sqlite'},
-        docker:  {input:'echo "FROM rust:1.75-slim AS builder" | cg copy --verbose', detect:'cg: docker 01KN3KE1 (confidence: 0.89)', conf:'0.89', id:'01KN3KE1', store:'sqlite'},
-        command: {input:'echo "cargo build --release 2>&1 | tee build.log" | cg copy --verbose', detect:'cg: command 01KN3KF2 (confidence: 0.85)', conf:'0.85', id:'01KN3KF2', store:'sqlite'},
-        text:    {input:'echo "meeting notes from standup" | cg copy --verbose', detect:'cg: text 01KN3KG3 (confidence: 0.70)', conf:'0.70', id:'01KN3KG3', store:'sqlite'}
-    };
-    const ctypeOrder=['error','secret','sha','path','json','url','sql','diff','ip','env','docker','command','text'];
-    function ctypeShow(type, btn){
-        const d = ctypeData[type]; if(!d) return;
-        const body = document.getElementById('ctypeTermBody'); if(!body) return;
-        body.innerHTML =
-            '<div class="t-line"><span class="t-p">$</span> <span class="t-i">'+d.input.replace(/</g,'&lt;')+'</span></div>'+
-            '<div class="t-line" style="margin-top:0.4rem"><span class="t-g">'+d.detect+'</span></div>'+
-            '<div class="t-line" style="margin-top:0.8rem"><span class="t-p">$</span> <span class="t-i">cg paste --type '+type+'</span></div>'+
-            '<div class="t-line"><span class="t-o">&#8593; retrieved by type, not by scroll position</span></div>';
-        document.getElementById('ctypeMetaType').textContent = type;
-        document.getElementById('ctypeMetaConf').textContent = d.conf;
-        document.getElementById('ctypeMetaId').textContent = d.id;
-        document.getElementById('ctypeMetaStore').textContent = d.store;
-        document.querySelectorAll('.ctype-pill').forEach(p=>p.classList.remove('ctype-active'));
-        if(btn) btn.classList.add('ctype-active');
-        else { const t=document.querySelector('.ctype-pill[data-ctype="'+type+'"]'); if(t) t.classList.add('ctype-active'); }
-        // Sync carousel dots
-        const dotIdx = ctypeOrder.indexOf(type);
-        document.querySelectorAll('.ctype-dot').forEach(d=>d.classList.remove('ctype-dot-active'));
-        const activeDot = document.querySelector('.ctype-dot[data-idx="'+dotIdx+'"]');
-        if(activeDot) activeDot.classList.add('ctype-dot-active');
-    }
-    window.ctypeShow = ctypeShow;
-    // Initial render + auto-cycle until first user click (respects prefers-reduced-motion)
-    let ctypeAutoStop = false;
-    document.addEventListener('DOMContentLoaded',()=>{
-        ctypeShow('error');
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            let idx=0;
-            const tick=()=>{ if(ctypeAutoStop) return; idx=(idx+1)%ctypeOrder.length; ctypeShow(ctypeOrder[idx]); setTimeout(tick,2200); };
-            setTimeout(tick,2200);
-        }
-        document.querySelectorAll('.ctype-pill').forEach(p=>p.addEventListener('click',()=>{ctypeAutoStop=true;}));
-        // Dot clicks: jump to that type and stop auto-cycle
-        document.querySelectorAll('.ctype-dot').forEach(dot=>{
-            dot.addEventListener('click',()=>{
-                ctypeAutoStop=true;
-                const i=parseInt(dot.dataset.idx,10);
-                if(ctypeOrder[i]) ctypeShow(ctypeOrder[i]);
-            });
-        });
-    });
-
     // ── Sticky install bar (only on home) ──
     (function(){
         const path = location.pathname;
@@ -1615,7 +1667,6 @@
         const action = el.dataset.action;
         if (action === 'smooth-nav') smoothNav(el.dataset.target);
         else if (action === 'copy-cmd') copyCmd(el, el.dataset.cmd);
-        else if (action === 'ctype-show') ctypeShow(el.dataset.type, el);
         else if (action === 'switch-tab') switchTab(el.dataset.target, el);
     }
     document.addEventListener('click', (e) => {
