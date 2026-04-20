@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID Generator — v4, v7, v1 (Free, No Ads) — ClipGate</title>
+  <meta name="description" content="Free, ad-free UUID generator. Create cryptographically random v4, time-ordered v7, and v1 UUIDs in bulk. Copy all or download as CSV. 100% client-side — nothing leaves your browser.">
+  <meta name="keywords" content="uuid generator, uuid v4 generator, uuid v7 generator, uuid v1 generator, guid generator, bulk uuid, random uuid, time-ordered uuid">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/uuid/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/uuid/">
+  <meta property="og:title" content="UUID Generator — v4, v7, v1 (Free, No Ads)">
+  <meta property="og:description" content="Generate v4, v7, and v1 UUIDs in bulk. Copy all or download CSV. Ad-free. 100% client-side.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UUID Generator — Free, Ad-free, 100% Client-side">
+  <meta name="twitter:description" content="Generate v4, v7, and v1 UUIDs in bulk. Copy all or download CSV. No backend.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate UUID Generator",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://clipgate.github.io/tools/uuid/",
+    "description": "Free, ad-free UUID generator. Generates v4 (random), v7 (time-ordered), and v1 UUIDs in bulk. 100% client-side.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "featureList": [
+      "Generate UUID v4 (cryptographically random)",
+      "Generate UUID v7 (time-ordered, sortable)",
+      "Generate UUID v1 (time + node)",
+      "Bulk generation: 1, 10, 100, or 1000 at a time",
+      "Format options: uppercase, no-hyphens, braced",
+      "One-click copy all",
+      "Download as CSV",
+      "100% client-side — no network calls",
+      "No ads, no tracking, no signup"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",           "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools",          "item": "https://clipgate.github.io/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "UUID Generator", "item": "https://clipgate.github.io/tools/uuid/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a UUID?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A UUID (Universally Unique Identifier) is a 128-bit value formatted as 32 hex characters grouped by hyphens (8-4-4-4-12). UUIDs are designed to be unique across space and time without a central authority, making them ideal for database primary keys, request IDs, and distributed-system identifiers." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between UUID v4, v7, and v1?",
+        "acceptedAnswer": { "@type": "Answer", "text": "v4 is 122 bits of cryptographic randomness — the safe default when you don't need ordering. v7 (RFC 9562) embeds a 48-bit millisecond timestamp in the high bits, so v7s sort chronologically — ideal for database indexes. v1 combines a timestamp with a node identifier (often the MAC address); it's older, leaks node info, and is rarely the right choice today." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is crypto.randomUUID() safe for production?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. crypto.randomUUID() is part of the Web Crypto standard and is backed by the browser's CSPRNG. It produces RFC 9562 v4 UUIDs with 122 bits of entropy — collisions are astronomically unlikely (you'd need to generate billions per second for decades). It ships in every modern browser and Node 19+." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why use UUID v7 for database primary keys?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Because v7 is time-ordered, new rows insert at the end of a B-tree index rather than fragmenting it. This gives you the locality benefits of an auto-increment integer while keeping UUID uniqueness. Postgres, MySQL, and SQLite all benefit. v4 keys, by contrast, scatter writes across the index and hurt insert throughput on large tables." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does ClipGate classify UUIDs?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ClipGate's classifier sees a UUID as high-entropy 128-bit hex and tags it as a generic identifier — not as a secret. In your clipboard history, generated UUIDs stay searchable and freely pasteable. Only real credentials (API keys, JWTs, private keys) get the secret flag and paste block." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="../_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    /* UUID-specific tweaks (minimal — only what tool-chrome.css doesn't cover) */
+    .uuid-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .55rem;
+      padding: .75rem .9rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0, 212, 255, .04);
+    }
+    .uuid-controls .ctrl-group {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .uuid-controls .ctrl-label {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-right: .1rem;
+    }
+    .uuid-seg {
+      display: inline-flex;
+      padding: 2px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .uuid-seg button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text2);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: .32rem .62rem;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: color .16s ease, background .16s ease;
+    }
+    .uuid-seg button:hover { color: var(--cyan); }
+    .uuid-seg button[aria-pressed="true"] {
+      background: rgba(0, 212, 255, .1);
+      color: var(--cyan);
+    }
+    .uuid-controls .spacer { flex: 1; }
+
+    .uuid-generate-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .6rem;
+      margin-top: .2rem;
+    }
+    .uuid-generate-row .tool-btn.primary {
+      padding: .65rem 1.3rem;
+      font-size: .92rem;
+    }
+    .uuid-format-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      padding: .35rem 0;
+      font-size: .8rem;
+      color: var(--text2);
+    }
+    .uuid-format-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .uuid-format-row input[type="checkbox"] {
+      accent-color: var(--cyan);
+      width: 14px;
+      height: 14px;
+    }
+    .uuid-format-row .fmt-label { font-size: .75rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text2); margin-right: .1rem; }
+
+    #uuidOutput {
+      min-height: 420px;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    #uuidOutput .u-line { display: block; }
+
+    .uuid-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .6rem;
+      font-size: .78rem;
+      color: var(--text3);
+      padding-top: .1rem;
+    }
+    .uuid-meta code {
+      color: var(--cyan);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="tool-hero">
+      <div class="tool-hero-main">
+        <div class="tool-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+          ClipGate Tools · UUID Generator
+        </div>
+        <h1>Generate UUIDs. v4, v7, v1.</h1>
+        <p class="sub">One click to generate a single UUID, or a thousand. Pick v4 for random, v7 for time-ordered database keys, v1 for legacy compatibility. Copy all or download as CSV — everything runs in your browser.</p>
+        <div class="tool-hero-pills">
+          <span class="tool-pill ok">100% client-side</span>
+          <span class="tool-pill ok">No signup</span>
+          <span class="tool-pill">v4 · v7 · v1</span>
+        </div>
+      </div>
+      <div class="tool-hero-side">
+        <!-- Classifier sidebar — live ClipGate demo -->
+        <div id="cgToolClassifier" data-watch="#uuidOutput"></div>
+        <div class="tool-side-card">
+          <span class="tool-side-label">Why this sidebar?</span>
+          <h3>128 bits of identity</h3>
+          <p>UUIDs look random but aren't secrets. ClipGate's classifier knows the difference — it tags them as identifiers so they stay freely pasteable in your clipboard history, while real credentials stay locked.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workbench (single unified panel) -->
+    <section class="tool-workbench" style="grid-template-columns: 1fr;">
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Generator</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnCopyAll">Copy all</button>
+            <button class="tool-btn" type="button" id="btnDownload">Download CSV</button>
+            <button class="tool-btn" type="button" id="btnClear">Clear</button>
+          </div>
+        </div>
+
+        <!-- Compact controls row: version + count -->
+        <div class="uuid-controls">
+          <div class="ctrl-group">
+            <span class="ctrl-label">Version</span>
+            <div class="uuid-seg" role="radiogroup" aria-label="UUID version">
+              <button type="button" data-version="v4" aria-pressed="true">v4</button>
+              <button type="button" data-version="v7" aria-pressed="false">v7</button>
+              <button type="button" data-version="v1" aria-pressed="false">v1</button>
+            </div>
+          </div>
+          <div class="ctrl-group">
+            <span class="ctrl-label">Count</span>
+            <div class="uuid-seg" role="radiogroup" aria-label="How many UUIDs to generate">
+              <button type="button" data-count="1" aria-pressed="true">1</button>
+              <button type="button" data-count="10" aria-pressed="false">10</button>
+              <button type="button" data-count="100" aria-pressed="false">100</button>
+              <button type="button" data-count="1000" aria-pressed="false">1,000</button>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <button class="tool-btn primary" type="button" id="btnGenerate">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1.06 6.64 2.87"/><path d="M21 3v6h-6"/></svg>
+            Generate
+          </button>
+        </div>
+
+        <!-- Secondary format toggles -->
+        <div class="uuid-format-row">
+          <span class="fmt-label">Format</span>
+          <label><input type="checkbox" id="fmtUpper"> Uppercase</label>
+          <label><input type="checkbox" id="fmtNoHyphen"> No hyphens</label>
+          <label><input type="checkbox" id="fmtBraced"> Braced {xxx}</label>
+        </div>
+
+        <!-- Big output area -->
+        <pre class="tool-output" id="uuidOutput" data-empty="true">// click Generate to create UUIDs</pre>
+
+        <div class="uuid-meta" id="uuidMeta">
+          <span>Ready.</span>
+          <span><code id="uuidCountLabel">0</code> generated</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / FAQ -->
+    <section class="tool-section">
+      <h2>About UUIDs</h2>
+      <p class="lede">A UUID is a 128-bit identifier written as 32 hex characters in the pattern <code>8-4-4-4-12</code>. The version (the first hex digit of the third group) tells you how it was generated: <code>4</code> for random, <code>7</code> for time-ordered, <code>1</code> for time+node. This generator runs entirely in your browser using <code>crypto.randomUUID()</code> and <code>crypto.getRandomValues()</code> — no network, no logging.</p>
+
+      <div class="tool-faq">
+        <details open>
+          <summary>What is a UUID, exactly?</summary>
+          <p>A Universally Unique Identifier is a 128-bit number designed so that anyone, anywhere, can generate one without coordinating with anyone else and still be confident it's unique. The standard (RFC 9562, which supersedes RFC 4122) defines several versions that trade randomness for ordering or embedded metadata. The canonical string form is 32 lowercase hex digits grouped as <code>xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx</code>, where <code>M</code> is the version and the top two bits of <code>N</code> are the variant.</p>
+        </details>
+        <details>
+          <summary>v4 vs v7 vs v1 — which do I want?</summary>
+          <p><strong>v4</strong> — 122 bits of CSPRNG randomness. Safe default. Use when you don't care about ordering. <strong>v7</strong> — 48 bits of millisecond timestamp in the high bits, 74 bits of randomness in the low bits. Sorts chronologically, which makes it a drop-in replacement for auto-increment integers on B-tree indexes. <strong>v1</strong> — 60-bit timestamp plus a 48-bit "node" identifier that was originally supposed to be a MAC address. Today it's a legacy format; we synthesize a random node for this generator so nothing identifying leaks.</p>
+        </details>
+        <details>
+          <summary>Is <code>crypto.randomUUID()</code> cryptographically safe?</summary>
+          <p>Yes. It's part of the Web Crypto standard and is backed by the same CSPRNG the browser uses for TLS key generation. A v4 UUID has 122 bits of entropy — to get even a 1% collision probability you'd need to generate about 2.7 quintillion of them. It's shipped in every modern browser, Node 19+, Deno, and Bun. This tool uses <code>crypto.randomUUID()</code> directly for v4, and <code>crypto.getRandomValues()</code> plus manual bit-packing for v7 and v1.</p>
+        </details>
+        <details>
+          <summary>Why should I use v7 for database primary keys?</summary>
+          <p>A random v4 primary key scatters every insert across your B-tree index, causing page splits, fragmentation, and poor cache locality — especially bad on high-throughput tables. A v7 key, by contrast, is time-ordered: new rows always insert at the tail of the index, behaving like an auto-increment integer but without the shared-counter bottleneck. You get UUID benefits (no central authority, safe for distributed systems) and sequential-key performance. Postgres, MySQL, and SQLite all see measurable write-throughput improvements on large tables.</p>
+        </details>
+        <details>
+          <summary>How does ClipGate classify UUIDs in my clipboard?</summary>
+          <p>ClipGate's classifier sees a UUID as what it is: a 128-bit identifier, not a credential. It's tagged as a generic ID and kept fully searchable and pasteable in your clipboard history. ClipGate only applies its paste-block to things that look like real secrets — API keys, JWTs, private keys, high-entropy tokens with secret-shaped prefixes. You can generate a thousand UUIDs here and paste them anywhere without unlocking anything.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related tools -->
+    <section id="cgToolRelated" class="tool-section" data-exclude="uuid"></section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+
+  <!-- Tool-chrome injector: mounts classifier sidebar + related + install band -->
+  <script type="module" src="../_framework/tool-chrome.js"></script>
+
+  <!-- UUID generator logic -->
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+
+    // ── State ───────────────────────────────────────────────────
+    const state = {
+      version: 'v4',
+      count: 1,
+      upper: false,
+      noHyphen: false,
+      braced: false,
+      uuids: [],
+    };
+
+    // ── Generators ──────────────────────────────────────────────
+    function bytesToHex(bytes) {
+      let s = '';
+      for (let i = 0; i < bytes.length; i++) s += bytes[i].toString(16).padStart(2, '0');
+      return s;
+    }
+    function hexToCanonical(hex) {
+      return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+
+    function uuidv4() {
+      // crypto.randomUUID() returns canonical v4, all modern browsers.
+      if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+      }
+      // Fallback — should basically never run.
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      return hexToCanonical(bytesToHex(bytes));
+    }
+
+    function uuidv7() {
+      const ms = BigInt(Date.now());
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      // First 48 bits: timestamp_ms (big-endian)
+      bytes[0] = Number((ms >> 40n) & 0xffn);
+      bytes[1] = Number((ms >> 32n) & 0xffn);
+      bytes[2] = Number((ms >> 24n) & 0xffn);
+      bytes[3] = Number((ms >> 16n) & 0xffn);
+      bytes[4] = Number((ms >> 8n) & 0xffn);
+      bytes[5] = Number(ms & 0xffn);
+      // Version 7 in high nibble of byte 6
+      bytes[6] = (bytes[6] & 0x0f) | 0x70;
+      // Variant bits (10) in top two bits of byte 8
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      return hexToCanonical(bytesToHex(bytes));
+    }
+
+    // v1: 60-bit timestamp (100ns intervals since UUID epoch 1582-10-15) + clock_seq + node.
+    // We synthesize a random node each call so nothing identifying leaks.
+    const UUID_V1_EPOCH_OFFSET_MS = 12219292800000n; // ms from 1582-10-15 to 1970-01-01
+    function uuidv1() {
+      // 100-ns intervals since Gregorian epoch
+      const nowMs = BigInt(Date.now());
+      const intervals = (nowMs + UUID_V1_EPOCH_OFFSET_MS) * 10000n + BigInt(Math.floor(Math.random() * 10000));
+
+      const timeLow   = Number(intervals & 0xffffffffn);
+      const timeMid   = Number((intervals >> 32n) & 0xffffn);
+      const timeHi    = Number((intervals >> 48n) & 0x0fffn) | 0x1000; // version 1
+
+      const clockSeq  = Math.floor(Math.random() * 0x3fff) | 0x8000; // variant 10
+
+      const bytes = new Uint8Array(16);
+      bytes[0] = (timeLow >>> 24) & 0xff;
+      bytes[1] = (timeLow >>> 16) & 0xff;
+      bytes[2] = (timeLow >>> 8)  & 0xff;
+      bytes[3] =  timeLow         & 0xff;
+      bytes[4] = (timeMid >>> 8)  & 0xff;
+      bytes[5] =  timeMid         & 0xff;
+      bytes[6] = (timeHi  >>> 8)  & 0xff;
+      bytes[7] =  timeHi          & 0xff;
+      bytes[8] = (clockSeq >>> 8) & 0xff;
+      bytes[9] =  clockSeq        & 0xff;
+      // Random node (synthesized, multicast bit set so it's clearly not a real MAC)
+      const node = new Uint8Array(6);
+      crypto.getRandomValues(node);
+      node[0] |= 0x01; // multicast bit — signals a synthesized node per RFC
+      bytes[10] = node[0];
+      bytes[11] = node[1];
+      bytes[12] = node[2];
+      bytes[13] = node[3];
+      bytes[14] = node[4];
+      bytes[15] = node[5];
+
+      return hexToCanonical(bytesToHex(bytes));
+    }
+
+    function generateOne() {
+      switch (state.version) {
+        case 'v7': return uuidv7();
+        case 'v1': return uuidv1();
+        case 'v4':
+        default:   return uuidv4();
+      }
+    }
+
+    // ── Formatting ──────────────────────────────────────────────
+    function applyFormat(u) {
+      let out = u;
+      if (state.noHyphen) out = out.replace(/-/g, '');
+      if (state.upper)    out = out.toUpperCase();
+      if (state.braced)   out = `{${out}}`;
+      return out;
+    }
+
+    // ── Rendering ───────────────────────────────────────────────
+    function render() {
+      const out = $('uuidOutput');
+      if (state.uuids.length === 0) {
+        out.textContent = '// click Generate to create UUIDs';
+        out.dataset.empty = 'true';
+        $('uuidCountLabel').textContent = '0';
+        $('uuidMeta').firstElementChild.textContent = 'Ready.';
+        // Emit an input event so the classifier sidebar updates to empty state.
+        out.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+      out.textContent = state.uuids.map(applyFormat).join('\n');
+      out.dataset.empty = 'false';
+      $('uuidCountLabel').textContent = state.uuids.length.toLocaleString();
+      $('uuidMeta').firstElementChild.textContent =
+        `Generated ${state.uuids.length.toLocaleString()} × UUID ${state.version}`;
+      // Let the classifier pick up the new content
+      out.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    // ── Actions ─────────────────────────────────────────────────
+    function generate() {
+      const n = state.count;
+      const arr = new Array(n);
+      for (let i = 0; i < n; i++) arr[i] = generateOne();
+      state.uuids = arr;
+      render();
+    }
+
+    async function copyAll() {
+      if (state.uuids.length === 0) return;
+      const text = state.uuids.map(applyFormat).join('\n');
+      try {
+        await navigator.clipboard.writeText(text);
+        flashBtn($('btnCopyAll'), 'Copied');
+      } catch {
+        flashBtn($('btnCopyAll'), 'Copy failed');
+      }
+    }
+
+    function downloadCsv() {
+      if (state.uuids.length === 0) return;
+      const rows = ['uuid', ...state.uuids.map(applyFormat)];
+      const csv = rows.join('\n') + '\n';
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `uuids-${state.uuids.length}-${ts}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      flashBtn($('btnDownload'), 'Downloaded');
+    }
+
+    function clearAll() {
+      state.uuids = [];
+      render();
+    }
+
+    function flashBtn(btn, text) {
+      const original = btn.textContent;
+      btn.textContent = text;
+      setTimeout(() => { btn.textContent = original; }, 1200);
+    }
+
+    // ── Event wiring ────────────────────────────────────────────
+    document.querySelectorAll('.uuid-seg button[data-version]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.version = btn.dataset.version;
+        document.querySelectorAll('.uuid-seg button[data-version]').forEach(b => {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      });
+    });
+    document.querySelectorAll('.uuid-seg button[data-count]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.count = parseInt(btn.dataset.count, 10);
+        document.querySelectorAll('.uuid-seg button[data-count]').forEach(b => {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      });
+    });
+
+    $('fmtUpper').addEventListener('change',    (e) => { state.upper    = e.target.checked; render(); });
+    $('fmtNoHyphen').addEventListener('change', (e) => { state.noHyphen = e.target.checked; render(); });
+    $('fmtBraced').addEventListener('change',   (e) => { state.braced   = e.target.checked; render(); });
+
+    $('btnGenerate').addEventListener('click', generate);
+    $('btnCopyAll').addEventListener('click',  copyAll);
+    $('btnDownload').addEventListener('click', downloadCsv);
+    $('btnClear').addEventListener('click',    clearAll);
+
+    // Keyboard: Enter anywhere on the page (not in an input) triggers Generate.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLTextAreaElement)) {
+        generate();
+      }
+    });
+
+    // Seed with one v4 so the output panel isn't empty on first paint.
+    generate();
+  </script>
+</body>
+</html>

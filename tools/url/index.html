@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encode &amp; Decode — Free, No Ads, UTF-8 Safe — ClipGate</title>
+  <meta name="description" content="Free URL encoder and decoder. Percent-encode query params or full URLs with UTF-8 safety. Auto-converts as you type. 100% client-side — your data never leaves the browser.">
+  <meta name="keywords" content="url encode, url decode, percent encoding, encodeURIComponent, encodeURI, url encoder online, url decoder online, query string parser">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/url/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/url/">
+  <meta property="og:title" content="URL Encode &amp; Decode — Free, No Ads, UTF-8 Safe">
+  <meta property="og:description" content="Auto-converting URL encoder / decoder. Component or full-URL mode. 100% client-side.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="URL Encode &amp; Decode — Free, UTF-8 Safe, Ad-free">
+  <meta name="twitter:description" content="Paste text or a URL to encode or decode percent-escapes instantly. No backend.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate URL Encoder / Decoder",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://clipgate.github.io/tools/url/",
+    "description": "Free, ad-free URL encoder and decoder. Supports component-level and full-URL percent-encoding with UTF-8 safety. 100% client-side.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "featureList": [
+      "Auto-convert URL encode and decode as you type",
+      "Component mode (encodeURIComponent) for query values",
+      "Full URL mode (encodeURI) preserves URL structure",
+      "UTF-8 safe — emoji and non-ASCII handled correctly",
+      "Inline query-param breakdown for full URLs",
+      "Graceful handling of malformed percent sequences",
+      "100% client-side — text never leaves the browser",
+      "No ads, no tracking, no signup"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",              "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools",             "item": "https://clipgate.github.io/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "URL Encode/Decode", "item": "https://clipgate.github.io/tools/url/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is URL percent-encoding?",
+        "acceptedAnswer": { "@type": "Answer", "text": "URL percent-encoding (defined in RFC 3986) replaces characters that are unsafe or reserved in URLs with a percent sign followed by two hex digits representing the byte in UTF-8. For example, a space becomes %20 and an em-dash (—) becomes %E2%80%94. This lets you put arbitrary text — including non-ASCII characters and reserved URL delimiters — inside a URL without breaking its structure." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between encodeURI and encodeURIComponent?",
+        "acceptedAnswer": { "@type": "Answer", "text": "encodeURI is meant for a whole URL and leaves URL-structure characters intact (: / ? # [ ] @ ! $ & ' ( ) * + , ; =). encodeURIComponent is meant for a single URL component (like a query-string value) and also percent-encodes those structural characters, so the value can safely contain slashes, ampersands, or question marks without breaking the URL. Use Component mode for query values and Full URL mode when handing the tool a complete address." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is %20 sometimes shown as + for spaces?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The older application/x-www-form-urlencoded format — used by HTML form submissions — encodes spaces as +, while RFC 3986 URL encoding uses %20. This tool uses %20 (the modern, spec-correct form). Most servers accept either in a query string, but + is only safe inside query strings, never in paths or fragments." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which characters are reserved in a URL?",
+        "acceptedAnswer": { "@type": "Answer", "text": "RFC 3986 defines two classes. Reserved characters — : / ? # [ ] @ ! $ & ' ( ) * + , ; = — have structural meaning and must be percent-encoded inside a component. Unreserved characters — A-Z a-z 0-9 - _ . ~ — never need encoding. Component mode in this tool percent-encodes the reserved set; Full URL mode preserves it." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does ClipGate's classifier handle URLs?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The sidebar shows how ClipGate — our local-first clipboard CLI — would label what you've typed. A clean URL gets the 'URL' tag so ClipGate can let you copy just the host, path, or query later. A percent-encoded string of random characters may be flagged as high-entropy content (possible secret). It's a live on-page demo of the same classifier that ships with the CLI." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="../_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    /* URL-tool specific tweaks */
+    .url-textarea { min-height: 220px; font-size: .9rem; }
+
+    .url-panel-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+    .url-panel-label.raw { color: var(--blue); }
+    .url-panel-label.enc { color: var(--green); }
+
+    .url-panel-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .6rem;
+      font-size: .76rem;
+      color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .url-err {
+      color: var(--red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    /* Control row under workbench: mode + swap */
+    .url-controls {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      flex-wrap: wrap;
+      margin-top: .9rem;
+      padding: .7rem .9rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(18, 24, 36, .55);
+    }
+    .url-mode {
+      display: inline-flex;
+      gap: .3rem;
+      padding: .25rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+    }
+    .url-mode label {
+      cursor: pointer;
+      padding: .32rem .72rem;
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 600;
+      color: var(--text2);
+      transition: all .16s ease;
+    }
+    .url-mode input { display: none; }
+    .url-mode input:checked + span {
+      background: rgba(0, 212, 255, .14);
+      color: var(--cyan);
+      padding: .32rem .72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 212, 255, .3);
+    }
+    .url-mode-label {
+      display: inline-block;
+      padding: .32rem .72rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    .url-mode-hint {
+      font-size: .76rem;
+      color: var(--text3);
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Query param breakdown */
+    .url-params {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(18, 24, 36, .55);
+    }
+    .url-params h3 {
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+    .url-params-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+    }
+    .url-params-table th {
+      text-align: left;
+      padding: .5rem .6rem;
+      color: var(--text3);
+      font-weight: 600;
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .url-params-table td {
+      padding: .52rem .6rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(0, 212, 255, .06);
+      word-break: break-all;
+    }
+    .url-params-table td.k { color: var(--blue); width: 30%; }
+    .url-params-table td.v { color: var(--text); }
+    .url-params-meta {
+      font-size: .78rem;
+      color: var(--text3);
+      margin-top: .6rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .url-params-meta span { color: var(--cyan); }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="tool-hero">
+      <div class="tool-hero-main">
+        <div class="tool-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          ClipGate Tools · URL Encode/Decode
+        </div>
+        <h1>Encode and decode URLs, instantly.</h1>
+        <p class="sub">Type on either side — the other updates live. Component mode percent-encodes every reserved character; Full URL mode keeps the address structure intact. UTF-8 safe. Everything runs locally.</p>
+        <div class="tool-hero-pills">
+          <span class="tool-pill ok">100% client-side</span>
+          <span class="tool-pill ok">No signup</span>
+          <span class="tool-pill ok">No ads</span>
+        </div>
+      </div>
+      <div class="tool-hero-side">
+        <!-- Classifier sidebar — live ClipGate demo -->
+        <div id="cgToolClassifier" data-watch="#urlRaw"></div>
+        <div class="tool-side-card">
+          <span class="tool-side-label">Why this sidebar?</span>
+          <h3>URLs are first-class</h3>
+          <p>ClipGate's local classifier recognises URLs the moment you copy one — so you can later paste just the host, just the path, or just a query param. The box above runs the same classifier on whatever you type.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workbench -->
+    <section class="tool-workbench">
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2><span class="url-panel-label raw">Raw</span></h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnCopyRaw">Copy</button>
+            <button class="tool-btn" type="button" id="btnClearRaw">Clear</button>
+          </div>
+        </div>
+        <textarea id="urlRaw" class="tool-textarea url-textarea"
+          placeholder="Type or paste plain text / a URL here — e.g. hello world & friends, or https://example.com/path?q=a b"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"></textarea>
+        <div class="url-panel-foot">
+          <span id="urlRawCount">0 chars</span>
+          <span class="url-err" id="urlRawErr"></span>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2><span class="url-panel-label enc">URL-encoded</span></h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnSwap" title="Swap sides">Swap</button>
+            <button class="tool-btn" type="button" id="btnCopyEnc">Copy</button>
+            <button class="tool-btn" type="button" id="btnClearEnc">Clear</button>
+          </div>
+        </div>
+        <textarea id="urlEncoded" class="tool-textarea url-textarea"
+          placeholder="Or paste a percent-encoded string here — it will decode into the left panel."
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"></textarea>
+        <div class="url-panel-foot">
+          <span id="urlEncCount">0 chars</span>
+          <span class="url-err" id="urlEncErr"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mode selector -->
+    <div class="url-controls" role="radiogroup" aria-label="Encoding mode">
+      <span style="font-size:.78rem;color:var(--text2);font-weight:600">Mode</span>
+      <div class="url-mode">
+        <label>
+          <input type="radio" name="urlMode" value="component" checked>
+          <span class="url-mode-label">Component</span>
+        </label>
+        <label>
+          <input type="radio" name="urlMode" value="full">
+          <span class="url-mode-label">Full URL</span>
+        </label>
+      </div>
+      <span class="url-mode-hint" id="urlModeHint">encodeURIComponent — escapes :/?#[]@!$&amp;'()*+,;=</span>
+    </div>
+
+    <!-- Query param breakdown (only rendered when input parses as a URL) -->
+    <div class="url-params" id="urlParams" style="display:none">
+      <h3>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Query params
+      </h3>
+      <table class="url-params-table">
+        <thead>
+          <tr><th>Key</th><th>Value (decoded)</th></tr>
+        </thead>
+        <tbody id="urlParamsBody"></tbody>
+      </table>
+      <div class="url-params-meta" id="urlParamsMeta"></div>
+    </div>
+
+    <!-- About / FAQ -->
+    <section class="tool-section">
+      <h2>About URL encoding</h2>
+      <p class="lede">Percent-encoding is how URLs carry arbitrary text without breaking their own syntax. A byte that would otherwise clash with a URL delimiter (or isn't ASCII) is replaced with <code>%</code> followed by its two-digit hex value in UTF-8. Component mode encodes every reserved character so a single value can sit safely inside a query string; Full URL mode leaves delimiters alone so a whole address stays a working address.</p>
+
+      <div class="tool-faq">
+        <details open>
+          <summary>What is URL percent-encoding?</summary>
+          <p>URL percent-encoding (<a href="https://datatracker.ietf.org/doc/html/rfc3986" style="color:var(--cyan)">RFC 3986</a>) replaces characters that are unsafe or reserved in URLs with <code>%XX</code> — a percent sign plus two hex digits representing the byte value in UTF-8. A space becomes <code>%20</code>; <code>&amp;</code> becomes <code>%26</code>; an em-dash becomes <code>%E2%80%94</code> (three bytes, because it's multi-byte UTF-8).</p>
+        </details>
+        <details>
+          <summary>When do I use Component vs Full URL?</summary>
+          <p>Use <strong>Component</strong> when you're encoding a single value you're about to stuff into a URL — a search query, a path segment, a form field. It percent-encodes <code>:/?#[]@!$&amp;'()*+,;=</code> so your value can't accidentally look like URL structure. Use <strong>Full URL</strong> when you already have a complete address and just need to clean up spaces and non-ASCII bytes without breaking the <code>?</code>, <code>#</code>, or <code>/</code> separators.</p>
+        </details>
+        <details>
+          <summary>Why does it show %20 for spaces instead of +?</summary>
+          <p><code>+</code>-for-space comes from the older <code>application/x-www-form-urlencoded</code> MIME type used by HTML form submissions. RFC 3986 URL encoding uses <code>%20</code> everywhere, and that's what JavaScript's <code>encodeURIComponent</code> produces. Most servers accept both inside a query string, but <code>+</code> has no special meaning in a URL path or fragment — so <code>%20</code> is the universally-safe choice.</p>
+        </details>
+        <details>
+          <summary>What if the input has a malformed percent sequence?</summary>
+          <p>A lone <code>%</code> or a <code>%</code> followed by non-hex characters (e.g. <code>%ZZ</code>) is invalid and can't be decoded. When that happens we show an inline error under the affected panel and leave the other side as-is, so you don't lose what you had. Fix the bad sequence and it'll resolve automatically.</p>
+        </details>
+        <details>
+          <summary>Who built this?</summary>
+          <p>The ClipGate team. We build a local-first clipboard vault CLI for developers that auto-classifies every copy and blocks paste of secrets. These free tools — JWT decoder, URL encoder, and more — extend the same philosophy to common developer workflows: ad-free, client-side, dark by default.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related tools -->
+    <section id="cgToolRelated" class="tool-section" data-exclude="url"></section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+
+  <!-- Tool-chrome injector: mounts classifier sidebar + related + install band -->
+  <script type="module" src="../_framework/tool-chrome.js"></script>
+
+  <!-- URL encoder/decoder logic -->
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+
+    const rawEl  = $('urlRaw');
+    const encEl  = $('urlEncoded');
+    const rawCt  = $('urlRawCount');
+    const encCt  = $('urlEncCount');
+    const rawErr = $('urlRawErr');
+    const encErr = $('urlEncErr');
+    const modeHint = $('urlModeHint');
+    const paramsWrap = $('urlParams');
+    const paramsBody = $('urlParamsBody');
+    const paramsMeta = $('urlParamsMeta');
+
+    // Re-entrancy guard: when we programmatically set one textarea from the
+    // other's input event, we must not re-trigger the reverse direction.
+    let suppress = false;
+
+    function currentMode() {
+      const sel = document.querySelector('input[name="urlMode"]:checked');
+      return sel ? sel.value : 'component';
+    }
+
+    function encode(text, mode) {
+      if (mode === 'full') return encodeURI(text);
+      return encodeURIComponent(text);
+    }
+
+    function decode(text, mode) {
+      // Both decoders throw URIError on malformed sequences.
+      if (mode === 'full') return decodeURI(text);
+      return decodeURIComponent(text);
+    }
+
+    function setCount(el, n) {
+      el.textContent = `${n} char${n === 1 ? '' : 's'}`;
+    }
+
+    function clearErr(el) { el.textContent = ''; }
+
+    // ── Query-string breakdown ─────────────────────────────────
+    function renderParams(rawText) {
+      const text = (rawText || '').trim();
+      if (!text) { paramsWrap.style.display = 'none'; return; }
+
+      // Only attempt parse when it plausibly looks like a URL with a query.
+      // new URL() requires an absolute URL or a base; we only render when
+      // the input is a full absolute URL and contains '?'.
+      let u;
+      try { u = new URL(text); }
+      catch { paramsWrap.style.display = 'none'; return; }
+      if (!u.search || u.search === '?') { paramsWrap.style.display = 'none'; return; }
+
+      const params = new URLSearchParams(u.search);
+      const rows = [];
+      for (const [k, v] of params.entries()) rows.push([k, v]);
+      if (!rows.length) { paramsWrap.style.display = 'none'; return; }
+
+      paramsBody.innerHTML = rows.map(([k, v]) => {
+        const keyEsc = k.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const valEsc = (v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `<tr><td class="k">${keyEsc || '<em style="color:var(--text3)">(empty)</em>'}</td><td class="v">${valEsc || '<em style="color:var(--text3)">(empty)</em>'}</td></tr>`;
+      }).join('');
+
+      paramsMeta.innerHTML = `<span>${rows.length}</span> param${rows.length === 1 ? '' : 's'} · host <span>${u.host}</span> · path <span>${u.pathname || '/'}</span>`;
+      paramsWrap.style.display = '';
+    }
+
+    // ── Direction handlers ─────────────────────────────────────
+    function fromRaw() {
+      if (suppress) return;
+      clearErr(rawErr);
+      const text = rawEl.value;
+      setCount(rawCt, text.length);
+      try {
+        const out = encode(text, currentMode());
+        suppress = true;
+        encEl.value = out;
+        suppress = false;
+        setCount(encCt, out.length);
+        clearErr(encErr);
+      } catch (e) {
+        // encodeURI/encodeURIComponent throw on lone surrogates; extremely rare.
+        rawErr.textContent = 'encode error: ' + e.message;
+      }
+      renderParams(text);
+    }
+
+    function fromEnc() {
+      if (suppress) return;
+      clearErr(encErr);
+      const text = encEl.value;
+      setCount(encCt, text.length);
+      try {
+        const out = decode(text, currentMode());
+        suppress = true;
+        rawEl.value = out;
+        suppress = false;
+        setCount(rawCt, out.length);
+        clearErr(rawErr);
+        renderParams(out);
+      } catch (e) {
+        // URIError on malformed %XX — don't clobber the raw side.
+        encErr.textContent = 'decode error: malformed percent-encoding';
+      }
+    }
+
+    // ── Mode change: re-encode from raw as source of truth ─────
+    function onModeChange() {
+      if (currentMode() === 'full') {
+        modeHint.innerHTML = "encodeURI — preserves :/?#[]@!$&amp;'()*+,;=";
+      } else {
+        modeHint.innerHTML = "encodeURIComponent — escapes :/?#[]@!$&amp;'()*+,;=";
+      }
+      // Re-run encode from the raw side so the encoded panel matches the new mode.
+      fromRaw();
+    }
+
+    // ── Button handlers ────────────────────────────────────────
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); } catch { /* no-op */ }
+    }
+
+    $('btnCopyRaw').addEventListener('click', () => copyText(rawEl.value));
+    $('btnCopyEnc').addEventListener('click', () => copyText(encEl.value));
+
+    $('btnClearRaw').addEventListener('click', () => {
+      rawEl.value = '';
+      suppress = true; encEl.value = ''; suppress = false;
+      setCount(rawCt, 0); setCount(encCt, 0);
+      clearErr(rawErr); clearErr(encErr);
+      paramsWrap.style.display = 'none';
+      rawEl.dispatchEvent(new Event('input'));
+    });
+    $('btnClearEnc').addEventListener('click', () => {
+      encEl.value = '';
+      suppress = true; rawEl.value = ''; suppress = false;
+      setCount(rawCt, 0); setCount(encCt, 0);
+      clearErr(rawErr); clearErr(encErr);
+      paramsWrap.style.display = 'none';
+      rawEl.dispatchEvent(new Event('input'));
+    });
+
+    // Swap: take the encoded side's current value, put it in raw, re-run.
+    // This is useful for "I pasted an encoded string on the left by mistake"
+    // or for round-trip verification.
+    $('btnSwap').addEventListener('click', () => {
+      const a = rawEl.value;
+      const b = encEl.value;
+      suppress = true;
+      rawEl.value = b;
+      encEl.value = a;
+      suppress = false;
+      setCount(rawCt, rawEl.value.length);
+      setCount(encCt, encEl.value.length);
+      // Recompute from the (new) raw side.
+      fromRaw();
+    });
+
+    // ── Wiring ─────────────────────────────────────────────────
+    rawEl.addEventListener('input', fromRaw);
+    encEl.addEventListener('input', fromEnc);
+    document.querySelectorAll('input[name="urlMode"]').forEach(el => {
+      el.addEventListener('change', onModeChange);
+    });
+
+    // Initial state
+    setCount(rawCt, 0);
+    setCount(encCt, 0);
+    onModeChange();
+  </script>
+</body>
+</html>

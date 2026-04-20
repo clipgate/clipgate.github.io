@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timestamp Converter — Unix, ISO 8601, Human (Free, No Ads) — ClipGate</title>
+  <meta name="description" content="Free, ad-free timestamp converter. Paste Unix seconds, milliseconds, or ISO 8601 — get every other format instantly. Timezone-aware, 100% client-side, no tracking.">
+  <meta name="keywords" content="timestamp converter, unix timestamp, epoch converter, iso 8601 converter, epoch to date, date to epoch, unix time, utc converter">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/timestamp/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/timestamp/">
+  <meta property="og:title" content="Timestamp Converter — Unix, ISO 8601, Human (Free, No Ads)">
+  <meta property="og:description" content="Paste any timestamp — Unix, ISO 8601, or natural date — and see every format at once. Ad-free, 100% client-side.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Timestamp Converter — Free, Ad-free, 100% Client-side">
+  <meta name="twitter:description" content="Unix, ISO 8601, RFC 2822, human-readable, relative — all at once. No backend, no upload.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate Timestamp Converter",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://clipgate.github.io/tools/timestamp/",
+    "description": "Free, ad-free timestamp converter. Converts Unix seconds, Unix milliseconds, ISO 8601, RFC 2822, and human-readable dates with timezone awareness. 100% client-side.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "featureList": [
+      "Auto-detect Unix seconds, milliseconds, and ISO 8601",
+      "Convert to every major timestamp format at once",
+      "Timezone-aware local time display",
+      "Relative time (in 3 days, 2 hours ago)",
+      "Day of week, day of year, week of year",
+      "100% client-side — nothing is uploaded",
+      "No ads, no tracking, no signup"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",                 "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools",                "item": "https://clipgate.github.io/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Timestamp Converter",  "item": "https://clipgate.github.io/tools/timestamp/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What's the difference between Unix seconds and milliseconds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Unix seconds (10 digits today, e.g. 1713528896) count seconds since 1970-01-01T00:00:00Z. Unix milliseconds (13 digits today, e.g. 1713528896000) count the same moment in milliseconds — the JavaScript Date and Java System.currentTimeMillis default. This tool auto-detects which you pasted based on digit count." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is ISO 8601?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ISO 8601 is the international standard for date and time strings — e.g. 2026-04-19T12:34:56Z. The T separates date and time; Z means UTC (zero offset); offsets like +05:30 or -08:00 can replace Z for local zones. It is unambiguous, sortable as a string, and the recommended interchange format for APIs." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do UTC and local time show different values?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A timestamp is a single instant in time — but humans read it through their timezone. UTC (Coordinated Universal Time) is the fixed reference; local time is UTC shifted by your zone's offset (and DST rules). This tool shows both so you can cross-check. Use the timezone dropdown to preview the same instant in any zone." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Y2038 problem?",
+        "acceptedAnswer": { "@type": "Answer", "text": "On 2038-01-19 at 03:14:07 UTC, 32-bit signed Unix seconds overflow. Systems that still use int32 for timestamps will wrap to a negative number and misinterpret the date. Most modern systems (64-bit time_t, JavaScript doubles, Go int64) are unaffected — but legacy C code, embedded firmware, and old databases may need migration." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does ClipGate handle timestamps in your clipboard history?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ClipGate's classifier recognizes Unix epoch numbers and ISO 8601 strings as structured data. When you copy one, ClipGate tags it, lets you re-copy it as a different format (epoch ↔ ISO ↔ human), and keeps it searchable by the human date you'd recognize — so you can find 'that timestamp from last Tuesday' without remembering the digits." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="../_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    /* Timestamp-specific tweaks */
+    .ts-input-row {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto auto;
+      gap: .55rem;
+      align-items: stretch;
+    }
+    .ts-input {
+      width: 100%;
+      padding: .85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0,212,255,.14);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 1rem;
+      line-height: 1.4;
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .ts-input:focus {
+      border-color: rgba(0,212,255,.32);
+      box-shadow: 0 0 0 3px rgba(0,212,255,.08);
+    }
+    .ts-tz-select {
+      padding: .6rem .75rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0,212,255,.14);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .82rem;
+      min-width: 10rem;
+      max-width: 14rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .ts-tz-select:focus { border-color: rgba(0,212,255,.32); }
+    .ts-now-btn {
+      padding: 0 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0,212,255,.22);
+      background: rgba(0,212,255,.08);
+      color: var(--cyan);
+      font-family: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .ts-now-btn:hover { background: rgba(0,212,255,.14); }
+
+    .ts-helper {
+      display: flex;
+      gap: .55rem;
+      flex-wrap: wrap;
+      margin-top: .55rem;
+      font-size: .78rem;
+      color: var(--text3);
+    }
+    .ts-helper .ts-chip {
+      padding: .22rem .58rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      cursor: pointer;
+      color: var(--text2);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .72rem;
+    }
+    .ts-helper .ts-chip:hover { color: var(--cyan); border-color: rgba(0,212,255,.26); }
+
+    .ts-error {
+      margin-top: .55rem;
+      color: var(--red);
+      font-size: .82rem;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      min-height: 1.2em;
+    }
+
+    .ts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .5rem;
+      margin-top: 1rem;
+    }
+    .ts-row {
+      display: grid;
+      grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr) auto;
+      gap: .8rem;
+      align-items: center;
+      padding: .7rem .9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(18,24,36,.5);
+    }
+    .ts-row-label {
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+    .ts-row-value {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .9rem;
+      color: var(--text);
+      word-break: break-word;
+      user-select: all;
+    }
+    .ts-row-value.muted { color: var(--text3); font-style: italic; }
+    .ts-row[data-accent="cyan"]   .ts-row-value { color: var(--cyan); }
+    .ts-row[data-accent="green"]  .ts-row-value { color: var(--green); }
+    .ts-row[data-accent="gold"]   .ts-row-value { color: var(--gold); }
+    .ts-row[data-accent="purple"] .ts-row-value { color: var(--purple); }
+    .ts-row[data-accent="blue"]   .ts-row-value { color: var(--blue); }
+    .ts-copy-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text2);
+      padding: .34rem .6rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .ts-copy-btn:hover {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,.26);
+      background: rgba(0,212,255,.06);
+    }
+    .ts-copy-btn.copied { color: var(--green); border-color: rgba(52,211,153,.25); background: rgba(52,211,153,.07); }
+
+    .ts-detect-status {
+      margin-top: .55rem;
+      font-size: .8rem;
+      color: var(--text2);
+    }
+    .ts-detect-status code {
+      color: var(--cyan);
+      font-size: .82rem;
+    }
+
+    @media (max-width: 700px) {
+      .ts-input-row { grid-template-columns: 1fr; }
+      .ts-tz-select, .ts-now-btn { max-width: none; width: 100%; }
+      .ts-row { grid-template-columns: 1fr; gap: .25rem; }
+      .ts-row .ts-copy-btn { justify-self: start; margin-top: .2rem; }
+    }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="tool-hero">
+      <div class="tool-hero-main">
+        <div class="tool-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          ClipGate Tools &middot; Timestamp Converter
+        </div>
+        <h1>Every timestamp format, at once.</h1>
+        <p class="sub">Paste Unix seconds, milliseconds, ISO 8601, or any date string. Auto-detected, converted to every major format, with timezone-aware local time. All in your browser.</p>
+        <div class="tool-hero-pills">
+          <span class="tool-pill ok">100% client-side</span>
+          <span class="tool-pill ok">No ads</span>
+          <span class="tool-pill">Unix &middot; ISO 8601 &middot; RFC 2822</span>
+        </div>
+      </div>
+      <div class="tool-hero-side">
+        <div id="cgToolClassifier" data-watch="#tsInput"></div>
+        <div class="tool-side-card">
+          <span class="tool-side-label">Why this sidebar?</span>
+          <h3>ClipGate knows timestamps</h3>
+          <p>ClipGate's classifier recognizes epoch numbers and ISO strings. It lets you re-copy them in any format and find them later by the human date — no digits to remember.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workbench — single unified panel -->
+    <section class="tool-workbench" style="grid-template-columns:1fr">
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Timestamp</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnClear">Clear</button>
+          </div>
+        </div>
+
+        <div class="ts-input-row">
+          <input id="tsInput" class="ts-input"
+            placeholder="Paste Unix seconds (1713528896), milliseconds, ISO 8601, or any date string"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off">
+          <button class="ts-now-btn" type="button" id="btnNow" title="Fill with current Unix timestamp">Now</button>
+          <select id="tsTz" class="ts-tz-select" aria-label="Timezone"></select>
+        </div>
+
+        <div class="ts-helper">
+          <span>Try:</span>
+          <span class="ts-chip" data-sample="1713528896">1713528896</span>
+          <span class="ts-chip" data-sample="1713528896000">1713528896000</span>
+          <span class="ts-chip" data-sample="2026-04-19T12:34:56Z">2026-04-19T12:34:56Z</span>
+          <span class="ts-chip" data-sample="in 3 days">in 3 days</span>
+          <span class="ts-chip" data-sample="2 hours ago">2 hours ago</span>
+        </div>
+
+        <div class="ts-detect-status" id="tsDetect">Waiting for input&hellip;</div>
+        <div class="ts-error" id="tsError"></div>
+
+        <div class="ts-grid" id="tsGrid">
+          <div class="ts-row" data-accent="cyan">
+            <div class="ts-row-label">Unix (seconds)</div>
+            <div class="ts-row-value muted" id="outUnixS" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outUnixS" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="cyan">
+            <div class="ts-row-label">Unix (milliseconds)</div>
+            <div class="ts-row-value muted" id="outUnixMs" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outUnixMs" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="green">
+            <div class="ts-row-label">ISO 8601 (UTC)</div>
+            <div class="ts-row-value muted" id="outIsoUtc" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outIsoUtc" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="green">
+            <div class="ts-row-label">ISO 8601 (local)</div>
+            <div class="ts-row-value muted" id="outIsoLocal" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outIsoLocal" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="gold">
+            <div class="ts-row-label">RFC 2822</div>
+            <div class="ts-row-value muted" id="outRfc" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outRfc" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="blue">
+            <div class="ts-row-label">Human (UTC)</div>
+            <div class="ts-row-value muted" id="outHumanUtc" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outHumanUtc" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="blue">
+            <div class="ts-row-label">Human (local)</div>
+            <div class="ts-row-value muted" id="outHumanLocal" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outHumanLocal" type="button">Copy</button>
+          </div>
+          <div class="ts-row" data-accent="purple">
+            <div class="ts-row-label">Relative</div>
+            <div class="ts-row-value muted" id="outRelative" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outRelative" type="button">Copy</button>
+          </div>
+          <div class="ts-row">
+            <div class="ts-row-label">Day of week</div>
+            <div class="ts-row-value muted" id="outDow" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outDow" type="button">Copy</button>
+          </div>
+          <div class="ts-row">
+            <div class="ts-row-label">Day of year</div>
+            <div class="ts-row-value muted" id="outDoy" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outDoy" type="button">Copy</button>
+          </div>
+          <div class="ts-row">
+            <div class="ts-row-label">Week of year (ISO)</div>
+            <div class="ts-row-value muted" id="outWoy" data-empty="true">—</div>
+            <button class="ts-copy-btn" data-copy="outWoy" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / FAQ -->
+    <section class="tool-section">
+      <h2>About timestamps</h2>
+      <p class="lede">A timestamp is just a number — the count of seconds (or milliseconds) since <code>1970-01-01T00:00:00Z</code>, the Unix epoch. Every other format — ISO 8601, RFC 2822, "last Tuesday at 3:14 PM" — is a human skin over that same integer. This tool auto-detects which skin you pasted and shows all the others, so you can copy whatever your system wants.</p>
+
+      <div class="tool-faq">
+        <details open>
+          <summary>Unix seconds vs. milliseconds — which is which?</summary>
+          <p>Unix seconds is a 10-digit number today (e.g. <code>1713528896</code>) and will stay 10 digits until the year 2286. Milliseconds is 13 digits (e.g. <code>1713528896000</code>) and is the default for JavaScript's <code>Date</code> and Java's <code>System.currentTimeMillis()</code>. This tool auto-detects based on digit count, so you don't have to remember.</p>
+        </details>
+        <details>
+          <summary>What does ISO 8601 look like?</summary>
+          <p>The canonical form is <code>YYYY-MM-DDTHH:mm:ss.sssZ</code> — e.g. <code>2026-04-19T12:34:56Z</code>. The <code>T</code> separates date and time; <code>Z</code> means UTC; <code>+05:30</code> or <code>-08:00</code> can replace <code>Z</code> to indicate a local offset. ISO 8601 is lexicographically sortable — sort the strings, you sort the instants.</p>
+        </details>
+        <details>
+          <summary>Why do UTC and local time differ?</summary>
+          <p>A timestamp is a single instant. UTC is the fixed reference; local time is that instant shifted by your timezone's offset (and DST, if applicable). This tool shows both UTC and your selected timezone so you can cross-check. Use the dropdown in the top-right to preview the same instant in any zone.</p>
+        </details>
+        <details>
+          <summary>Is the Y2038 problem real?</summary>
+          <p>Yes, for 32-bit systems. On <code>2038-01-19T03:14:07Z</code>, signed 32-bit Unix seconds overflow. Most modern runtimes use 64-bit integers or doubles and are fine until well past the year 290,000,000. Legacy C, embedded firmware, and old database schemas are the ones to audit.</p>
+        </details>
+        <details>
+          <summary>How does ClipGate tag timestamps?</summary>
+          <p>ClipGate's classifier recognizes Unix epoch numbers and ISO 8601 strings in your clipboard history. Copy one and ClipGate stores the raw value plus a human-readable date — so you can search "that timestamp from last Tuesday" and actually find it. It can also re-copy the same instant in a different format on request.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related tools -->
+    <section id="cgToolRelated" class="tool-section" data-exclude="timestamp"></section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+
+  <!-- Tool-chrome injector: mounts classifier sidebar + related + install band -->
+  <script type="module" src="../_framework/tool-chrome.js"></script>
+
+  <!-- Timestamp converter logic -->
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+
+    // ── Output rows (id → key) ───────────────────────────────────
+    const OUT_IDS = [
+      'outUnixS','outUnixMs','outIsoUtc','outIsoLocal','outRfc',
+      'outHumanUtc','outHumanLocal','outRelative',
+      'outDow','outDoy','outWoy'
+    ];
+
+    // ── Timezone dropdown ────────────────────────────────────────
+    const FALLBACK_TZ = [
+      'UTC','America/Los_Angeles','America/New_York','America/Chicago','America/Denver',
+      'Europe/London','Europe/Berlin','Europe/Paris','Europe/Moscow',
+      'Asia/Tokyo','Asia/Shanghai','Asia/Kolkata','Asia/Singapore','Asia/Dubai',
+      'Australia/Sydney','Pacific/Auckland'
+    ];
+    function getZones() {
+      try {
+        if (typeof Intl.supportedValuesOf === 'function') {
+          const all = Intl.supportedValuesOf('timeZone');
+          if (Array.isArray(all) && all.length) return all;
+        }
+      } catch {}
+      return FALLBACK_TZ;
+    }
+    function resolveLocalTz() {
+      try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; }
+      catch { return 'UTC'; }
+    }
+    function populateTz() {
+      const sel = $('tsTz');
+      const zones = getZones();
+      const local = resolveLocalTz();
+      // Ensure local + UTC always appear first
+      const ordered = Array.from(new Set(['UTC', local, ...zones]));
+      for (const z of ordered) {
+        const opt = document.createElement('option');
+        opt.value = z;
+        opt.textContent = z;
+        if (z === local) opt.selected = true;
+        sel.appendChild(opt);
+      }
+    }
+
+    // ── Relative-time parser ("in 3 days", "2 hours ago") ────────
+    const REL_UNITS = {
+      second: 1, seconds: 1, sec: 1, secs: 1, s: 1,
+      minute: 60, minutes: 60, min: 60, mins: 60, m: 60,
+      hour: 3600, hours: 3600, hr: 3600, hrs: 3600, h: 3600,
+      day: 86400, days: 86400, d: 86400,
+      week: 604800, weeks: 604800, w: 604800,
+      month: 2629800, months: 2629800,   // ~30.44 days
+      year: 31557600, years: 31557600,   // ~365.25 days
+    };
+    function tryParseRelative(str) {
+      const s = str.trim().toLowerCase();
+      // "in N unit(s)" — future
+      let m = s.match(/^in\s+(\d+(?:\.\d+)?)\s+([a-z]+)$/);
+      if (m) {
+        const n = parseFloat(m[1]); const unit = REL_UNITS[m[2]];
+        if (unit) return new Date(Date.now() + n * unit * 1000);
+      }
+      // "N unit(s) ago" — past
+      m = s.match(/^(\d+(?:\.\d+)?)\s+([a-z]+)\s+ago$/);
+      if (m) {
+        const n = parseFloat(m[1]); const unit = REL_UNITS[m[2]];
+        if (unit) return new Date(Date.now() - n * unit * 1000);
+      }
+      // "yesterday" / "today" / "tomorrow"
+      if (s === 'now')       return new Date();
+      if (s === 'today')     return new Date();
+      if (s === 'yesterday') return new Date(Date.now() - 86400 * 1000);
+      if (s === 'tomorrow')  return new Date(Date.now() + 86400 * 1000);
+      return null;
+    }
+
+    // ── Detect + parse ───────────────────────────────────────────
+    function parseInput(raw) {
+      const t = raw.trim();
+      if (!t) return { ok: false, empty: true };
+
+      // All-digits → epoch
+      if (/^-?\d+$/.test(t)) {
+        if (t.length <= 10) {
+          // seconds (also handles shorter historical dates)
+          const d = new Date(Number(t) * 1000);
+          if (!Number.isNaN(d.getTime())) return { ok: true, date: d, kind: 'Unix seconds' };
+        } else if (t.length <= 13) {
+          const d = new Date(Number(t));
+          if (!Number.isNaN(d.getTime())) return { ok: true, date: d, kind: 'Unix milliseconds' };
+        } else {
+          // 16 digits = microseconds, 19 = nanoseconds — best-effort
+          if (t.length === 16) {
+            const d = new Date(Math.floor(Number(t) / 1000));
+            if (!Number.isNaN(d.getTime())) return { ok: true, date: d, kind: 'Unix microseconds' };
+          }
+          if (t.length === 19) {
+            const d = new Date(Math.floor(Number(t) / 1_000_000));
+            if (!Number.isNaN(d.getTime())) return { ok: true, date: d, kind: 'Unix nanoseconds' };
+          }
+          const d = new Date(Number(t));
+          if (!Number.isNaN(d.getTime())) return { ok: true, date: d, kind: 'numeric (ms)' };
+        }
+      }
+
+      // Relative ("in 3 days", "2 hours ago")
+      const rel = tryParseRelative(t);
+      if (rel && !Number.isNaN(rel.getTime())) return { ok: true, date: rel, kind: 'relative' };
+
+      // Fall back to Date.parse
+      const d = new Date(t);
+      if (!Number.isNaN(d.getTime())) {
+        // Label ISO 8601 when it looks like one
+        if (/^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/.test(t)) {
+          return { ok: true, date: d, kind: 'ISO 8601' };
+        }
+        return { ok: true, date: d, kind: 'date string' };
+      }
+
+      return { ok: false, empty: false, reason: `cannot parse "${t.slice(0, 40)}${t.length > 40 ? '…' : ''}"` };
+    }
+
+    // ── Formatters ───────────────────────────────────────────────
+    function pad(n, w = 2) { return String(n).padStart(w, '0'); }
+
+    function isoLocal(date, tz) {
+      // Build YYYY-MM-DDTHH:mm:ss±HH:MM in the given zone
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      }).formatToParts(date).reduce((acc, p) => { acc[p.type] = p.value; return acc; }, {});
+      // en-US gives "24" for midnight; normalize
+      const hh = parts.hour === '24' ? '00' : parts.hour;
+      // Compute offset in minutes for this tz at this instant
+      const offsetMin = tzOffsetMinutes(date, tz);
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const abs = Math.abs(offsetMin);
+      const offStr = `${sign}${pad(Math.floor(abs / 60))}:${pad(abs % 60)}`;
+      return `${parts.year}-${parts.month}-${parts.day}T${hh}:${parts.minute}:${parts.second}${offStr}`;
+    }
+
+    function tzOffsetMinutes(date, tz) {
+      // Format the date as though it were in `tz`, then diff against UTC
+      const dtf = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
+      const parts = dtf.formatToParts(date).reduce((a, p) => { a[p.type] = p.value; return a; }, {});
+      const asUTC = Date.UTC(
+        Number(parts.year),
+        Number(parts.month) - 1,
+        Number(parts.day),
+        parts.hour === '24' ? 0 : Number(parts.hour),
+        Number(parts.minute),
+        Number(parts.second)
+      );
+      return Math.round((asUTC - date.getTime()) / 60000);
+    }
+
+    function humanInZone(date, tz) {
+      try {
+        return new Intl.DateTimeFormat(undefined, {
+          timeZone: tz,
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+          hour: 'numeric', minute: '2-digit', second: '2-digit',
+          timeZoneName: 'short'
+        }).format(date);
+      } catch {
+        return date.toString();
+      }
+    }
+
+    function humanUtc(date) {
+      // "Sunday, April 19, 2026 at 12:34:56 PM UTC"
+      try {
+        const d = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'UTC',
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        }).format(date);
+        const t = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'UTC',
+          hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+        }).format(date);
+        return `${d} at ${t} UTC`;
+      } catch {
+        return date.toUTCString();
+      }
+    }
+
+    function relativeFromNow(date) {
+      const diffSec = Math.round((date.getTime() - Date.now()) / 1000);
+      const abs = Math.abs(diffSec);
+      const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' });
+      const steps = [
+        { unit: 'year',   sec: 31557600 },
+        { unit: 'month',  sec: 2629800  },
+        { unit: 'week',   sec: 604800   },
+        { unit: 'day',    sec: 86400    },
+        { unit: 'hour',   sec: 3600     },
+        { unit: 'minute', sec: 60       },
+        { unit: 'second', sec: 1        },
+      ];
+      for (const { unit, sec } of steps) {
+        if (abs >= sec || unit === 'second') {
+          const v = Math.round(diffSec / sec);
+          return rtf.format(v, unit);
+        }
+      }
+      return rtf.format(0, 'second');
+    }
+
+    function dayOfYear(date) {
+      const start = Date.UTC(date.getUTCFullYear(), 0, 0);
+      const now   = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+      return Math.floor((now - start) / 86400000);
+    }
+
+    function isoWeekOfYear(date) {
+      // ISO 8601: week 1 contains the first Thursday of the year
+      const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+      const dayNum = d.getUTCDay() || 7;
+      d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      return { year: d.getUTCFullYear(), week };
+    }
+
+    // ── Render ───────────────────────────────────────────────────
+    function setVal(id, value) {
+      const el = $(id);
+      if (!el) return;
+      if (value == null || value === '') {
+        el.textContent = '—';
+        el.classList.add('muted');
+        el.dataset.empty = 'true';
+      } else {
+        el.textContent = value;
+        el.classList.remove('muted');
+        el.dataset.empty = 'false';
+      }
+    }
+
+    function clearAll() {
+      for (const id of OUT_IDS) setVal(id, null);
+      $('tsDetect').innerHTML = 'Waiting for input&hellip;';
+      $('tsError').textContent = '';
+    }
+
+    function render(date, kind) {
+      const tz = $('tsTz').value || resolveLocalTz();
+      const unixS  = Math.floor(date.getTime() / 1000);
+      const unixMs = date.getTime();
+
+      setVal('outUnixS',    String(unixS));
+      setVal('outUnixMs',   String(unixMs));
+      setVal('outIsoUtc',   date.toISOString());
+      setVal('outIsoLocal', isoLocal(date, tz));
+      setVal('outRfc',      date.toUTCString()); // close to RFC 2822; browsers normalize to GMT
+      setVal('outHumanUtc', humanUtc(date));
+      setVal('outHumanLocal', humanInZone(date, tz));
+      setVal('outRelative', relativeFromNow(date));
+
+      const dow = new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'long' }).format(date);
+      setVal('outDow', `${dow} (${date.getUTCDay()})`);
+      setVal('outDoy', String(dayOfYear(date)));
+      const { year, week } = isoWeekOfYear(date);
+      setVal('outWoy', `${year}-W${pad(week)}`);
+
+      $('tsDetect').innerHTML = `Detected <code>${kind}</code> &middot; <code>${date.toISOString()}</code>`;
+      $('tsError').textContent = '';
+    }
+
+    function run() {
+      const raw = $('tsInput').value;
+      if (!raw.trim()) {
+        clearAll();
+        return;
+      }
+      const res = parseInput(raw);
+      if (!res.ok) {
+        for (const id of OUT_IDS) setVal(id, null);
+        $('tsDetect').textContent = '';
+        $('tsError').textContent = res.reason || 'invalid input';
+        return;
+      }
+      render(res.date, res.kind);
+    }
+
+    // ── Wiring ───────────────────────────────────────────────────
+    populateTz();
+
+    $('tsInput').addEventListener('input', run);
+    $('tsTz').addEventListener('change', run);
+
+    $('btnNow').addEventListener('click', () => {
+      $('tsInput').value = String(Math.floor(Date.now() / 1000));
+      $('tsInput').dispatchEvent(new Event('input'));
+    });
+
+    $('btnClear').addEventListener('click', () => {
+      $('tsInput').value = '';
+      $('tsInput').dispatchEvent(new Event('input'));
+      $('tsInput').focus();
+    });
+
+    // Sample chips
+    document.querySelectorAll('.ts-chip[data-sample]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        $('tsInput').value = chip.dataset.sample;
+        $('tsInput').dispatchEvent(new Event('input'));
+      });
+    });
+
+    // Copy buttons
+    document.querySelectorAll('.ts-copy-btn[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const target = $(btn.dataset.copy);
+        if (!target || target.dataset.empty === 'true') return;
+        try {
+          await navigator.clipboard.writeText(target.textContent.trim());
+          const prev = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = prev; btn.classList.remove('copied'); }, 1200);
+        } catch {
+          /* clipboard may be blocked in some contexts */
+        }
+      });
+    });
+
+    // Initial state
+    clearAll();
+  </script>
+</body>
+</html>

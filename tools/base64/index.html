@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encode &amp; Decode (Free, No Ads, UTF-8 Safe) — ClipGate</title>
+  <meta name="description" content="Free, ad-free Base64 encoder and decoder. UTF-8 safe, base64url supported. Auto-converts as you type — 100% client-side, your data never leaves the browser.">
+  <meta name="keywords" content="base64 encoder, base64 decoder, base64 encode, base64 decode, base64url, utf-8 base64, base64 online, ad-free base64">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/base64/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/base64/">
+  <meta property="og:title" content="Base64 Encode &amp; Decode — Free, UTF-8 Safe, No Ads">
+  <meta property="og:description" content="Paste text or base64. Auto-converts both directions. UTF-8 safe, base64url supported. 100% client-side.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Base64 Encode &amp; Decode — Free, Ad-free, 100% Client-side">
+  <meta name="twitter:description" content="UTF-8 safe Base64 encoder/decoder. Auto-converts as you type. No backend, no upload.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate Base64 Encoder / Decoder",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://clipgate.github.io/tools/base64/",
+    "description": "Free, ad-free Base64 encoder and decoder. UTF-8 safe, supports standard Base64 and Base64URL. Auto-converts as you type. 100% client-side.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "featureList": [
+      "Encode text to Base64",
+      "Decode Base64 to text",
+      "UTF-8 safe (handles emoji and non-ASCII)",
+      "Base64URL variant (RFC 4648 §5)",
+      "Auto-convert on input — no buttons needed",
+      "100% client-side — data never leaves the browser",
+      "No ads, no tracking, no signup"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",                   "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools",                  "item": "https://clipgate.github.io/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Base64 Encode/Decode",   "item": "https://clipgate.github.io/tools/base64/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is my input sent to a server?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. The ClipGate Base64 tool runs entirely in your browser. Encoding and decoding happen locally in JavaScript using TextEncoder, TextDecoder, btoa, and atob — nothing is uploaded, logged, or transmitted. Open DevTools → Network and confirm there are zero outbound requests as you type." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Base64 and Base64URL?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Standard Base64 (RFC 4648 §4) uses the characters + / = which are unsafe in URLs and filenames. Base64URL (RFC 4648 §5) substitutes - for + and _ for /, and typically omits trailing = padding. JWTs, OAuth tokens, and most web APIs use Base64URL. Toggle the option below the workbench to switch." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Base64 encryption?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Base64 is an encoding, not encryption. It turns binary data into 64 printable ASCII characters so it can travel through text-only channels (email bodies, JSON, URLs). Anyone can decode it instantly — it provides zero confidentiality. Never use Base64 as a substitute for real encryption." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do some Base64 tools break on emoji or non-ASCII text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Because they call btoa() directly on a JavaScript string. btoa only accepts Latin-1 bytes and throws InvalidCharacterError on anything outside 0x00–0xFF. The fix is to encode the string as UTF-8 bytes first with TextEncoder, then Base64 those bytes. This tool does that — so emoji, CJK, Hebrew, and Arabic all round-trip correctly." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does ClipGate handle Base64 blobs in clipboard history?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The ClipGate CLI's classifier treats long high-entropy Base64-looking strings as probable secrets and requires explicit unlock before paste. You can see that behavior live in the sidebar on this page — paste a long Base64 string on the left and the classifier flags it. Short Base64 strings are stored as plain text for searchability." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="../_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    /* Base64-specific tweaks */
+    .b64-textarea { min-height: 300px; font-size: .9rem; }
+    .b64-textarea.err { border-color: rgba(248,113,113,.45); box-shadow: 0 0 0 3px rgba(248,113,113,.08); }
+
+    .b64-swap-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      margin: .2rem 0 .8rem;
+    }
+    .b64-swap-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem .9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,212,255,.24);
+      background: rgba(0,212,255,.07);
+      color: var(--cyan);
+      font-family: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+    .b64-swap-btn:hover {
+      background: rgba(0,212,255,.14);
+      transform: translateY(-1px);
+    }
+
+    .b64-options {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding: .8rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(18,24,36,.4);
+    }
+    .b64-option {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      cursor: pointer;
+      font-size: .85rem;
+      color: var(--text2-strong);
+      user-select: none;
+    }
+    .b64-option input[type="checkbox"] {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,212,255,.3);
+      background: var(--bg2);
+      cursor: pointer;
+      position: relative;
+      transition: all .15s ease;
+    }
+    .b64-option input[type="checkbox"]:checked {
+      background: var(--cyan);
+      border-color: var(--cyan);
+    }
+    .b64-option input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg);
+      font-size: .75rem;
+      font-weight: 900;
+    }
+    .b64-option-hint {
+      color: var(--text3);
+      font-size: .78rem;
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .b64-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-top: .5rem;
+      font-size: .76rem;
+      color: var(--text3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .b64-meta .err { color: var(--red); }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="tool-hero">
+      <div class="tool-hero-main">
+        <div class="tool-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+          ClipGate Tools · Base64
+        </div>
+        <h1>Base64 encode &amp; decode. UTF-8 safe.</h1>
+        <p class="sub">Type on either side — conversion happens live. Emoji and non-ASCII round-trip correctly. Supports standard Base64 and Base64URL. Everything runs in your browser.</p>
+        <div class="tool-hero-pills">
+          <span class="tool-pill ok">100% client-side</span>
+          <span class="tool-pill ok">UTF-8 safe</span>
+          <span class="tool-pill ok">No ads</span>
+        </div>
+      </div>
+      <div class="tool-hero-side">
+        <!-- Classifier sidebar — live ClipGate demo -->
+        <div id="cgToolClassifier" data-watch="#b64Text"></div>
+      </div>
+    </section>
+
+    <!-- Swap control -->
+    <div class="b64-swap-row">
+      <button class="b64-swap-btn" type="button" id="btnSwap" title="Swap sides">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4l-3 3M7 4l3 3M17 8v12M17 20l-3-3M17 20l3-3"/></svg>
+        Swap
+      </button>
+    </div>
+
+    <!-- Workbench -->
+    <section class="tool-workbench">
+      <!-- LEFT: Text -->
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Text (UTF-8)</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnCopyText">Copy</button>
+            <button class="tool-btn" type="button" id="btnClearText">Clear</button>
+          </div>
+        </div>
+        <textarea id="b64Text" class="tool-textarea b64-textarea"
+          placeholder="Type or paste text here — encodes to Base64 on the right…"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"></textarea>
+        <div class="b64-meta">
+          <span id="textMeta">0 chars · 0 bytes</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Base64 -->
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Base64</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnCopyB64">Copy</button>
+            <button class="tool-btn" type="button" id="btnClearB64">Clear</button>
+          </div>
+        </div>
+        <textarea id="b64Encoded" class="tool-textarea b64-textarea"
+          placeholder="…or paste Base64 here — decodes to text on the left."
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"></textarea>
+        <div class="b64-meta">
+          <span id="b64Meta">0 chars</span>
+          <span id="b64Error" class="err"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Options -->
+    <div class="b64-options">
+      <label class="b64-option">
+        <input type="checkbox" id="optUrlSafe">
+        <span>URL-safe (base64url)</span>
+      </label>
+      <span class="b64-option-hint">-_ instead of +/, no padding</span>
+    </div>
+
+    <!-- About / FAQ -->
+    <section class="tool-section">
+      <h2>About Base64</h2>
+      <p class="lede">Base64 is an encoding — not encryption — that turns arbitrary bytes into 64 printable ASCII characters so they survive text-only transports like email bodies, JSON fields, and URL parameters. This tool is UTF-8 safe: your text is encoded to UTF-8 bytes first, then Base64ed, so emoji and non-ASCII scripts round-trip cleanly.</p>
+
+      <div class="tool-faq">
+        <details open>
+          <summary>Is my input sent to a server?</summary>
+          <p>No. This is a single static HTML page served from GitHub Pages. Encoding uses <code>TextEncoder</code> + <code>btoa</code>, decoding uses <code>atob</code> + <code>TextDecoder</code>. Your input never touches our infrastructure — there is no backend here to touch it. Open DevTools → Network to confirm: zero outbound requests.</p>
+        </details>
+        <details>
+          <summary>What is the difference between Base64 and Base64URL?</summary>
+          <p>Standard <strong>Base64</strong> (RFC 4648 §4) uses <code>A–Z a–z 0–9 + /</code> with <code>=</code> padding. <strong>Base64URL</strong> (§5) swaps <code>+</code> → <code>-</code> and <code>/</code> → <code>_</code>, and typically strips trailing <code>=</code>. JWTs, OAuth tokens, and most web APIs use the URL-safe variant. Toggle the checkbox above to switch; the decoder accepts either variant automatically.</p>
+        </details>
+        <details>
+          <summary>Is Base64 encryption?</summary>
+          <p>No. Base64 is reversible by anyone — it offers zero confidentiality. If you're trying to hide something, use real encryption (AES-GCM, age, libsodium). Base64 is only for making binary data safe to transport through text-only channels.</p>
+        </details>
+        <details>
+          <summary>Why do some Base64 tools break on emoji or non-ASCII text?</summary>
+          <p>Because they call <code>btoa()</code> directly on a JavaScript string. <code>btoa</code> only accepts Latin-1 code points (0x00–0xFF) and throws <code>InvalidCharacterError</code> on anything higher. This tool fixes that by UTF-8-encoding the string with <code>TextEncoder</code> first, then Base64-ing the bytes. Emoji, CJK, Hebrew, Arabic, Devanagari — all round-trip correctly.</p>
+        </details>
+        <details>
+          <summary>How does ClipGate handle Base64 blobs on your clipboard?</summary>
+          <p>The ClipGate CLI's classifier treats long, high-entropy Base64-looking strings as probable secrets and requires explicit unlock before paste. Paste a long encoded string on the left of this page and watch the sidebar flag it — that's the live classifier, identical behavior to what runs in the CLI.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related tools -->
+    <section id="cgToolRelated" class="tool-section" data-exclude="base64"></section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+
+  <!-- Tool-chrome injector: mounts classifier sidebar + related + install band -->
+  <script type="module" src="../_framework/tool-chrome.js"></script>
+
+  <!-- Base64 tool logic -->
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+
+    const textEl   = $('b64Text');
+    const b64El    = $('b64Encoded');
+    const textMeta = $('textMeta');
+    const b64Meta  = $('b64Meta');
+    const b64Error = $('b64Error');
+    const optUrl   = $('optUrlSafe');
+
+    // Guard to avoid re-entrant input events when we programmatically set the
+    // "other" textarea's value.
+    let syncing = false;
+
+    function encodeB64(s, urlSafe = false) {
+      const bytes = new TextEncoder().encode(s);
+      let bin = '';
+      for (const b of bytes) bin += String.fromCharCode(b);
+      let out = btoa(bin);
+      if (urlSafe) {
+        out = out.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+      return out;
+    }
+
+    function decodeB64(s) {
+      // Accept either standard or URL-safe input; normalize.
+      let t = s.replace(/\s+/g, '');
+      t = t.replace(/-/g, '+').replace(/_/g, '/');
+      const pad = t.length % 4;
+      if (pad === 1) throw new Error('invalid length');
+      if (pad) t += '='.repeat(4 - pad);
+      // atob will throw on invalid characters; let it surface.
+      const bin = atob(t);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+    }
+
+    function byteLen(s) {
+      return new TextEncoder().encode(s).length;
+    }
+
+    function updateTextMeta(s) {
+      const chars = [...s].length; // code-point count
+      const bytes = byteLen(s);
+      textMeta.textContent = `${chars.toLocaleString()} char${chars === 1 ? '' : 's'} · ${bytes.toLocaleString()} byte${bytes === 1 ? '' : 's'}`;
+    }
+    function updateB64Meta(s, errMsg) {
+      b64Meta.textContent = `${s.length.toLocaleString()} char${s.length === 1 ? '' : 's'}`;
+      if (errMsg) {
+        b64Error.textContent = '✗ ' + errMsg;
+        b64El.classList.add('err');
+      } else {
+        b64Error.textContent = '';
+        b64El.classList.remove('err');
+      }
+    }
+
+    // Text → Base64
+    function onTextInput() {
+      if (syncing) return;
+      const raw = textEl.value;
+      updateTextMeta(raw);
+      try {
+        const encoded = raw === '' ? '' : encodeB64(raw, optUrl.checked);
+        syncing = true;
+        b64El.value = encoded;
+        syncing = false;
+        updateB64Meta(encoded, null);
+      } catch (e) {
+        syncing = false;
+        updateB64Meta(b64El.value, e.message || 'encode failed');
+      }
+    }
+
+    // Base64 → Text
+    function onB64Input() {
+      if (syncing) return;
+      const raw = b64El.value;
+      if (raw.trim() === '') {
+        syncing = true;
+        textEl.value = '';
+        syncing = false;
+        updateTextMeta('');
+        updateB64Meta(raw, null);
+        // Make sure classifier sidebar sees the cleared state.
+        textEl.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+      try {
+        const decoded = decodeB64(raw);
+        syncing = true;
+        textEl.value = decoded;
+        syncing = false;
+        updateTextMeta(decoded);
+        updateB64Meta(raw, null);
+        // Notify classifier (it's wired to #b64Text).
+        textEl.dispatchEvent(new Event('input', { bubbles: true }));
+      } catch (e) {
+        updateB64Meta(raw, e.message || 'invalid base64');
+      }
+    }
+
+    // Re-encode when the URL-safe option flips (drive from current text side).
+    function onOptionChange() {
+      if (textEl.value !== '') {
+        onTextInput();
+      } else if (b64El.value !== '') {
+        // Re-decode to refresh error state; encoding variant only affects output.
+        onB64Input();
+      }
+    }
+
+    // Swap: move base64 → text side, re-encode.
+    function onSwap() {
+      const t = textEl.value;
+      const b = b64El.value;
+      syncing = true;
+      textEl.value = b;
+      b64El.value = t;
+      syncing = false;
+      // Drive a fresh conversion from the (new) left side if it has content,
+      // otherwise from the right.
+      if (textEl.value !== '') onTextInput();
+      else onB64Input();
+    }
+
+    async function copyFrom(el) {
+      try { await navigator.clipboard.writeText(el.value); }
+      catch { /* no-op */ }
+    }
+
+    // ── Events ──
+    textEl.addEventListener('input', onTextInput);
+    b64El.addEventListener('input', onB64Input);
+    optUrl.addEventListener('change', onOptionChange);
+    $('btnSwap').addEventListener('click', onSwap);
+    $('btnCopyText').addEventListener('click', () => copyFrom(textEl));
+    $('btnCopyB64').addEventListener('click',  () => copyFrom(b64El));
+    $('btnClearText').addEventListener('click', () => {
+      textEl.value = '';
+      b64El.value = '';
+      b64Error.textContent = '';
+      b64El.classList.remove('err');
+      updateTextMeta('');
+      updateB64Meta('', null);
+      textEl.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    $('btnClearB64').addEventListener('click', () => {
+      textEl.value = '';
+      b64El.value = '';
+      b64Error.textContent = '';
+      b64El.classList.remove('err');
+      updateTextMeta('');
+      updateB64Meta('', null);
+      textEl.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    // Initial meta
+    updateTextMeta('');
+    updateB64Meta('', null);
+  </script>
+</body>
+</html>
