@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JWT Decoder — Decode &amp; Verify JSON Web Tokens (Free, No Ads) — ClipGate</title>
+  <meta name="description" content="Free, ad-free JWT decoder. Paste a JSON Web Token to inspect its header, payload, and signature. HS256/384/512 and RS256/384/512 signature verification. 100% client-side — your tokens never leave your browser.">
+  <meta name="keywords" content="jwt decoder, jwt decode, json web token decoder, verify jwt, jwt verify, jwt.io alternative, hs256 decoder, rs256 decoder">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/jwt-decoder/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/jwt-decoder/">
+  <meta property="og:title" content="JWT Decoder — Decode &amp; Verify JSON Web Tokens (Free, No Ads)">
+  <meta property="og:description" content="Paste a JWT to inspect header, payload, and signature. Ad-free. 100% client-side. Tokens never leave your browser.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JWT Decoder — Free, Ad-free, 100% Client-side">
+  <meta name="twitter:description" content="Paste a JSON Web Token to decode header, payload, and signature. No backend, no upload.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ClipGate JWT Decoder",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://clipgate.github.io/tools/jwt-decoder/",
+    "description": "Free, ad-free JWT decoder and verifier. Decodes JWT header and payload, verifies HS256/384/512 and RS256/384/512 signatures. 100% client-side.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "featureList": [
+      "Decode JWT header and payload",
+      "Verify HS256, HS384, HS512 signatures",
+      "Verify RS256, RS384, RS512 signatures",
+      "Automatic expiration (exp) check",
+      "Automatic issued-at (iat) and not-before (nbf) check",
+      "100% client-side — tokens never leave the browser",
+      "No ads, no tracking, no signup"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",        "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools",       "item": "https://clipgate.github.io/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "JWT Decoder", "item": "https://clipgate.github.io/tools/jwt-decoder/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are my JWTs sent to a server?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. The ClipGate JWT decoder runs entirely in your browser. Your token is decoded locally using JavaScript and Web Crypto — nothing is uploaded, logged, or transmitted. You can verify this by opening DevTools → Network and confirming there are no outbound requests when you paste a token." }
+      },
+      {
+        "@type": "Question",
+        "name": "What signature algorithms can you verify?",
+        "acceptedAnswer": { "@type": "Answer", "text": "HS256, HS384, and HS512 using a shared secret, and RS256, RS384, and RS512 using a PEM-encoded public key. ES256 and EdDSA are on the roadmap. We use the browser's native Web Crypto API for all signature verification." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a decoded JWT be trusted?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Decoding is always possible — a JWT is just Base64URL-encoded JSON — but decoding alone does not prove authenticity. You must verify the signature against the secret (HS*) or public key (RS*) of the issuer. A token is only trustworthy once the signature check passes and the exp, nbf, and iat claims are valid." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the classifier sidebar do?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The sidebar shows how ClipGate — our local-first clipboard CLI — would classify the pasted content in your clipboard history. Pasting a raw JWT would be flagged as a secret, so ClipGate would require explicit unlock before you could paste it elsewhere. It's a live, on-page demo of the CLI's classifier." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this really free and ad-free forever?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All ClipGate developer tools are 100% free, with no ads, no signup, and no usage limits. They are static pages served from GitHub Pages — no backend to monetize, no tracking, no dark patterns. If that ever changes, the git history will show it." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="../_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    /* JWT-specific tweaks */
+    .jwt-textarea { min-height: 160px; font-size: .92rem; }
+    .jwt-colorize .p-header  { color: #f87171; }
+    .jwt-colorize .p-payload { color: #a855f7; }
+    .jwt-colorize .p-sig     { color: #34d399; }
+    .jwt-colorize .p-dot     { color: var(--text3); }
+
+    .jwt-verify-panel {
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(18,24,36,.55);
+      margin-top: .9rem;
+    }
+    .jwt-verify-panel h3 {
+      font-size: .92rem;
+      letter-spacing: -.2px;
+      margin-bottom: .55rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+    .jwt-verify-panel textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: .7rem .85rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0,212,255,.14);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+    }
+    .jwt-verify-panel textarea:focus { border-color: rgba(0,212,255,.32); }
+    .jwt-verify-row {
+      display: flex;
+      gap: .5rem;
+      margin-top: .55rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .jwt-verify-result {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: var(--text2);
+    }
+    .jwt-verify-result.ok   { color: var(--green); }
+    .jwt-verify-result.err  { color: var(--red); }
+
+    .jwt-claim-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: .5rem;
+    }
+    .jwt-claim-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .22rem .55rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text2);
+    }
+    .jwt-claim-badge.ok  { color: var(--green); border-color: rgba(52,211,153,.25); background: rgba(52,211,153,.07); }
+    .jwt-claim-badge.warn{ color: var(--gold);  border-color: rgba(245,158,11,.26); background: rgba(245,158,11,.07); }
+    .jwt-claim-badge.err { color: var(--red);   border-color: rgba(248,113,113,.26); background: rgba(248,113,113,.07); }
+
+    .jwt-example-row {
+      display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .55rem;
+    }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="tool-hero">
+      <div class="tool-hero-main">
+        <div class="tool-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          ClipGate Tools · JWT Decoder
+        </div>
+        <h1>Decode &amp; verify JWTs. No ads. No upload.</h1>
+        <p class="sub">Paste any JSON Web Token below to inspect its header, payload, and signature. Verify HS256/384/512 and RS256/384/512 signatures directly in the browser. Everything runs client-side — your tokens never touch a server.</p>
+        <div class="tool-hero-pills">
+          <span class="tool-pill ok">100% client-side</span>
+          <span class="tool-pill ok">No signup</span>
+          <span class="tool-pill ok">No ads</span>
+          <span class="tool-pill">HS256/384/512 · RS256/384/512</span>
+        </div>
+        <div class="tool-promise">
+          <span class="tool-promise-icon">✓</span>
+          <span>Your token is decoded locally. Open DevTools → Network while you paste — zero outbound requests.</span>
+        </div>
+      </div>
+      <div class="tool-hero-side">
+        <!-- Classifier sidebar — live ClipGate demo -->
+        <div id="cgToolClassifier" data-watch="#jwtInput"></div>
+        <div class="tool-side-card">
+          <span class="tool-side-label">Why this sidebar?</span>
+          <h3>Tokens are secrets</h3>
+          <p>JWTs carry identity. ClipGate's content classifier — the same one that runs in the CLI — detects them automatically and requires explicit unlock before paste. The box above shows it live.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workbench -->
+    <section class="tool-workbench">
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Token</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnExample">Load example</button>
+            <button class="tool-btn" type="button" id="btnClear">Clear</button>
+          </div>
+        </div>
+        <textarea id="jwtInput" class="tool-textarea jwt-textarea jwt-colorize"
+          placeholder="Paste a JWT — e.g. eyJhbGci..."
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"></textarea>
+
+        <div class="tool-status" id="jwtStatus" aria-live="polite">
+          <span class="tool-status-dot" id="jwtStatusDot"></span>
+          <span class="tool-status-label">Status:</span>
+          <span class="tool-status-value" id="jwtStatusText">waiting for token</span>
+        </div>
+
+        <!-- Claim badges -->
+        <div class="jwt-claim-badges" id="jwtClaims"></div>
+
+        <!-- Signature verification -->
+        <div class="jwt-verify-panel">
+          <h3>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Signature verification
+            <span style="font-weight:500;font-size:.78rem;color:var(--text3);margin-left:auto">
+              alg: <span id="jwtAlg" style="color:var(--cyan);font-family:'JetBrains Mono',monospace">—</span>
+            </span>
+          </h3>
+          <textarea id="jwtKey"
+            placeholder="Paste secret (HS*) — or PEM-encoded public key (RS*: starts with -----BEGIN PUBLIC KEY-----)"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"></textarea>
+          <div class="jwt-verify-row">
+            <button class="tool-btn primary" type="button" id="btnVerify">Verify signature</button>
+            <span class="jwt-verify-result" id="jwtVerifyResult">Enter a secret or public key to verify.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-head">
+          <h2>Decoded</h2>
+          <div class="tool-panel-head-actions">
+            <button class="tool-btn" type="button" id="btnCopyHeader">Copy header</button>
+            <button class="tool-btn" type="button" id="btnCopyPayload">Copy payload</button>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:.8rem;flex:1">
+          <div>
+            <div style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f87171;margin-bottom:.35rem">Header</div>
+            <pre class="tool-output" id="outHeader" data-empty="true">// paste a JWT to see decoded header</pre>
+          </div>
+          <div>
+            <div style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a855f7;margin-bottom:.35rem">Payload</div>
+            <pre class="tool-output" id="outPayload" data-empty="true">// paste a JWT to see decoded payload</pre>
+          </div>
+          <div>
+            <div style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#34d399;margin-bottom:.35rem">Signature (raw Base64URL)</div>
+            <pre class="tool-output" id="outSig" data-empty="true" style="min-height:60px">// paste a JWT to see signature</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / FAQ -->
+    <section class="tool-section">
+      <h2>About JSON Web Tokens</h2>
+      <p class="lede">A JWT is three Base64URL-encoded segments — header, payload, signature — joined with dots. The header declares the signing algorithm, the payload carries claims (who, what, until when), and the signature lets a verifier confirm the token wasn't tampered with. Decoding a JWT is trivial; <em>verifying</em> it requires the shared secret or issuer's public key.</p>
+
+      <div class="tool-faq">
+        <details open>
+          <summary>Are my tokens sent to a server?</summary>
+          <p>No. This tool is a single static HTML page served from GitHub Pages. Decoding uses <code>atob</code> and <code>JSON.parse</code>. Signature verification uses the browser's built-in Web Crypto API (<code>SubtleCrypto</code>). Your token never touches our infrastructure — there is no backend here to touch it.</p>
+        </details>
+        <details>
+          <summary>Which signing algorithms do you support?</summary>
+          <p>Decoding works for any JWT regardless of <code>alg</code>. Signature verification supports <code>HS256</code>, <code>HS384</code>, <code>HS512</code> (symmetric shared-secret) and <code>RS256</code>, <code>RS384</code>, <code>RS512</code> (asymmetric — paste the issuer's PEM-encoded public key). <code>ES256</code>, <code>ES384</code>, and <code>EdDSA</code> are on the roadmap.</p>
+        </details>
+        <details>
+          <summary>Can a decoded JWT be trusted on its own?</summary>
+          <p>No. Anyone can produce a JWT and set the payload to anything. Trust requires two checks: (1) the signature verifies against the issuer's secret or public key, and (2) the <code>exp</code>, <code>nbf</code>, and <code>iat</code> claims are in a valid range. This tool flags both for you automatically.</p>
+        </details>
+        <details>
+          <summary>Why does the claim bar sometimes turn yellow?</summary>
+          <p>Yellow means a time-based claim is unusual but not fatal — e.g. <code>nbf</code> is in the future (token not yet valid), or <code>iat</code> is in the future (issued-at skew). Red means expired. Green means valid.</p>
+        </details>
+        <details>
+          <summary>Who built this?</summary>
+          <p>The ClipGate team. We build a local-first clipboard vault CLI for developers that auto-classifies copied content and blocks paste of secrets. These free tools extend that philosophy to common developer workflows — ad-free, client-side, dark by default.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related tools -->
+    <section id="cgToolRelated" class="tool-section" data-exclude="jwt-decoder"></section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+
+  <!-- Tool-chrome injector: mounts classifier sidebar + related + install band -->
+  <script type="module" src="../_framework/tool-chrome.js"></script>
+
+  <!-- JWT decoder logic -->
+  <script type="module">
+    // ── Utils ───────────────────────────────────────────────────
+    const $ = (id) => document.getElementById(id);
+
+    const EXAMPLE_TOKEN =
+      // Canonical jwt.io demo token, HS256, secret: your-256-bit-secret
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
+      '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ' +
+      '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+    const EXAMPLE_KEY = 'your-256-bit-secret';
+
+    function base64UrlDecode(s) {
+      s = s.replace(/-/g, '+').replace(/_/g, '/');
+      const pad = s.length % 4;
+      if (pad) s += '='.repeat(4 - pad);
+      const bin = atob(s);
+      try {
+        return decodeURIComponent(
+          bin.split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+        );
+      } catch {
+        return bin;
+      }
+    }
+
+    function base64UrlToBytes(s) {
+      s = s.replace(/-/g, '+').replace(/_/g, '/');
+      const pad = s.length % 4;
+      if (pad) s += '='.repeat(4 - pad);
+      const bin = atob(s);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    function syntaxHighlight(json) {
+      if (!json) return '';
+      const escaped = json
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return escaped.replace(
+        /("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(\.\d*)?([eE][+-]?\d+)?)/g,
+        (match) => {
+          let cls = 'tool-token-number';
+          if (/^"/.test(match)) cls = /:$/.test(match) ? 'tool-token-key' : 'tool-token-string';
+          else if (/true|false/.test(match)) cls = 'tool-token-bool';
+          else if (/null/.test(match)) cls = 'tool-token-null';
+          return `<span class="${cls}">${match}</span>`;
+        }
+      );
+    }
+
+    function fmtClaimTime(unix) {
+      if (typeof unix !== 'number') return null;
+      const d = new Date(unix * 1000);
+      if (Number.isNaN(d.getTime())) return null;
+      return d.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' UTC');
+    }
+
+    function setStatus(state, text) {
+      const dot = $('jwtStatusDot');
+      dot.classList.remove('ok', 'warn', 'err');
+      if (state) dot.classList.add(state);
+      $('jwtStatusText').textContent = text;
+    }
+
+    function clearOutputs() {
+      $('outHeader').innerHTML  = '// paste a JWT to see decoded header';
+      $('outPayload').innerHTML = '// paste a JWT to see decoded payload';
+      $('outSig').innerHTML     = '// paste a JWT to see signature';
+      $('outHeader').dataset.empty  = 'true';
+      $('outPayload').dataset.empty = 'true';
+      $('outSig').dataset.empty     = 'true';
+      $('jwtClaims').innerHTML = '';
+      $('jwtAlg').textContent = '—';
+    }
+
+    function renderClaims(payload) {
+      const container = $('jwtClaims');
+      container.innerHTML = '';
+      if (!payload || typeof payload !== 'object') return;
+      const now = Math.floor(Date.now() / 1000);
+      const skew = 30; // 30s clock-skew tolerance
+
+      const add = (state, label) => {
+        const el = document.createElement('span');
+        el.className = `jwt-claim-badge ${state}`;
+        el.textContent = label;
+        container.appendChild(el);
+      };
+
+      if ('exp' in payload) {
+        const t = fmtClaimTime(payload.exp);
+        if (typeof payload.exp !== 'number') add('warn', `exp: non-numeric`);
+        else if (payload.exp + skew < now) add('err', `expired · exp ${t}`);
+        else add('ok', `valid until ${t}`);
+      }
+      if ('nbf' in payload && typeof payload.nbf === 'number') {
+        if (payload.nbf - skew > now) add('warn', `not valid until ${fmtClaimTime(payload.nbf)}`);
+      }
+      if ('iat' in payload && typeof payload.iat === 'number') {
+        if (payload.iat - skew > now) add('warn', `iat in the future`);
+        else add('ok', `issued ${fmtClaimTime(payload.iat)}`);
+      }
+      if ('iss' in payload) add('ok', `iss: ${String(payload.iss).slice(0, 40)}`);
+      if ('aud' in payload) add('ok', `aud: ${Array.isArray(payload.aud) ? payload.aud.join(',') : String(payload.aud).slice(0, 40)}`);
+    }
+
+    // ── Decode on input ─────────────────────────────────────────
+    function decode() {
+      const raw = $('jwtInput').value.trim();
+      if (!raw) {
+        clearOutputs();
+        setStatus('', 'waiting for token');
+        return;
+      }
+      const parts = raw.split('.');
+      if (parts.length !== 3) {
+        clearOutputs();
+        setStatus('err', `invalid — expected 3 segments, got ${parts.length}`);
+        return;
+      }
+      let header, payload;
+      try { header = JSON.parse(base64UrlDecode(parts[0])); }
+      catch { setStatus('err', 'invalid header Base64URL or JSON'); return; }
+      try { payload = JSON.parse(base64UrlDecode(parts[1])); }
+      catch { setStatus('err', 'invalid payload Base64URL or JSON'); return; }
+
+      $('outHeader').innerHTML  = syntaxHighlight(JSON.stringify(header, null, 2));
+      $('outPayload').innerHTML = syntaxHighlight(JSON.stringify(payload, null, 2));
+      $('outSig').textContent   = parts[2] || '(empty)';
+      $('outHeader').dataset.empty  = 'false';
+      $('outPayload').dataset.empty = 'false';
+      $('outSig').dataset.empty     = parts[2] ? 'false' : 'true';
+
+      $('jwtAlg').textContent = header.alg || '—';
+      renderClaims(payload);
+
+      setStatus('ok', `decoded · alg=${header.alg || '?'}${header.typ ? ' · typ=' + header.typ : ''}`);
+    }
+
+    // ── Signature verification (HS* + RS*) ──────────────────────
+    function pemToArrayBuffer(pem) {
+      const b64 = pem
+        .replace(/-----BEGIN [^-]+-----/, '')
+        .replace(/-----END [^-]+-----/, '')
+        .replace(/\s+/g, '');
+      const bin = atob(b64);
+      const buf = new ArrayBuffer(bin.length);
+      const view = new Uint8Array(buf);
+      for (let i = 0; i < bin.length; i++) view[i] = bin.charCodeAt(i);
+      return buf;
+    }
+
+    async function verifySignature(token, keyText) {
+      const parts = token.split('.');
+      if (parts.length !== 3) return { ok: false, reason: 'token must have 3 segments' };
+      let header;
+      try { header = JSON.parse(base64UrlDecode(parts[0])); }
+      catch { return { ok: false, reason: 'invalid header' }; }
+      const alg = String(header.alg || '').toUpperCase();
+
+      const signedInput = parts[0] + '.' + parts[1];
+      const sigBytes = base64UrlToBytes(parts[2]);
+      const data = new TextEncoder().encode(signedInput);
+
+      if (/^HS(256|384|512)$/.test(alg)) {
+        const hash = 'SHA-' + alg.slice(2);
+        const key = await crypto.subtle.importKey(
+          'raw',
+          new TextEncoder().encode(keyText),
+          { name: 'HMAC', hash },
+          false,
+          ['verify']
+        );
+        const ok = await crypto.subtle.verify('HMAC', key, sigBytes, data);
+        return { ok, reason: ok ? `HMAC ${hash} verified` : 'signature does not match secret' };
+      }
+
+      if (/^RS(256|384|512)$/.test(alg)) {
+        const hash = 'SHA-' + alg.slice(2);
+        let keyBuf;
+        try { keyBuf = pemToArrayBuffer(keyText); }
+        catch { return { ok: false, reason: 'invalid PEM key' }; }
+        try {
+          const key = await crypto.subtle.importKey(
+            'spki',
+            keyBuf,
+            { name: 'RSASSA-PKCS1-v1_5', hash },
+            false,
+            ['verify']
+          );
+          const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, sigBytes, data);
+          return { ok, reason: ok ? `RSA ${hash} verified` : 'signature does not match public key' };
+        } catch (e) {
+          return { ok: false, reason: `could not import key: ${e.message}` };
+        }
+      }
+
+      return { ok: false, reason: `alg ${alg} not supported (use HS256/384/512 or RS256/384/512)` };
+    }
+
+    async function onVerifyClick() {
+      const token = $('jwtInput').value.trim();
+      const key   = $('jwtKey').value.trim();
+      const res   = $('jwtVerifyResult');
+      res.classList.remove('ok', 'err');
+      if (!token)   { res.textContent = 'Paste a token above first.'; return; }
+      if (!key)     { res.textContent = 'Paste a secret (HS*) or PEM public key (RS*).'; return; }
+      res.textContent = 'verifying…';
+      try {
+        const out = await verifySignature(token, key);
+        res.classList.add(out.ok ? 'ok' : 'err');
+        res.textContent = (out.ok ? '✓ ' : '✗ ') + out.reason;
+      } catch (e) {
+        res.classList.add('err');
+        res.textContent = '✗ ' + e.message;
+      }
+    }
+
+    // ── Event wiring ────────────────────────────────────────────
+    $('jwtInput').addEventListener('input', decode);
+    $('btnExample').addEventListener('click', () => {
+      $('jwtInput').value = EXAMPLE_TOKEN;
+      $('jwtKey').value   = EXAMPLE_KEY;
+      $('jwtInput').dispatchEvent(new Event('input'));
+    });
+    $('btnClear').addEventListener('click', () => {
+      $('jwtInput').value = '';
+      $('jwtKey').value   = '';
+      $('jwtVerifyResult').textContent = 'Enter a secret or public key to verify.';
+      $('jwtVerifyResult').classList.remove('ok', 'err');
+      $('jwtInput').dispatchEvent(new Event('input'));
+    });
+    $('btnVerify').addEventListener('click', onVerifyClick);
+
+    async function copyNode(el) {
+      try { await navigator.clipboard.writeText(el.innerText); }
+      catch { /* no-op */ }
+    }
+    $('btnCopyHeader').addEventListener('click',  () => copyNode($('outHeader')));
+    $('btnCopyPayload').addEventListener('click', () => copyNode($('outPayload')));
+
+    // initial state
+    clearOutputs();
+    setStatus('', 'waiting for token');
+  </script>
+</body>
+</html>

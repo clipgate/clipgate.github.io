@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Developer Tools — ClipGate</title>
+  <meta name="description" content="Free, ad-free, 100% client-side developer tools: JWT decoder, JSON formatter, secret scanner, Base64, URL, UUID, hash, diff, SQL formatter, cron explainer and more. No signup, no tracking, no limits.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/tools/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://clipgate.github.io/tools/">
+  <meta property="og:title" content="Free Developer Tools — ClipGate">
+  <meta property="og:description" content="Clean, ad-free, 100% client-side developer utilities. JWT, JSON, secret scanner, Base64, URL, UUID, hash, diff and more.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Developer Tools — ClipGate">
+  <meta name="twitter:description" content="Clean, ad-free, 100% client-side developer utilities. No signup, no tracking, no limits.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-notes.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "ClipGate Developer Tools",
+    "description": "Free, ad-free, 100% client-side developer utilities. No signup, no tracking, no limits.",
+    "url": "https://clipgate.github.io/tools/",
+    "publisher": { "@type": "Organization", "name": "ClipGate", "url": "https://clipgate.github.io/" },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1,  "name": "JWT Decoder",          "url": "https://clipgate.github.io/tools/jwt-decoder/" },
+        { "@type": "ListItem", "position": 2,  "name": "JSON Formatter",       "url": "https://clipgate.github.io/tools/json/" },
+        { "@type": "ListItem", "position": 3,  "name": "Secret Scanner",       "url": "https://clipgate.github.io/tools/scan/" },
+        { "@type": "ListItem", "position": 4,  "name": "Base64 Encode/Decode", "url": "https://clipgate.github.io/tools/base64/" },
+        { "@type": "ListItem", "position": 5,  "name": "URL Encode/Decode",    "url": "https://clipgate.github.io/tools/url/" },
+        { "@type": "ListItem", "position": 6,  "name": "UUID Generator",       "url": "https://clipgate.github.io/tools/uuid/" },
+        { "@type": "ListItem", "position": 7,  "name": "Timestamp Converter",  "url": "https://clipgate.github.io/tools/timestamp/" },
+        { "@type": "ListItem", "position": 8,  "name": "Regex Tester",         "url": "https://clipgate.github.io/tools/regex/" },
+        { "@type": "ListItem", "position": 9,  "name": "Hash Generator",       "url": "https://clipgate.github.io/tools/hash/" },
+        { "@type": "ListItem", "position": 10, "name": "Diff Viewer",          "url": "https://clipgate.github.io/tools/diff/" },
+        { "@type": "ListItem", "position": 11, "name": "YAML ↔ JSON",          "url": "https://clipgate.github.io/tools/yaml-json/" },
+        { "@type": "ListItem", "position": 12, "name": "SQL Formatter",        "url": "https://clipgate.github.io/tools/sql/" },
+        { "@type": "ListItem", "position": 13, "name": "Cron Explainer",       "url": "https://clipgate.github.io/tools/cron/" },
+        { "@type": "ListItem", "position": 14, "name": ".env Validator",       "url": "https://clipgate.github.io/tools/env/" },
+        { "@type": "ListItem", "position": 15, "name": "cURL → fetch",         "url": "https://clipgate.github.io/tools/curl/" }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",  "item": "https://clipgate.github.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://clipgate.github.io/tools/" }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/site-chrome.css">
+  <link rel="stylesheet" href="../shared/site-scroll-ui.css">
+  <link rel="stylesheet" href="./_framework/tool-chrome.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --copy:#b7dbf4;--copy-soft:#a4cae4;--text2-strong:#9caab8;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.7)
+    }
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-30%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.08),transparent 70%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+
+    .hub-hero{padding:2rem 2.1rem 2.3rem;margin:1.4rem 0 1.8rem;border-radius:22px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,.1),transparent 45%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));backdrop-filter:blur(14px);position:relative;overflow:hidden}
+    .hub-hero h1{font-size:2.9rem;letter-spacing:-1.3px;line-height:1.04;max-width:18ch;margin-bottom:.75rem;background:linear-gradient(135deg,#fff 0%,#cbe9ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .hub-hero .sub{color:var(--copy);font-size:1.08rem;max-width:62ch;margin-bottom:1.1rem}
+    .hub-eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .hub-pills{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.5rem}
+
+    .hub-promise{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin:1.4rem 0 2rem}
+    .hub-promise-card{padding:.95rem 1.05rem;border-radius:14px;border:1px solid rgba(52,211,153,.2);background:linear-gradient(180deg,rgba(52,211,153,.04),rgba(52,211,153,0))}
+    .hub-promise-card strong{display:block;color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+    .hub-promise-card p{color:var(--text2-strong);font-size:.86rem;line-height:1.5}
+
+    .hub-section{padding:1.2rem 0}
+    .hub-section + .hub-section{padding-top:2.4rem;margin-top:1.8rem;border-top:1px solid rgba(0,212,255,.1)}
+    .hub-section-head{margin-bottom:1.1rem}
+    .hub-section-head h2{font-size:1.55rem;letter-spacing:-.55px;margin-bottom:.3rem}
+    .hub-section-head p{color:var(--copy);max-width:60ch}
+
+    .hub-filter-bar{display:flex;gap:.65rem;flex-wrap:wrap;margin:.5rem 0 1.2rem}
+    .hub-filter{display:inline-flex;align-items:center;padding:.46rem .88rem;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text2);font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s ease}
+    .hub-filter:hover,.hub-filter.active{color:var(--cyan);border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.08);transform:translateY(-1px)}
+
+    .hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+    .hub-tool{padding:1.2rem 1.25rem;border-radius:18px;border:1px solid var(--border);background:radial-gradient(circle at top left,rgba(0,212,255,.04),transparent 52%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));display:flex;flex-direction:column;gap:.85rem;min-height:215px;transition:all .24s ease;cursor:pointer;position:relative;overflow:hidden}
+    .hub-tool:hover{border-color:rgba(0,212,255,.3);transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,0,0,.26)}
+    .hub-tool.planned{opacity:.85}
+    .hub-tool.planned:hover{opacity:1}
+    .hub-tool-head{display:flex;align-items:flex-start;gap:.85rem}
+    .hub-tool-icon{width:44px;height:44px;flex-shrink:0;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem}
+    .hub-tool-meta{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.35rem}
+    .hub-badge{display:inline-flex;align-items:center;padding:.26rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .hub-badge.live{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);color:var(--green)}
+    .hub-badge.planned{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.24);color:var(--gold)}
+    .hub-badge.category{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.18);color:var(--blue)}
+    .hub-tool h3{font-size:1.08rem;line-height:1.2;letter-spacing:-.2px}
+    .hub-tool p{color:var(--text2-strong);font-size:.9rem;line-height:1.55;flex:1}
+    .hub-tool-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--cyan);font-weight:700;font-size:.85rem}
+    .hub-tool.planned .hub-tool-link{color:var(--text2)}
+
+    .why-band{padding:1.6rem 1.8rem;margin-top:2rem;border-radius:22px;border:1px solid var(--border);background:radial-gradient(circle at top right,rgba(52,211,153,.06),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97))}
+    .why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin-top:1rem}
+    .why-item strong{color:var(--text);font-size:1rem;display:block;margin-bottom:.35rem}
+    .why-item p{color:var(--text2-strong);font-size:.9rem;line-height:1.55}
+
+    @media (max-width:980px){
+      .hub-grid,.hub-promise,.why-grid{grid-template-columns:1fr}
+      .hub-hero h1{font-size:2.2rem;max-width:none}
+    }
+  </style>
+</head>
+<body data-page="tools" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+
+  <div class="tool-page cg-chrome-shell">
+
+    <!-- Hero -->
+    <section class="hub-hero">
+      <div class="hub-eyebrow">Free Developer Tools · Ad-free Forever</div>
+      <h1>Developer tools that don't waste your time.</h1>
+      <p class="sub">Clean, dark, fast utilities for everyday development work. No ads, no popups, no signup, no tracking. Everything runs in your browser — your data never leaves your device. Built and maintained by the ClipGate team.</p>
+      <div class="hub-pills">
+        <span class="tool-pill ok">✓ 100% client-side</span>
+        <span class="tool-pill ok">✓ Zero ads, zero trackers</span>
+        <span class="tool-pill ok">✓ No signup required</span>
+        <span class="tool-pill">Open-friendly license</span>
+      </div>
+    </section>
+
+    <!-- Promise row -->
+    <section class="hub-promise">
+      <div class="hub-promise-card">
+        <strong>No ads</strong>
+        <p>Not now, not in 6 months. If these tools ever get ads, that's the day to stop using them.</p>
+      </div>
+      <div class="hub-promise-card">
+        <strong>No upload</strong>
+        <p>Your tokens, JSON, secrets — everything stays in your browser. We can't see it, and neither can a backend.</p>
+      </div>
+      <div class="hub-promise-card">
+        <strong>No signup</strong>
+        <p>No email, no account, no rate limits. Bookmark, share, or embed in your team wiki.</p>
+      </div>
+      <div class="hub-promise-card">
+        <strong>Dark-first</strong>
+        <p>Built for terminals and IDEs. Monospace where it matters, readable without squinting.</p>
+      </div>
+    </section>
+
+    <!-- Tools grid -->
+    <section class="hub-section" id="all-tools">
+      <div class="hub-section-head">
+        <h2>All tools</h2>
+        <p>Live now or coming in the next few weeks. Click any tile — live tools work fully today, planned tiles link to a short roadmap note.</p>
+      </div>
+
+      <div class="hub-filter-bar" role="tablist" aria-label="Filter tools by category">
+        <button class="hub-filter active" type="button" data-filter="all">All</button>
+        <button class="hub-filter" type="button" data-filter="Security">Security</button>
+        <button class="hub-filter" type="button" data-filter="Data">Data</button>
+        <button class="hub-filter" type="button" data-filter="Web">Web</button>
+        <button class="hub-filter" type="button" data-filter="Text">Text</button>
+        <button class="hub-filter" type="button" data-filter="Devops">Devops</button>
+      </div>
+
+      <div class="hub-grid" id="hubGrid"></div>
+    </section>
+
+    <!-- Why it's different -->
+    <section class="why-band">
+      <div class="hub-section-head" style="margin-bottom:.5rem">
+        <h2>Why these tools exist</h2>
+        <p>The existing free developer tool sites work — but most are drowning in ads, popups, and "upgrade to Pro" CTAs. We wanted the opposite.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item">
+          <strong>Local-first by default</strong>
+          <p>Everything runs in your browser as a static page. No backend touches your paste. Open the page, cut your internet — the tool still works.</p>
+        </div>
+        <div class="why-item">
+          <strong>Classifier-aware</strong>
+          <p>Every tool page runs ClipGate's content classifier in-browser so you can see, live, what would be detected as a secret, error, diff, or JSON.</p>
+        </div>
+        <div class="why-item">
+          <strong>Built by a CLI team</strong>
+          <p>Same people who ship the ClipGate CLI for developers. These tools are a natural extension of that work — not lead-gen filler.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Install band -->
+    <section id="cgToolInstallBand"></section>
+
+  </div>
+
+  <div id="cgSiteFooter"></div>
+  <script src="../shared/site-chrome.js"></script>
+  <script src="../shared/site-scroll-ui.js"></script>
+
+  <!-- Hub grid renderer (uses TOOLS catalog from entitlements.js) -->
+  <script type="module">
+    import { TOOLS } from './_framework/entitlements.js';
+    import './_framework/tool-chrome.js';
+
+    const grid = document.getElementById('hubGrid');
+
+    function render(filter) {
+      const list = (filter === 'all') ? TOOLS : TOOLS.filter(t => t.category === filter);
+      grid.innerHTML = list.map(t => {
+        const liveBadge = t.status === 'live'
+          ? '<span class="hub-badge live">Live</span>'
+          : '<span class="hub-badge planned">Coming soon</span>';
+        const href = t.status === 'live' ? `/tools/${t.slug}/` : `/tools/#roadmap-${t.slug}`;
+        return `
+          <a class="hub-tool ${t.status === 'live' ? 'live' : 'planned'}" href="${href}" data-category="${t.category}">
+            <div class="hub-tool-head">
+              <div class="hub-tool-icon">${t.icon}</div>
+              <div>
+                <div class="hub-tool-meta">
+                  ${liveBadge}
+                  <span class="hub-badge category">${t.category}</span>
+                </div>
+                <h3>${t.name}</h3>
+              </div>
+            </div>
+            <p>${t.tagline}</p>
+            <span class="hub-tool-link">${t.status === 'live' ? 'Open tool →' : 'View roadmap →'}</span>
+          </a>
+        `;
+      }).join('');
+    }
+
+    render('all');
+
+    document.querySelectorAll('.hub-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.hub-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render(btn.dataset.filter);
+      });
+    });
+  </script>
+</body>
+</html>

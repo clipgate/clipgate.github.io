@@ -13,6 +13,7 @@
   const footerMount = document.getElementById("cgSiteFooter");
 
   const navItems = [
+    { href: "/tools/", label: "Tools", key: "tools" },
     { href: "/docs/", label: "Docs", key: "docs" },
     { href: "/blog/", label: "Blog", key: "blog" },
     { href: "/releases/", label: "Release Notes", key: "releases" }
@@ -69,6 +70,7 @@
           <div class="cg-footer-section">
             <h4>Resources</h4>
             <div class="cg-footer-links">
+              <a href="/tools/">Free Tools</a>
               <a href="/docs/">Docs</a>
               <a href="/blog/">Blog</a>
               <a href="/releases/">Releases</a>
