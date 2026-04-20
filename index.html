@@ -243,26 +243,6 @@
         .tag-env{background:rgba(245,158,11,0.15);color:var(--gold)}
         .tag-docker{background:rgba(0,212,255,0.15);color:var(--cyan)}
 
-        /* ── Scenario Panes ── */
-        .sc-pane{display:none}
-        .sc-pane.active{display:block;animation:fadeUp .3s ease}
-        .sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-        .sc-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.01)}
-        .sc-card-before{border-color:rgba(248,113,113,0.2)}
-        .sc-card-after{border-color:rgba(52,211,153,0.2)}
-        .sc-card-head{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.2rem;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
-        .sc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-        .sc-dot-r{background:var(--red)}.sc-dot-g{background:var(--green)}
-        .sc-pill{padding:0.3rem 0.7rem;border-radius:6px;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
-        .sc-pill-before{background:rgba(248,113,113,0.15);color:#fca5a5}
-        .sc-pill-after{background:rgba(52,211,153,0.15);color:#86efac}
-        .sc-kicker{font-size:0.78rem;color:var(--text3);font-weight:600}
-        .sc-screen{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.75;min-height:200px}
-        .sc-footer{padding:1rem 1.4rem;background:rgba(255,255,255,0.015);border-top:1px solid var(--border)}
-        .sc-footer p{color:var(--text2-strong);font-size:0.88rem;line-height:1.5;margin:0}
-        .sc-footer strong{color:var(--text)}
-        .sc-saved{display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.75rem;padding:0.4rem 0.8rem;border-radius:6px;font-size:0.78rem;font-weight:600;background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2)}
-
         /* ── Mini Scenarios ── */
         .mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:2.5rem}
         .mini-card{background:radial-gradient(circle at 18% 50%,rgba(0,212,255,0.07),transparent 46%),linear-gradient(180deg,rgba(18,24,36,0.9),rgba(12,17,26,0.97));border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.4rem;transition:all var(--ease)}
@@ -358,7 +338,7 @@
             .hero-right{max-width:100%;width:100%}
             .sec{padding:4rem 1.5rem}
             .sec-title{font-size:1.9rem}
-            .ba-grid,.class-layout,.sc-grid,.mini-grid{grid-template-columns:1fr}
+            .ba-grid,.class-layout,.mini-grid{grid-template-columns:1fr}
             .ai-cards{grid-template-columns:repeat(2,1fr)}
             .prin-grid{grid-template-columns:repeat(2,1fr)}
             .pipeline{flex-direction:column;gap:0.75rem}
@@ -867,56 +847,200 @@
             </p>
         </section>
 
-        <!-- ════ Scenarios (Tabbed Before/After) ════ -->
+        <!-- ════ Cheat-sheet: 5 commands you'll actually use ════ -->
         <section class="sec" id="workflows">
-            <div class="sec-badge">Real Workflows</div>
-            <h2 class="sec-title reveal">See exactly what changes</h2>
-            <p class="sec-sub reveal">Here's the most common case — debugging a crash and handing it to your AI. The pattern repeats for paths, secrets, SHAs, and every other typed item.</p>
+            <style>
+                .cheat-grid{
+                    display:grid;
+                    grid-template-columns:repeat(3,1fr);
+                    gap:1rem;
+                    margin-top:2rem;
+                }
+                @media (max-width:960px){ .cheat-grid{grid-template-columns:repeat(2,1fr)} }
+                @media (max-width:560px){ .cheat-grid{grid-template-columns:1fr} }
+                .cheat-tile{
+                    --t-accent:var(--cyan);
+                    background:var(--bg2);
+                    border:1px solid var(--border);
+                    border-radius:12px;
+                    padding:1.25rem 1.25rem 1.1rem;
+                    display:flex;
+                    flex-direction:column;
+                    gap:0.85rem;
+                    position:relative;
+                    overflow:hidden;
+                    transition:border-color .2s ease, transform .2s ease;
+                }
+                .cheat-tile::before{
+                    content:"";
+                    position:absolute;
+                    inset:0 auto 0 0;
+                    width:3px;
+                    background:color-mix(in srgb, var(--t-accent) 65%, transparent);
+                }
+                .cheat-tile:hover{
+                    border-color:color-mix(in srgb, var(--t-accent) 40%, var(--border));
+                    transform:translateY(-2px);
+                }
+                .cheat-tile[data-cmd="copy"]{ --t-accent:var(--cyan) }
+                .cheat-tile[data-cmd="list"]{ --t-accent:var(--gold) }
+                .cheat-tile[data-cmd="paste"]{ --t-accent:#a78bfa }
+                .cheat-tile[data-cmd="search"]{ --t-accent:var(--green) }
+                .cheat-tile[data-cmd="pack"]{ --t-accent:#f472b6 }
+                .ch-head{
+                    display:flex;
+                    align-items:baseline;
+                    justify-content:space-between;
+                    gap:0.75rem;
+                }
+                .ch-cmd{
+                    font-family:'JetBrains Mono',monospace;
+                    font-size:1.05rem;
+                    font-weight:600;
+                    color:var(--t-accent);
+                    letter-spacing:-0.01em;
+                }
+                .ch-num{
+                    font-family:'JetBrains Mono',monospace;
+                    font-size:0.7rem;
+                    color:var(--text3);
+                    border:1px solid var(--border);
+                    border-radius:999px;
+                    padding:0.1rem 0.5rem;
+                }
+                .ch-use{
+                    font-size:0.9rem;
+                    color:var(--text);
+                    line-height:1.5;
+                }
+                .ch-use strong{ color:var(--t-accent); font-weight:600 }
+                .ch-demo{
+                    background:var(--bg);
+                    border:1px solid var(--border);
+                    border-radius:8px;
+                    padding:0.7rem 0.8rem;
+                    font-family:'JetBrains Mono',monospace;
+                    font-size:0.78rem;
+                    color:var(--text2);
+                    line-height:1.6;
+                    margin-top:auto;
+                }
+                .ch-demo .dp{ color:var(--t-accent); margin-right:0.35rem }
+                .ch-demo .di{ color:var(--text) }
+                .ch-demo .do{ color:var(--text3); display:block; margin-top:0.2rem }
+                .ch-demo .dc{ color:#6b7280; font-style:italic }
+                .cheat-foot{
+                    margin-top:1.75rem;
+                    text-align:center;
+                    padding:1.1rem 1rem;
+                    background:linear-gradient(90deg, color-mix(in srgb, var(--cyan) 6%, transparent), color-mix(in srgb, var(--green) 6%, transparent));
+                    border:1px solid var(--border);
+                    border-radius:12px;
+                    color:var(--text);
+                    font-size:0.95rem;
+                }
+                .cheat-foot strong{ color:var(--text) }
+                .cheat-foot .cf-mini{
+                    display:block;
+                    margin-top:0.35rem;
+                    color:var(--text2);
+                    font-size:0.85rem;
+                }
+                .cheat-cta{
+                    display:inline-flex;
+                    align-items:center;
+                    gap:0.4rem;
+                    margin-top:0.9rem;
+                    padding:0.55rem 1rem;
+                    background:var(--cyan);
+                    color:#041018;
+                    font-family:'JetBrains Mono',monospace;
+                    font-size:0.82rem;
+                    font-weight:600;
+                    border-radius:8px;
+                    text-decoration:none;
+                    transition:transform .15s ease, box-shadow .15s ease;
+                }
+                .cheat-cta:hover{
+                    transform:translateY(-1px);
+                    box-shadow:0 6px 20px color-mix(in srgb, var(--cyan) 35%, transparent);
+                }
+            </style>
 
+            <div class="sec-badge">The Whole Tool</div>
+            <h2 class="sec-title reveal">Five commands. That's the whole mental model.</h2>
+            <p class="sec-sub reveal">No dashboard. No settings to tune. If you can use <code style="color:var(--cyan)">cd</code> and <code style="color:var(--cyan)">ls</code>, you already know how <code style="color:var(--cyan)">cg</code> works. Here's the 60-second tour.</p>
 
-            <!-- Debugging -->
-            <div class="sc-pane active" id="sc-debug">
-                <div class="sc-grid">
-                    <article class="sc-card sc-card-before">
-                        <div class="sc-card-head">
-                            <span class="sc-dot sc-dot-r"></span>
-                            <span class="sc-pill sc-pill-before">Before</span>
-                            <span class="sc-kicker">Traditional</span>
-                        </div>
-                        <div class="sc-screen">
-                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm run dev</span></div>
-                            <div class="t-line"><span class="t-e">TypeError: Cannot read properties of undefined</span></div>
-                            <div class="t-line"><span class="t-e">at UserService.getUser (src/user.ts:42:18)</span></div>
-                            <div class="t-line" style="margin-top:0.6rem"><span class="t-c"># 1. Select error text with mouse</span></div>
-                            <div class="t-line"><span class="t-c"># 2. Cmd+C</span></div>
-                            <div class="t-line"><span class="t-c"># 3. Switch to browser, open Claude</span></div>
-                            <div class="t-line"><span class="t-c"># 4. Click input, Cmd+V, type context</span></div>
-                            <div class="t-line"><span class="t-c"># 5. ~60 seconds of context switching</span></div>
-                        </div>
-                        <div class="sc-footer">
-                            <p><strong>The problem:</strong> Terminal &rarr; mouse select &rarr; copy &rarr; switch window &rarr; paste. Five steps, one brain context switch, and you've lost your flow.</p>
-                        </div>
-                    </article>
-                    <article class="sc-card sc-card-after">
-                        <div class="sc-card-head">
-                            <span class="sc-dot sc-dot-g"></span>
-                            <span class="sc-pill sc-pill-after">After</span>
-                            <span class="sc-kicker">With Clip Gate</span>
-                        </div>
-                        <div class="sc-screen">
-                            <div class="t-line"><span class="t-p">$</span> <span class="t-i">npm run dev 2>&1 | cg copy</span></div>
-                            <div class="t-line"><span class="t-e">TypeError: Cannot read properties of undefined</span></div>
-                            <div class="t-line"><span class="t-e">at UserService.getUser (src/user.ts:42:18)</span></div>
-                            <div class="t-line" style="margin-top:0.6rem"><span class="t-p">$</span> <span class="t-i">cg paste --type error | claude "what caused this?"</span></div>
-                            <div class="t-line" style="margin-top:0.3rem"><span class="t-o">Claude: The error means 'user' is undefined at line 42.</span></div>
-                            <div class="t-line"><span class="t-o">getUser() is called before the DB connection resolves.</span></div>
-                        </div>
-                        <div class="sc-footer">
-                            <p><strong>What changed:</strong> Zero window switching. The error is captured the moment it appears. You pipe it directly to Claude from the same terminal.</p>
-                            <div class="sc-saved">Saved: ~55 seconds and zero context switches</div>
-                        </div>
-                    </article>
-                </div>
+            <div class="cheat-grid reveal">
+
+                <article class="cheat-tile" data-cmd="copy" id="cmd-copy">
+                    <div class="ch-head">
+                        <span class="ch-cmd">cg copy</span>
+                        <span class="ch-num">01 · capture</span>
+                    </div>
+                    <p class="ch-use"><strong>Save anything</strong> to your vault. Pipe command output, paste text, or pass a file. It gets classified and indexed automatically.</p>
+                    <div class="ch-demo">
+                        <div><span class="dp">$</span><span class="di">npm run build 2&gt;&amp;1 | cg copy</span></div>
+                        <span class="do">saved &middot; type=error &middot; 1.2KB &middot; id=k3f9</span>
+                    </div>
+                </article>
+
+                <article class="cheat-tile" data-cmd="list" id="cmd-list">
+                    <div class="ch-head">
+                        <span class="ch-cmd">cg list</span>
+                        <span class="ch-num">02 · browse</span>
+                    </div>
+                    <p class="ch-use"><strong>See what you've got.</strong> Every item with its type, age, and preview. Filter by type to cut through noise.</p>
+                    <div class="ch-demo">
+                        <div><span class="dp">$</span><span class="di">cg list --type error</span></div>
+                        <span class="do">k3f9  2m   TypeError: Cannot read&hellip;</span>
+                        <span class="do">a1b7  11m  panic: runtime error&hellip;</span>
+                    </div>
+                </article>
+
+                <article class="cheat-tile" data-cmd="paste" id="cmd-paste">
+                    <div class="ch-head">
+                        <span class="ch-cmd">cg paste</span>
+                        <span class="ch-num">03 · retrieve</span>
+                    </div>
+                    <p class="ch-use"><strong>Get the right thing back.</strong> Last error, last URL, last SHA — ask by type, not by memory. Pipe it straight to your AI.</p>
+                    <div class="ch-demo">
+                        <div><span class="dp">$</span><span class="di">cg paste --type error | claude</span></div>
+                        <span class="dc"># sends the most recent error, not your last Cmd+C</span>
+                    </div>
+                </article>
+
+                <article class="cheat-tile" data-cmd="search" id="cmd-search">
+                    <div class="ch-head">
+                        <span class="ch-cmd">cg search</span>
+                        <span class="ch-num">04 · find</span>
+                    </div>
+                    <p class="ch-use"><strong>Dig up anything.</strong> Full-text across everything you've ever copied. Scoped, ranked, local — no cloud round-trip.</p>
+                    <div class="ch-demo">
+                        <div><span class="dp">$</span><span class="di">cg search "stripe webhook"</span></div>
+                        <span class="do">9c2a  url   https://dashboard.stripe&hellip;</span>
+                        <span class="do">7d41  sha   a9f2e1c &middot; commit msg match</span>
+                    </div>
+                </article>
+
+                <article class="cheat-tile" data-cmd="pack" id="cmd-pack">
+                    <div class="ch-head">
+                        <span class="ch-cmd">cg pack</span>
+                        <span class="ch-num">05 · handoff</span>
+                    </div>
+                    <p class="ch-use"><strong>Bundle for your AI.</strong> Group recent errors, paths, and commands into one structured block. Pipe to any CLI model — no MCP required.</p>
+                    <div class="ch-demo">
+                        <div><span class="dp">$</span><span class="di">cg pack --last 10m | gpt</span></div>
+                        <span class="do">packed 6 items &middot; 2.1KB &middot; redacted 2 secrets</span>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="cheat-foot reveal">
+                <strong>That's the whole tool.</strong> Flags exist for power users, but most days you'll live in these five.
+                <span class="cf-mini">MCP server, push/pop stacks, and search syntax are in the docs when you need them.</span>
+                <a href="#install" class="cheat-cta" data-action="smooth-nav">Install in 30 seconds &rarr;</a>
             </div>
 
         </section>
@@ -1578,18 +1702,6 @@
         entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
     },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
-
-    // ── Scenario tab switching ──
-    function showScenario(id,btn){
-        document.querySelectorAll('.sc-pane').forEach(p=>p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.sc-tab').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        // Update dots
-        document.querySelectorAll('.sc-dot-nav').forEach(d=>{
-            d.style.opacity = d.dataset.target === id ? '1' : '0.3';
-        });
-    }
 
     // ── Install tab switching ──
     function switchTab(id,btn){
