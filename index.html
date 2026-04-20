@@ -177,7 +177,7 @@
         .term-dots i{width:11px;height:11px;border-radius:50%;display:block}
         .d-r{background:#ff5f57}.d-y{background:#ffbd2e}.d-g{background:#28c940}
         .term-title{margin-left:auto;margin-right:auto;font-size:0.75rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
-        .term-body{padding:1.25rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.85;min-height:420px}
+        .term-body{padding:1.25rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;line-height:1.85;min-height:560px}
         .t-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .t-p{color:var(--cyan)}.t-i{color:var(--text)}.t-o{color:var(--green)}.t-c{color:var(--text3)}.t-g{color:var(--gold)}.t-e{color:var(--red)}
         .cursor{display:inline-block;width:8px;height:1.1em;background:var(--cyan);margin-left:2px;animation:blink .7s infinite;vertical-align:text-bottom}
@@ -1303,6 +1303,11 @@
         }
         const el = document.getElementById('heroTerm');
         const lines = [
+            {p:true, t:'curl -fsSL https://clipgate.github.io/install.sh | sh'},
+            {p:false,t:'Downloading clipgate v0.1.4 (darwin-arm64)\u2026', cls:'t-c'},
+            {p:false,t:'Installed \u2192 /usr/local/bin/cg', cls:'t-g'},
+            {p:true, t:'cg --version'},
+            {p:false,t:'clipgate 0.1.4', cls:'t-o'},
             {p:true, t:'echo "TypeError: Cannot read property \'map\'" | cg copy'},
             {p:true, t:'echo "git push origin main" | cg copy --verbose'},
             {p:false,t:'cg: command 01KN3K4Q (confidence: 0.80)', cls:'t-g'},
