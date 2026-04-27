@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Pipe Terminal Output to Claude Code, Cursor, and Aider — Safely</title>
+  <meta name="description" content="A practical 2026 guide to piping terminal output — errors, logs, build failures — straight into Claude Code, Cursor, and Aider with zero copy-paste and automatic secret redaction.">
+  <meta name="keywords" content="pipe terminal to AI, send error to Claude Code, Cursor terminal integration, Aider clipboard, send terminal output to ChatGPT, ClipGate, cg copy, cg paste, MCP, secret redaction">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/">
+  <link rel="alternate" type="application/rss+xml" title="ClipGate Blog RSS" href="https://clipgate.github.io/blog/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="ClipGate">
+  <meta property="article:published_time" content="2026-04-27T09:00:00+00:00">
+  <meta property="article:modified_time" content="2026-04-27T09:00:00+00:00">
+  <meta property="article:section" content="Workflow">
+  <meta property="og:url" content="https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/">
+  <meta property="og:title" content="Pipe Terminal Output to Claude Code, Cursor, and Aider">
+  <meta property="og:description" content="A practical 2026 guide to piping terminal output — errors, logs, build failures — straight into Claude Code, Cursor, and Aider with zero copy-paste and automatic secret redaction.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-pipe-terminal-to-ai.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Terminal piping a redacted error payload into an AI coding assistant">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ClipGate">
+  <meta name="twitter:title" content="Pipe Terminal Output to Claude Code, Cursor, and Aider">
+  <meta name="twitter:description" content="A practical 2026 guide to piping terminal output — errors, logs, build failures — straight into Claude Code, Cursor, and Aider with zero copy-paste and automatic secret redaction.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-pipe-terminal-to-ai.svg">
+  <meta name="twitter:url" content="https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How to Pipe Terminal Output to Claude Code, Cursor, and Aider — Safely",
+    "description": "A practical 2026 guide to piping terminal output — errors, logs, build failures — straight into Claude Code, Cursor, and Aider with zero copy-paste and automatic secret redaction.",
+    "image": "https://clipgate.github.io/assets/blog-pipe-terminal-to-ai.svg",
+    "datePublished": "2026-04-27T09:00:00+00:00",
+    "dateModified": "2026-04-27T09:00:00+00:00",
+    "mainEntityOfPage": "https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/",
+    "articleSection": "Workflow",
+    "keywords": ["workflow","ai","cli","terminal","claude code","cursor","aider","debugging"],
+    "author": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clipgate.github.io/assets/icons/icon-192.png"
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Piping terminal output to AI coding assistants"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem","position": 1,"name": "Home","item": "https://clipgate.github.io/"},
+      {"@type": "ListItem","position": 2,"name": "Blog","item": "https://clipgate.github.io/blog/"},
+      {"@type": "ListItem","position": 3,"name": "Pipe Terminal Output to Claude Code, Cursor, and Aider","item": "https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I send a terminal error to Claude Code without copy-pasting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Capture the failing command's output once with a pipe — for example, npm run dev 2>&1 | cg copy — and then ask Claude Code for the last error. If Claude Code is connected to ClipGate's MCP server, it can read the most recent error directly from the local store. If it isn't, run cg paste --type error and paste the result into the chat. Either way, the round trip never goes through your mouse."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Cursor support piping terminal output directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cursor does not consume MCP servers as of 2026, so the cleanest path is to pipe the captured value through the system clipboard. Run cg paste --type error | pbcopy on macOS or cg paste --type error | xclip -selection clipboard on Linux, then paste into Cursor's composer or use Cmd+L to send the highlighted error to the inline chat. The captured value is exactly what failed in the terminal."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the safest way to give an AI my full build logs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Capture the logs with cg copy, let the classifier scan for secrets, and then pipe cg paste through to the assistant. Anything that matches a known secret pattern is replaced with [REDACTED:secret] before the value leaves the local store. The original token never reaches the AI vendor's servers, and never gets persisted to disk."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use this with Aider?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Aider is itself a terminal program, so the pipe is direct: cg paste --type error | aider --message 'diagnose and fix'. You can also pair Aider's /run command with cg watch to triage failures as they happen — every captured failure is one keystroke away from being the next prompt."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if the error contains an API key or token?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ClipGate's classifier runs at capture time and quarantines anything that matches a known secret prefix or high-entropy token shape. Quarantined values stay in memory only, with a five-minute TTL, and are substituted with a [REDACTED:secret] placeholder when they appear inside larger payloads. The default cg paste output is safe to send to a third-party AI; you have to opt in explicitly with --secret to retrieve a quarantined value."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.72)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-28%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.075),transparent 71%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    a.inline{color:var(--cyan);border-bottom:1px dashed rgba(0,212,255,.35)}
+    a.inline:hover{border-bottom-color:var(--cyan)}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1380px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(14px)}
+    .hero{padding:1.5rem 0 1.7rem}
+    .hero-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem}
+    .hero-copy,.hero-art,.toc,.content,.workflow-card,.install-card{min-width:0}
+    .hero-copy{padding:2rem}
+    .hero-art{padding:1.2rem;display:flex;align-items:center;justify-content:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.10);border:1px solid rgba(0,212,255,.32);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1rem;color:var(--text2);font-size:.9rem}
+    h1{font-size:3.05rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem}
+    .sub{font-size:1.08rem;color:var(--text2-strong);max-width:60ch}
+    .meta{display:flex;gap:.75rem;flex-wrap:wrap;color:var(--text3);font-size:.82rem;margin:1.3rem 0 1rem}
+    .meta span{display:inline-flex;align-items:center;gap:.35rem}
+    .topic-row{display:flex;gap:.55rem;flex-wrap:wrap}
+    .topic{display:inline-flex;align-items:center;padding:.35rem .72rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);color:var(--cyan);font-size:.75rem;font-weight:600}
+    .hero-art img{width:100%;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+    .hero-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-top:1rem}
+    .signal{padding:1rem 1.05rem;border-radius:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.05)}
+    .signal strong{display:block;font-size:.82rem;color:var(--text);margin-bottom:.22rem}
+    .signal p{font-size:.83rem;color:var(--text2-strong)}
+    .layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:1.2rem}
+    .toc{position:sticky;top:1rem;align-self:start;padding:1.1rem}
+    .toc h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+    .toc a{display:block;padding:.4rem .75rem .4rem .9rem;margin-left:-.9rem;border-left:2px solid transparent;color:var(--text2);font-size:.9rem;border-radius:0 10px 10px 0}
+    .toc a:hover{color:var(--cyan);border-left-color:rgba(0,212,255,.3)}
+    .toc a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .content{min-width:0}
+    section{padding:1.35rem 1.45rem;margin-bottom:1rem;scroll-margin-top:8.25rem}
+    section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:.75rem}
+    section h3{font-size:1.05rem;margin-top:1rem;margin-bottom:.35rem}
+    section p{color:var(--text2-strong);margin-top:.85rem}
+    section p:first-of-type{margin-top:0}
+    .lede{font-size:1.06rem;color:var(--text)}
+    .callout{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05);margin-top:1rem}
+    .callout p{margin:0;color:var(--text)}
+    .callout.danger{border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
+    .callout.danger p{color:var(--text)}
+    .callout.warning{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.08)}
+    .callout.warning p{color:var(--text)}
+    .callout.success{border-color:rgba(52,211,153,.28);background:rgba(52,211,153,.06)}
+    .list{margin-top:1rem;display:grid;gap:.75rem}
+    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .list-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .list-item p{margin:0;color:var(--text2-strong)}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:1rem}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012);font-size:.92rem;color:var(--text2-strong)}
+    .table td strong{color:var(--text)}
+    .num{font-family:'JetBrains Mono',monospace;color:var(--green)}
+    .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.75;white-space:pre-wrap;color:var(--green)}
+    .blog-cp-wrapper{position:relative}
+    .blog-cp-btn{position:absolute;top:.65rem;right:.75rem;opacity:0;transition:opacity .2s ease;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.4rem .7rem;border-radius:8px;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+    .blog-cp-wrapper:hover .blog-cp-btn{opacity:1}
+    .blog-cp-btn:hover{background:rgba(0,212,255,.2);border-color:rgba(0,212,255,.5)}
+    .install-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .install-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .install-card p{font-size:.88rem;color:var(--text2-strong);margin-bottom:.75rem;margin-top:0}
+    .cta-band{padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .cta-band h2{font-size:1.45rem;letter-spacing:-.4px}
+    .cta-band p{color:var(--text2-strong);max-width:54ch}
+    .cta-row{display:flex;gap:.85rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.18rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .blog-share-row{display:flex;gap:.6rem;margin-top:1.2rem}
+    .blog-share-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s ease;text-decoration:none}
+    .blog-share-btn:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);box-shadow:0 4px 12px rgba(0,212,255,.1)}
+    .blog-related-section{background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid rgba(0,212,255,.12);border-radius:20px;padding:1.5rem;margin:2rem 0}
+    .blog-related-section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:1.3rem}
+    .blog-related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .blog-related-card{padding:1.2rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,255,.12);display:flex;flex-direction:column;gap:.8rem}
+    .blog-related-card h3{font-size:1rem;line-height:1.22;margin:0;color:var(--text)}
+    .blog-related-card a{color:var(--cyan);font-weight:700}
+    .blog-related-card p{font-size:.9rem;color:var(--text2-strong);margin:0}
+    .blog-related-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;width:fit-content}
+    .blog-related-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--text3)}
+    .faq-item{padding:1rem 1.1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-top:.75rem}
+    .faq-item h3{font-size:1rem;margin-bottom:.4rem;color:var(--text);margin-top:0}
+    .faq-item p{margin:0;color:var(--text2-strong);font-size:.92rem}
+    @media(max-width:768px){
+      .blog-related-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:980px){
+      .hero-shell,.layout,.hero-summary,.install-grid{grid-template-columns:1fr}
+      h1{font-size:2.35rem}
+      .toc{position:static}
+      .cta-band{flex-direction:column;align-items:flex-start}
+      .hero-copy,.hero-art{padding:1.35rem}
+      .table{display:block;overflow-x:auto}
+    }
+  </style>
+</head>
+<body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <div class="hero">
+      <div class="hero-shell">
+        <article class="panel hero-copy">
+          <a class="back-link" href="/blog/">← Back to blog</a>
+          <div class="eyebrow">⚙ AI workflow</div>
+          <h1>How to Pipe Terminal Output to Claude Code, Cursor, and Aider — Safely</h1>
+          <p class="sub">Errors, build failures, stack traces — the things you most want to ask an AI about live in your terminal. Here is how to hand them off in one command, without the copy-paste tax and without leaking the secrets that hide in your logs.</p>
+          <div class="meta">
+            <span>Published Apr 27, 2026</span>
+            <span>9 min read</span>
+            <span>By ClipGate</span>
+          </div>
+          <div class="topic-row">
+            <span class="topic">Workflow</span>
+            <span class="topic">AI</span>
+            <span class="topic">Terminal</span>
+            <span class="topic">CLI</span>
+          </div>
+          <div class="blog-share-row">
+            <a class="blog-share-btn" href="https://twitter.com/intent/tweet?url=https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/&text=How%20to%20pipe%20terminal%20output%20to%20Claude%20Code%2C%20Cursor%2C%20and%20Aider%20%E2%80%94%20safely%20via%20@ClipGate" target="_blank" rel="noopener noreferrer" title="Share on Twitter" aria-label="Share on Twitter">𝕏</a>
+            <a class="blog-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">in</a>
+            <button class="blog-share-btn" type="button" title="Copy link" aria-label="Copy article link" id="blogShareCopy">🔗</button>
+          </div>
+        </article>
+        <div class="panel hero-art">
+          <img src="../../assets/blog-pipe-terminal-to-ai.svg" alt="Terminal piping a redacted error payload into an AI coding assistant">
+        </div>
+      </div>
+      <div class="hero-summary">
+        <div class="signal">
+          <strong>Capture once, hand off forever</strong>
+          <p>One pipe at the source. Every assistant downstream pulls from the same classified buffer.</p>
+        </div>
+        <div class="signal">
+          <strong>Three tools, three patterns</strong>
+          <p>Claude Code reads MCP. Cursor reads the system clipboard. Aider reads stdin. Same payload, three idioms.</p>
+        </div>
+        <div class="signal">
+          <strong>Secrets never reach the AI</strong>
+          <p>Tokens and credentials are redacted at pipe time, in memory only, with a five-minute TTL.</p>
+        </div>
+        <div class="signal">
+          <strong>Zero copy-paste tax</strong>
+          <p>Stop alt-tabbing. The error you just produced is one shell command from being the next prompt.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel toc">
+        <h2>On This Page</h2>
+        <a href="#sixty-second-tax">The 60-second tax</a>
+        <a href="#base-move">Capture once, hand off forever</a>
+        <a href="#claude-code">Claude Code (MCP-native)</a>
+        <a href="#cursor">Cursor (pipe-friendly)</a>
+        <a href="#aider">Aider (terminal-native)</a>
+        <a href="#redaction">Automatic secret redaction</a>
+        <a href="#cheat-sheet">The cheat sheet</a>
+        <a href="#faq">FAQ</a>
+        <a href="#install">Install ClipGate</a>
+      </aside>
+
+      <main class="content">
+
+        <section class="panel" id="sixty-second-tax">
+          <h2>The 60-second tax you didn't notice you were paying</h2>
+          <p class="lede">Every time a build breaks, a test fails, or a service refuses to start, the same micro-ritual happens. Hit the error. Drag the mouse across half a stack trace. Cmd-C. Switch to the AI window. Cmd-V. Type a sentence of context because the assistant has none. Wait. The whole thing takes about a minute.</p>
+          <p>A minute is not much. Multiply it by thirty failures a day — a generous estimate for anyone working on a non-trivial codebase — and the tax becomes thirty minutes. That is half an hour spent moving bytes from one window to another, every working day, forever. Not building. Not thinking. Shipping bytes by hand between programs that already share a clipboard.</p>
+          <p>The other thing that minute costs is precision. When you mouse-select a stack trace, you almost always grab too little or too much. You miss the line above the panic, you include the prompt prefix, you forget the path. The assistant gets a slightly wrong picture, asks a clarifying question, and now it is two minutes.</p>
+          <div class="callout danger">
+            <p><strong>The fix is not a faster keyboard shortcut.</strong> The fix is to remove the human from the data path entirely. The terminal already produced the bytes. The assistant already accepts text. The hand-off should be a pipe, not a sequence of UI gestures.</p>
+          </div>
+          <p>That is what this post is about: the exact pipe-shaped hand-off for the three AI coding tools most engineers reach for in 2026 — Claude Code, Cursor, and Aider — and how to make it safe enough that you can do it for real logs, not just toy examples.</p>
+        </section>
+
+        <section class="panel" id="base-move">
+          <h2>The base move: capture once, hand off forever</h2>
+          <p>Every pattern in this post starts with the same one-line move. You take the command whose output you want to reason about and you pipe its combined stdout and stderr into the local capture buffer.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ npm run dev 2>&amp;1 | cg copy</div></div>
+          <p>The interesting part is what happens during that pipe. ClipGate does not just store the bytes. It runs a shape classifier over them and tags the value with a category — <code>error</code>, <code>command</code>, <code>path</code>, <code>url</code>, <code>json</code>, <code>diff</code>, or <code>secret</code>. The presence of <code>TypeError</code>, <code>panic:</code>, a stack frame, or a non-zero exit prefix is enough to file the value as an error. From that moment on you can ask for it by type instead of by recency.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ cg paste -t error
+TypeError: Cannot read 'map' of undefined
+    at handleRequest (/api/routes/users.js:42:18)
+    at async Layer.handle (/node_modules/express/...)</div></div>
+          <p>This is the small but load-bearing detail that makes the rest of the workflow work. You do not have to remember whether the error was the most recent thing you copied or the third most recent. You ask for the last error. You ask for the last command. You ask for the last path. The retrieval surface is shaped like the question, and the question is almost always shaped by category.</p>
+          <p>Once that buffer exists, the three AI hand-offs below are all variations on the same idea: get the right slice of the buffer into the right input surface for whichever assistant you are using.</p>
+        </section>
+
+        <section class="panel" id="claude-code">
+          <h2>Hand-off pattern: Claude Code (MCP-native)</h2>
+          <p>Of the three tools in this post, <a class="inline" href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a> has the cleanest integration because it speaks the Model Context Protocol natively. ClipGate ships an MCP server that exposes the typed buffer as a set of read tools. Wire the two together once, and Claude Code can fetch the last error, the last command, or any other typed entry without you ever copying anything by hand.</p>
+          <p>The configuration lives in your Claude Code MCP file, typically at <code>~/.config/claude-code/mcp.json</code> or the per-project equivalent.</p>
+          <div class="blog-cp-wrapper"><div class="code">{
+  "mcpServers": {
+    "clipgate": {
+      "command": "cg",
+      "args": ["mcp", "serve"],
+      "env": {}
+    }
+  }
+}</div></div>
+          <p>After a restart, Claude Code lists the ClipGate tools alongside its file and shell tools. Now the workflow collapses to a single sentence. You produce the failure in the terminal, you switch to the Claude Code chat, and you type something close to "look at the last error and propose a fix." Claude Code calls the MCP tool, reads the typed entry, and replies with a patch — without you touching the mouse, switching tabs, or pasting anything.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ cargo test 2>&amp;1 | cg copy
+$ # in Claude Code: "fix the most recent test error"
+# Claude Code calls clipgate.last(category="error") and replies with a diff</div></div>
+          <p>The reason this matters more than it sounds is that the Claude Code session no longer needs you to keep its context current. The buffer is the source of truth, the model reads from the buffer, and a long debugging session does not turn into a long sequence of paste operations. The handoff is implicit, not gestural.</p>
+          <div class="callout success">
+            <p>If you only set up one of the three patterns in this post, set up this one. MCP is the closest any of these assistants come to "the AI just knows what's in your terminal," and it is genuinely just a config file.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="cursor">
+          <h2>Hand-off pattern: Cursor (pipe-friendly)</h2>
+          <p>As of 2026, <a class="inline" href="https://cursor.sh" target="_blank" rel="noopener noreferrer">Cursor</a> does not consume MCP servers. The product is excellent for in-editor edits, but it expects context to arrive through the editor itself — selected code, the chat composer, or the inline Cmd-L surface. The cleanest pattern is therefore to bridge the typed buffer into Cursor's existing input channels, and the bridge that always works is the system clipboard.</p>
+          <div class="blog-cp-wrapper"><div class="code"># macOS
+$ cg paste -t error | pbcopy
+
+# Linux (Wayland)
+$ cg paste -t error | wl-copy
+
+# Linux (X11)
+$ cg paste -t error | xclip -selection clipboard</div></div>
+          <p>Now the most recent error sits in the system clipboard, ready to be pasted into Cursor's composer. The win over a manual copy is precision: the buffer holds exactly what the failing process emitted, including the lines above and below the obvious traceback that you would have under-selected with the mouse. The classifier already knows where the error block ends, so you do not have to.</p>
+          <p>If you want the in-editor Cmd-L flow instead, the move is to drop the captured value into a scratch buffer, highlight it, and ask Cursor's inline chat to fix it. That sounds more involved than it is — most editors have a one-line "open scratch" command, and once the value is on screen the rest is muscle memory.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ cg paste -t error &gt; /tmp/last-error.log
+$ code /tmp/last-error.log
+# in Cursor: select all, Cmd+L, "diagnose this and propose a fix"</div></div>
+          <p>The point is not to avoid the editor. Cursor's strength is exactly the bidirectional dialogue around a visible buffer. The point is to skip the part where you reconstruct what the terminal already knew. The terminal still produces the failure. ClipGate still classifies it. Cursor still drives the edit. Each tool does the part it is good at, and no human transcribes between them.</p>
+        </section>
+
+        <section class="panel" id="aider">
+          <h2>Hand-off pattern: Aider (terminal-native)</h2>
+          <p>The cleanest pipe of the three belongs to <a class="inline" href="https://aider.chat" target="_blank" rel="noopener noreferrer">Aider</a>, because Aider is itself a terminal program. The hand-off is a single shell pipeline with no clipboard, no editor, and no window switch.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ cg paste -t error | aider --message "diagnose and fix"</div></div>
+          <p>Aider takes the message, attaches the file context it already knows about, and replies with a diff in the same terminal you produced the error in. If you accept, the patch lands. If you do not, the conversation continues. The whole loop happens inside one window, with no UI surface to fight.</p>
+          <p>Where this pattern really earns its keep is when you pair it with <code>cg watch</code> and Aider's <code>/run</code> command. Run <code>cg watch</code> in a side terminal so every clipboard event flows through the classifier. Then, inside an Aider session, type <code>/run npm test</code>. Aider executes the command, and whatever lands in the clipboard during that run — the failing assertion, the path of the offending file, the JSON body of a 500 — is already classified by the time you ask Aider to fix it.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ cg watch &amp;
+$ aider
+&gt; /run npm test
+# tests fail, captured automatically
+&gt; the last error came from the auth flow — fix it</div></div>
+          <p>That is the rare workflow that actually feels faster than a single human keypress, because the assistant pulls the most recent failure on its own and you spend zero motion describing what just happened. The terminal is the substrate. ClipGate is the index. Aider is the agent. The pipe is implicit.</p>
+        </section>
+
+        <section class="panel" id="redaction">
+          <h2>The differentiator: automatic secret redaction</h2>
+          <p>Here is the part most of the "send your terminal to an AI" tutorials skip. Production logs are full of secrets. You did not put them there on purpose. They arrived because some library helpfully echoed an environment variable on startup, or because an OAuth flow dumped the bearer token into a debug print, or because a misconfigured AWS SDK printed your access key and secret to stderr before crashing. The output you are about to pipe into a third-party model contains things you do not want a third party to see.</p>
+          <p>Most of the time, you do not know it does. That is why redaction has to happen automatically, before the value leaves the local machine. ClipGate's classifier runs a secret detector at capture time, and any substring matching a known token shape gets quarantined. <code>ghp_</code>-prefixed GitHub tokens, <code>sk-</code>-prefixed OpenAI keys, <code>AKIA</code>-prefixed AWS access keys, JWTs, high-entropy strings of plausible token length — all of it gets flagged.</p>
+          <p>Quarantined values do not appear in the default <code>cg paste</code> output. They live in a separate, in-memory-only store with a five-minute TTL — never persisted to disk, never replicated to any sync target, never returned to a caller that does not pass <code>--secret</code> explicitly. When a secret appears inline inside a larger payload, it is replaced with a <code>[REDACTED:secret]</code> placeholder before the surrounding context is handed back.</p>
+          <div class="blog-cp-wrapper"><div class="code">$ aws s3 ls 2&gt;&amp;1 | cg copy
+$ cg paste -t error
+Unable to locate credentials. Configure with:
+  AWS_ACCESS_KEY_ID=[REDACTED:secret]
+  AWS_SECRET_ACCESS_KEY=[REDACTED:secret]
+ClientError: NoCredentialsError</div></div>
+          <p>The practical effect is that you can pipe a real failure into a real model without auditing every line first. The classifier does the audit at capture time, and whatever you forward downstream looks like the original error minus the parts that should never have been shareable.</p>
+          <div class="callout warning">
+            <p>Automatic redaction at the pipe boundary is what turns "I would love to send my logs to an AI" into "I send my logs to an AI." The policy question gets answered at the tool layer instead of the human layer.</p>
+          </div>
+          <p>For the deeper threat-model walkthrough — what counts as a secret, what the TTL covers, what happens on a process crash — the <a href="/blog/ai-coding-assistant-clipboard-secrets-2026/">2026 guide to AI assistants and clipboard secrets</a> covers the full taxonomy.</p>
+        </section>
+
+        <section class="panel" id="cheat-sheet">
+          <h2>The cheat sheet</h2>
+          <p>Five lines cover roughly ninety percent of the real-world hand-offs. Pin them somewhere visible.</p>
+          <table class="table" aria-label="ClipGate to AI hand-off cheat sheet">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Command</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Capture</strong> a command's output, classified at pipe time</td>
+                <td><code>npm test 2&gt;&amp;1 | cg copy</code></td>
+              </tr>
+              <tr>
+                <td><strong>Retrieve</strong> the last entry of a given type</td>
+                <td><code>cg paste -t error</code></td>
+              </tr>
+              <tr>
+                <td><strong>Search</strong> the typed buffer by substring</td>
+                <td><code>cg search "connection refused"</code></td>
+              </tr>
+              <tr>
+                <td><strong>Pack</strong> the last N entries of one or more types into a single prompt-shaped blob</td>
+                <td><code>cg pack -t error -t command -n 5</code></td>
+              </tr>
+              <tr>
+                <td><strong>Safety knob</strong> — keep a sensitive capture in memory only, never on disk</td>
+                <td><code>cg copy --policy memory_only</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>The full command surface lives in the <a href="/docs/">ClipGate docs</a>, including the flags for label-based retrieval, ID lookup, and direct piping back to the system clipboard. If you are coming from a browser-heavy workflow rather than a terminal-heavy one, the <a href="/ext/">ClipGate browser companion</a> sends captures into the same buffer, so the JSON you grabbed from a cloud console is reachable from the same <code>cg paste</code> a second later.</p>
+          <div class="callout">
+            <p>The shortest version of the pitch: <em>your terminal already produces the bytes the AI wants to see. The job is to remove every step between the two.</em> Capture once. Classify at the boundary. Redact at the pipe. Hand off through the idiom each assistant prefers. Stop being the data bus between your own tools.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="faq">
+          <h2>Frequently asked questions</h2>
+          <div class="faq-item">
+            <h3>How do I send a terminal error to Claude Code without copy-pasting?</h3>
+            <p>Capture the failing command once with a pipe — <code>npm run dev 2&gt;&amp;1 | cg copy</code> — then ask Claude Code for the last error. If Claude Code is connected to ClipGate's MCP server, it reads the most recent error directly from the local store. Otherwise, run <code>cg paste -t error</code> and paste the result into the chat.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Does Cursor support piping terminal output directly?</h3>
+            <p>Cursor does not consume MCP servers as of 2026, so the cleanest path is the system clipboard. Run <code>cg paste -t error | pbcopy</code> on macOS or <code>cg paste -t error | xclip -selection clipboard</code> on Linux, then paste into Cursor's composer or send it through Cmd+L. The captured value is exactly what failed in the terminal.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What is the safest way to give an AI my full build logs?</h3>
+            <p>Capture the logs with <code>cg copy</code>, let the classifier scan for secrets, and pipe <code>cg paste</code> to the assistant. Anything matching a known secret pattern is replaced with <code>[REDACTED:secret]</code> before the value leaves the local store.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Can I use this with Aider?</h3>
+            <p>Yes. Aider is a terminal program, so the pipe is direct: <code>cg paste -t error | aider --message "diagnose and fix"</code>. Pair Aider's <code>/run</code> command with <code>cg watch</code> to triage failures as they happen.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What if the error contains an API key or token?</h3>
+            <p>The classifier quarantines anything matching a known secret prefix or high-entropy token shape. Quarantined values stay in memory only, with a five-minute TTL, and are substituted with <code>[REDACTED:secret]</code> inside larger payloads. You have to opt in with <code>--secret</code> to retrieve a quarantined value.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Will any of this work over SSH or in a tmux session?</h3>
+            <p>Yes. Capture happens on whichever machine runs <code>cg copy</code>. To land a remote failure in your laptop's buffer, pipe it through SSH on the way home — for example, <code>ssh prod 'journalctl -u api -n 200' | cg copy</code> — and the classifier runs locally on the way in.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="install">
+          <h2>Install ClipGate and start piping</h2>
+          <p>The hand-off patterns above all assume the <code>cg</code> binary is on your PATH. Pick whichever installer fits your environment and the rest of this post is one terminal away.</p>
+          <div class="install-grid">
+            <div class="install-card">
+              <h3>Site installer</h3>
+              <p>Fastest path for macOS and Linux if you want the official binary with minimal setup.</p>
+              <div class="blog-cp-wrapper"><div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div></div>
+            </div>
+            <div class="install-card">
+              <h3>PyPI</h3>
+              <p>Useful when Python is already part of your environment, including Windows workflows.</p>
+              <div class="blog-cp-wrapper"><div class="code">pip install clipgate</div></div>
+            </div>
+            <div class="install-card">
+              <h3>Homebrew</h3>
+              <p>Best fit for terminal-native installs if Homebrew already manages the rest of your toolchain.</p>
+              <div class="blog-cp-wrapper"><div class="code">brew install clipgate/tap/cg</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel cta-band">
+          <div>
+            <h2>Stop being the data bus between your terminal and your AI.</h2>
+            <p>ClipGate captures, classifies, and redacts at the pipe boundary so Claude Code, Cursor, and Aider get the right slice of your terminal — without the copy-paste tax and without leaking the secrets that hide in your logs.</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="/">Install Free</a>
+            <a class="btn secondary" href="/docs/">Read Docs</a>
+          </div>
+        </section>
+
+        <section class="blog-related-section">
+          <h2>Read next</h2>
+          <div class="blog-related-grid">
+            <div class="blog-related-card">
+              <h3><a href="/blog/how-to-stop-losing-errors-commands-and-paths/">Stop losing errors, commands, and paths in your clipboard</a></h3>
+              <p>The workflow-first argument for why a typed clipboard beats scrollback hunts and shell-history grep.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~10 min read</span>
+              </div>
+            </div>
+            <div class="blog-related-card">
+              <h3><a href="/blog/ai-coding-assistant-clipboard-secrets-2026/">AI coding assistants and clipboard secrets in 2026</a></h3>
+              <p>The threat model behind pipe-time redaction — what counts as a secret, what the TTL covers, and how to avoid leaking credentials into a model.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~9 min read</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+      const sections = links
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          const element = document.getElementById(id);
+          return element ? { id, link, element } : null;
+        })
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      let ticking = false;
+
+      function updateActiveSection() {
+        const threshold = 150;
+        let active = sections[0];
+
+        for (const section of sections) {
+          if (section.element.getBoundingClientRect().top <= threshold) {
+            active = section;
+          } else {
+            break;
+          }
+        }
+
+        for (const section of sections) {
+          const isActive = section === active;
+          section.link.classList.toggle('active', isActive);
+          if (isActive) {
+            section.link.setAttribute('aria-current', 'true');
+          } else {
+            section.link.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      }
+
+      updateActiveSection();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
+      window.addEventListener('hashchange', updateActiveSection);
+    })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const codeBlocks = Array.from(document.querySelectorAll('.blog-cp-wrapper .code'));
+      codeBlocks.forEach((block) => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-cp-btn';
+        btn.textContent = 'Copy';
+        btn.type = 'button';
+        const wrapper = block.parentElement;
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const text = block.textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      });
+      const shareCopyBtn = document.getElementById('blogShareCopy');
+      if (shareCopyBtn) {
+        shareCopyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareCopyBtn.textContent = '✓';
+            setTimeout(() => { shareCopyBtn.textContent = '🔗'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

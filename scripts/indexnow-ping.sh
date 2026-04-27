@@ -29,11 +29,23 @@ ENDPOINT="https://api.indexnow.org/IndexNow"
 DEFAULT_URLS=(
   "https://clipgate.github.io/"
   "https://clipgate.github.io/blog/"
+  "https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/"
+  "https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/"
+  "https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/"
+  "https://clipgate.github.io/blog/clipgate-benchmarks-v0-1-4/"
+  "https://clipgate.github.io/blog/how-to-stop-losing-errors-commands-and-paths/"
+  "https://clipgate.github.io/blog/ai-coding-assistant-clipboard-secrets-2026/"
   "https://clipgate.github.io/blog/best-clipboard-manager-for-developers-2026/"
   "https://clipgate.github.io/blog/accidentally-pasted-password-or-api-key/"
   "https://clipgate.github.io/ext/"
   "https://clipgate.github.io/docs/"
   "https://clipgate.github.io/releases/"
+  "https://clipgate.github.io/tools/"
+  "https://clipgate.github.io/tools/jwt-decoder/"
+  "https://clipgate.github.io/tools/uuid/"
+  "https://clipgate.github.io/tools/base64/"
+  "https://clipgate.github.io/tools/url/"
+  "https://clipgate.github.io/tools/timestamp/"
 )
 
 if [ "$#" -gt 0 ]; then

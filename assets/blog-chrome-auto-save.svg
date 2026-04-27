@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+<title id="t">Auto-save Chrome snippets for Claude and ChatGPT</title>
+<desc id="d">Browser frame with multiple tabs and snippets flowing into a single bundled vault for AI assistants.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#0a0e17"/><stop offset="100%" stop-color="#121826"/>
+</linearGradient>
+<linearGradient id="bn" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="rgba(0,212,255,.18)"/><stop offset="100%" stop-color="rgba(96,165,250,.10)"/>
+</linearGradient>
+<linearGradient id="fl" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#60a5fa" stop-opacity="0"/>
+<stop offset="50%" stop-color="#00d4ff" stop-opacity=".85"/>
+<stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="630" rx="28" fill="url(#bg)"/>
+<g stroke="rgba(0,212,255,.06)" stroke-width="1">
+<path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200"/>
+<path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/>
+</g>
+<g transform="translate(60 50)" font-family="Inter,Arial,sans-serif">
+<rect width="640" height="520" rx="18" fill="rgba(13,17,23,.92)" stroke="rgba(96,165,250,.30)"/>
+<rect width="640" height="44" rx="18" fill="rgba(22,27,34,.9)"/>
+<rect y="22" width="640" height="22" fill="rgba(22,27,34,.9)"/>
+<circle cx="22" cy="22" r="6" fill="#f87171"/><circle cx="42" cy="22" r="6" fill="#f59e0b"/><circle cx="62" cy="22" r="6" fill="#34d399"/>
+<g font-size="13" font-weight="600">
+<rect x="92" y="10" width="120" height="28" rx="6" fill="rgba(0,212,255,.18)" stroke="rgba(0,212,255,.45)"/>
+<text x="106" y="29" fill="#00d4ff">Stripe webhooks</text>
+<rect x="220" y="10" width="118" height="28" rx="6" fill="rgba(96,165,250,.10)" stroke="rgba(96,165,250,.25)"/>
+<text x="234" y="29" fill="#9caab8">Signing secret</text>
+<rect x="346" y="10" width="118" height="28" rx="6" fill="rgba(96,165,250,.10)" stroke="rgba(96,165,250,.25)"/>
+<text x="360" y="29" fill="#9caab8">Event types</text>
+<rect x="472" y="10" width="118" height="28" rx="6" fill="rgba(96,165,250,.10)" stroke="rgba(96,165,250,.25)"/>
+<text x="486" y="29" fill="#9caab8">Verify guide</text>
+</g>
+<g transform="translate(28 70)">
+<rect width="584" height="34" rx="8" fill="rgba(15,23,42,.9)" stroke="rgba(96,165,250,.18)"/>
+<text x="14" y="22" font-family="JetBrains Mono,monospace" font-size="13" fill="#60a5fa">https://stripe.com/docs/webhooks/signatures</text>
+</g>
+<g transform="translate(28 124)" font-family="JetBrains Mono,monospace">
+<rect width="584" height="92" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(0,212,255,.20)"/>
+<text x="14" y="26" font-size="12" fill="#64748b">// snippet 1 - code</text>
+<text x="14" y="50" font-size="13" fill="#e6edf3">const sig = req.headers['stripe-signature'];</text>
+<text x="14" y="72" font-size="13" fill="#e6edf3">const event = stripe.webhooks.constructEvent(...)</text>
+</g>
+<g transform="translate(28 232)" font-family="JetBrains Mono,monospace">
+<rect width="584" height="60" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(248,113,113,.22)"/>
+<text x="14" y="24" font-size="12" fill="#64748b">// snippet 2 - error</text>
+<text x="14" y="46" font-size="13" fill="#f87171">Webhook Error: No signatures found matching the expected</text>
+</g>
+<g transform="translate(28 308)" font-family="JetBrains Mono,monospace">
+<rect width="584" height="60" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(245,158,11,.22)"/>
+<text x="14" y="24" font-size="12" fill="#64748b">// snippet 3 - json</text>
+<text x="14" y="46" font-size="13" fill="#f59e0b">{"type": "payment_intent.succeeded", "data": ...}</text>
+</g>
+<g transform="translate(28 384)" font-family="JetBrains Mono,monospace">
+<rect width="584" height="60" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(52,211,153,.22)"/>
+<text x="14" y="24" font-size="12" fill="#64748b">// snippet 4 - command</text>
+<text x="14" y="46" font-size="13" fill="#34d399">stripe listen --forward-to localhost:3000/webhook</text>
+</g>
+<text x="28" y="474" font-size="12" fill="#6e7681">8 tabs open  /  6 snippets copied  /  1 hour of research</text>
+</g>
+<g transform="translate(700 0)" fill="none" stroke="url(#fl)" stroke-width="2">
+<path d="M30 110 C 130 110, 130 200, 240 215"/>
+<path d="M30 230 C 130 230, 130 280, 240 295"/>
+<path d="M30 320 C 130 320, 130 360, 240 375"/>
+<path d="M30 410 C 130 410, 130 440, 240 455"/>
+</g>
+<g transform="translate(700 0)" fill="#00d4ff">
+<circle cx="30" cy="110" r="4"/><circle cx="30" cy="230" r="4"/><circle cx="30" cy="320" r="4"/><circle cx="30" cy="410" r="4"/>
+</g>
+<g transform="translate(740 110)" font-family="Inter,Arial,sans-serif">
+<rect width="400" height="410" rx="22" fill="url(#bn)" stroke="rgba(0,212,255,.45)"/>
+<text x="28" y="48" font-size="14" font-weight="700" fill="#00d4ff" letter-spacing="2">CLIPGATE BUNDLE</text>
+<text x="28" y="92" font-size="28" font-weight="800" fill="#e6edf3">One block.</text>
+<text x="28" y="124" font-size="28" font-weight="800" fill="#e6edf3">Every snippet.</text>
+<text x="28" y="156" font-size="16" fill="#9caab8">Auto-classified, redacted,</text>
+<text x="28" y="178" font-size="16" fill="#9caab8">ready for the model.</text>
+<g transform="translate(28 210)">
+<rect width="344" height="34" rx="8" fill="rgba(15,23,42,.7)" stroke="rgba(0,212,255,.18)"/>
+<text x="12" y="22" font-family="JetBrains Mono,monospace" font-size="12" fill="#00d4ff">$ cg pack --last 30m</text>
+</g>
+<g transform="translate(28 264)" font-size="13" fill="#e6edf3">
+<circle cx="6" cy="0" r="4" fill="#60a5fa"/><text x="22" y="4">4 URLs from stripe.com docs</text>
+<circle cx="6" cy="26" r="4" fill="#34d399"/><text x="22" y="30">2 code blocks (Node, JS)</text>
+<circle cx="6" cy="52" r="4" fill="#f59e0b"/><text x="22" y="56">1 JSON event payload</text>
+<circle cx="6" cy="78" r="4" fill="#f87171"/><text x="22" y="82">1 webhook error message</text>
+<circle cx="6" cy="104" r="4" fill="#a855f7"/><text x="22" y="108">1 stripe CLI command</text>
+</g>
+<rect x="28" y="378" width="344" height="1" fill="rgba(0,212,255,.18)"/>
+<text x="28" y="396" font-size="12" fill="#6e7681">pipe to claude / paste into chatgpt / cursor</text>
+</g>
+</svg>

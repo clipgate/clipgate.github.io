@@ -10,8 +10,8 @@
     <description>Notes on local-first clipboard workflows, secret hygiene, terminal productivity, and the small ways context gets lost — and recovered — during a developer's day.</description>
     <language>en-us</language>
     <copyright>Copyright 2026 ClipGate</copyright>
-    <lastBuildDate>Thu, 16 Apr 2026 14:00:00 +0000</lastBuildDate>
-    <pubDate>Thu, 16 Apr 2026 14:00:00 +0000</pubDate>
+    <lastBuildDate>Mon, 27 Apr 2026 10:00:00 +0000</lastBuildDate>
+    <pubDate>Mon, 27 Apr 2026 10:00:00 +0000</pubDate>
     <ttl>1440</ttl>
     <generator>ClipGate static site</generator>
     <image>
@@ -19,6 +19,48 @@
       <title>ClipGate Blog</title>
       <link>https://clipgate.github.io/blog/</link>
     </image>
+
+    <item>
+      <title>macOS Clipboard History: What Gets Logged, What Leaks, and How to Audit It</title>
+      <link>https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/</guid>
+      <pubDate>Mon, 27 Apr 2026 10:00:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>security</category>
+      <category>macos</category>
+      <category>privacy</category>
+      <category>audit</category>
+      <description>A 2026 audit of how the macOS pasteboard, Universal Clipboard, and popular clipboard managers actually store your copies — what's logged, what leaks, and a five-step check to find traces of your last password.</description>
+      <content:encoded><![CDATA[<p><strong>Your last password copy probably still lives somewhere on disk.</strong> The macOS pasteboard, Universal Clipboard handoff, and popular clipboard managers all keep more state than most users expect. This 2026 audit shows what gets logged, where it leaks, and gives you a five-step check to surface traces still sitting on your machine.</p><p><a href="https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/">Read the full post →</a></p>]]></content:encoded>
+    </item>
+
+    <item>
+      <title>How to Auto-Save Every Snippet You Copy in Chrome — and Pipe It to Claude or ChatGPT</title>
+      <link>https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/</guid>
+      <pubDate>Mon, 27 Apr 2026 09:30:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>extension</category>
+      <category>ai</category>
+      <category>workflow</category>
+      <category>productivity</category>
+      <description>Stop losing research across 30 tabs. Install one Chrome extension that auto-captures every snippet, URL, and code block you copy — then bundle a session into a single block for Claude, ChatGPT, or Cursor.</description>
+      <content:encoded><![CDATA[<p><strong>Auto-capture is the productivity unlock most developers never tried.</strong> Stop losing research across 30 tabs. One Chrome extension can record every snippet, URL, and code block you copy, then bundle a whole session into a single, paste-ready block for Claude, ChatGPT, or Cursor — no manual stitching, no lost context.</p><p><a href="https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/">Read the full post →</a></p>]]></content:encoded>
+    </item>
+
+    <item>
+      <title>How to Pipe Terminal Output to Claude Code, Cursor, and Aider — Safely</title>
+      <link>https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/</link>
+      <guid isPermaLink="true">https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/</guid>
+      <pubDate>Mon, 27 Apr 2026 09:00:00 +0000</pubDate>
+      <dc:creator>ClipGate</dc:creator>
+      <category>workflow</category>
+      <category>ai</category>
+      <category>cli</category>
+      <category>terminal</category>
+      <description>A practical 2026 guide to piping terminal output — errors, logs, build failures — straight into Claude Code, Cursor, and Aider with zero copy-paste and automatic secret redaction.</description>
+      <content:encoded><![CDATA[<p><strong>Pipe once, hand off forever.</strong> Stop copy-pasting tracebacks and build logs into AI chats. This 2026 guide shows how to pipe terminal output — errors, logs, failures — straight into Claude Code, Cursor, and Aider with automatic secret redaction, so the assistant gets the full context and your tokens never leave the box.</p><p><a href="https://clipgate.github.io/blog/pipe-terminal-output-to-claude-cursor-aider/">Read the full post →</a></p>]]></content:encoded>
+    </item>
 
     <item>
       <title>Benchmarking ClipGate v0.1.4: Where the 5ms Promise Comes From</title>

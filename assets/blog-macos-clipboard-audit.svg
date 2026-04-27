@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">macOS Clipboard History: What Gets Logged, What Leaks, and How to Audit It</title>
+  <desc id="desc">Editorial illustration of a magnifying glass auditing a macOS pasteboard, with red leak traces flowing out and a cyan lock icon offering the secure path.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e17"/>
+      <stop offset="100%" stop-color="#121826"/>
+    </linearGradient>
+    <linearGradient id="leak" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(248,113,113,0.6)"/>
+      <stop offset="100%" stop-color="rgba(248,113,113,0)"/>
+    </linearGradient>
+    <linearGradient id="warn" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(245,158,11,0.18)"/>
+      <stop offset="100%" stop-color="rgba(248,113,113,0.10)"/>
+    </linearGradient>
+    <linearGradient id="safe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(0,212,255,0.18)"/>
+      <stop offset="100%" stop-color="rgba(0,212,255,0.04)"/>
+    </linearGradient>
+    <radialGradient id="lensGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="rgba(248,113,113,0.22)"/>
+      <stop offset="100%" stop-color="rgba(248,113,113,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" rx="28" fill="url(#bg)"/>
+  <g stroke="rgba(0,212,255,0.07)" stroke-width="1">
+    <path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200"/>
+    <path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/>
+  </g>
+  <g transform="translate(56 50)">
+    <rect x="0" y="0" width="1088" height="530" rx="24" fill="rgba(15,23,42,0.82)" stroke="rgba(0,212,255,0.18)"/>
+    <text x="40" y="54" fill="#f87171" font-size="17" font-family="Inter, Arial, sans-serif" font-weight="700">AUDIT &middot; macOS Pasteboard</text>
+    <text x="40" y="108" fill="#e6edf3" font-size="38" font-family="Inter, Arial, sans-serif" font-weight="800">macOS Clipboard History</text>
+    <text x="40" y="152" fill="#e6edf3" font-size="38" font-family="Inter, Arial, sans-serif" font-weight="800">What gets logged. What leaks.</text>
+    <text x="40" y="190" fill="#94a3b8" font-size="20" font-family="Inter, Arial, sans-serif">A 2026 audit of NSPasteboard, Universal Clipboard, and clipboard managers.</text>
+
+    <g transform="translate(40 220)">
+      <rect x="0" y="0" width="560" height="266" rx="18" fill="rgba(7,13,22,0.92)" stroke="rgba(248,113,113,0.28)"/>
+      <text x="22" y="32" fill="#f87171" font-size="15" font-family="JetBrains Mono, monospace"># NSPasteboard.general &mdash; what is on it</text>
+      <text x="22" y="62" fill="#94a3b8" font-size="14" font-family="JetBrains Mono, monospace">type</text>
+      <text x="220" y="62" fill="#94a3b8" font-size="14" font-family="JetBrains Mono, monospace">value</text>
+      <line x1="22" y1="74" x2="538" y2="74" stroke="rgba(255,255,255,0.06)"/>
+      <text x="22" y="100" fill="#e6edf3" font-size="14" font-family="JetBrains Mono, monospace">public.utf8-plain-text</text>
+      <text x="220" y="100" fill="#f87171" font-size="14" font-family="JetBrains Mono, monospace">ghp_live_********</text>
+      <text x="22" y="126" fill="#e6edf3" font-size="14" font-family="JetBrains Mono, monospace">public.rtf</text>
+      <text x="220" y="126" fill="#94a3b8" font-size="14" font-family="JetBrains Mono, monospace">{styled}  invoice draft</text>
+      <text x="22" y="152" fill="#e6edf3" font-size="14" font-family="JetBrains Mono, monospace">public.file-url</text>
+      <text x="220" y="152" fill="#94a3b8" font-size="14" font-family="JetBrains Mono, monospace">~/Desktop/screen.png</text>
+      <text x="22" y="178" fill="#e6edf3" font-size="14" font-family="JetBrains Mono, monospace">com.apple.handoff</text>
+      <text x="220" y="178" fill="#f59e0b" font-size="14" font-family="JetBrains Mono, monospace">syncing &rarr; iPhone</text>
+      <line x1="22" y1="200" x2="538" y2="200" stroke="rgba(255,255,255,0.06)"/>
+      <text x="22" y="226" fill="#94a3b8" font-size="13" font-family="JetBrains Mono, monospace">readers: every running app, every</text>
+      <text x="22" y="246" fill="#94a3b8" font-size="13" font-family="JetBrains Mono, monospace">extension, every Universal device.</text>
+    </g>
+
+    <g transform="translate(620 220)">
+      <circle cx="120" cy="120" r="120" fill="url(#lensGlow)"/>
+      <circle cx="120" cy="120" r="78" fill="none" stroke="#f87171" stroke-width="6"/>
+      <circle cx="120" cy="120" r="78" fill="rgba(248,113,113,0.06)"/>
+      <line x1="178" y1="178" x2="232" y2="232" stroke="#f87171" stroke-width="10" stroke-linecap="round"/>
+      <text x="120" y="115" text-anchor="middle" fill="#f87171" font-size="20" font-family="Inter, Arial, sans-serif" font-weight="800">leak</text>
+      <text x="120" y="138" text-anchor="middle" fill="#e6edf3" font-size="13" font-family="JetBrains Mono, monospace">pboard &times; 142</text>
+
+      <g stroke="url(#leak)" stroke-width="2" fill="none" stroke-linecap="round">
+        <path d="M40 30 C 80 60, 30 100, 90 110"/>
+        <path d="M210 38 C 240 70, 200 110, 240 130"/>
+        <path d="M30 200 C 70 180, 70 230, 130 220"/>
+        <path d="M210 210 C 240 190, 240 240, 230 250"/>
+      </g>
+    </g>
+
+    <g transform="translate(620 380)">
+      <rect x="0" y="0" width="408" height="106" rx="16" fill="url(#safe)" stroke="rgba(0,212,255,0.30)"/>
+      <g transform="translate(22 22)">
+        <rect x="0" y="14" width="40" height="34" rx="6" fill="none" stroke="#00d4ff" stroke-width="3"/>
+        <path d="M8 14 V8 a12 12 0 0 1 24 0 V14" fill="none" stroke="#00d4ff" stroke-width="3"/>
+        <circle cx="20" cy="32" r="3" fill="#00d4ff"/>
+      </g>
+      <text x="84" y="40" fill="#00d4ff" font-size="18" font-family="Inter, Arial, sans-serif" font-weight="700">The safe path</text>
+      <text x="84" y="66" fill="#e6edf3" font-size="14" font-family="Inter, Arial, sans-serif">Local-only clipboard. Encrypted at rest.</text>
+      <text x="84" y="86" fill="#94a3b8" font-size="14" font-family="Inter, Arial, sans-serif">No iCloud sync. No flat plaintext history.</text>
+    </g>
+  </g>
+</svg>

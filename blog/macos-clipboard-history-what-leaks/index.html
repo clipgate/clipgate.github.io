@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>macOS Clipboard History: What Gets Logged, What Leaks, and How to Audit It</title>
+  <meta name="description" content="A 2026 audit of how the macOS pasteboard, Universal Clipboard, and popular clipboard managers actually store your copies — what's logged, what leaks, and a five-step check to find traces of your last password.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/">
+  <link rel="alternate" type="application/rss+xml" title="ClipGate Blog RSS" href="https://clipgate.github.io/blog/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="ClipGate">
+  <meta property="article:published_time" content="2026-04-27T10:00:00+00:00">
+  <meta property="article:modified_time" content="2026-04-27T10:00:00+00:00">
+  <meta property="article:section" content="Security">
+  <meta property="og:url" content="https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/">
+  <meta property="og:title" content="macOS Clipboard History: What Leaks and How to Audit">
+  <meta property="og:description" content="A 2026 audit of how the macOS pasteboard, Universal Clipboard, and popular clipboard managers actually store your copies — what's logged, what leaks, and a five-step check to find traces of your last password.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-macos-clipboard-audit.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Magnifying glass auditing the macOS pasteboard with red leak traces and a cyan lock for the secure path">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="macOS Clipboard History: What Leaks and How to Audit">
+  <meta name="twitter:description" content="A 2026 audit of how the macOS pasteboard, Universal Clipboard, and popular clipboard managers actually store your copies — what's logged, what leaks, and a five-step check to find traces of your last password.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-macos-clipboard-audit.svg">
+  <meta name="twitter:url" content="https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "macOS Clipboard History: What Gets Logged, What Leaks, and How to Audit It",
+    "description": "A 2026 audit of how the macOS pasteboard, Universal Clipboard, and popular clipboard managers actually store your copies — what's logged, what leaks, and a five-step check to find traces of your last password.",
+    "image": "https://clipgate.github.io/assets/blog-macos-clipboard-audit.svg",
+    "datePublished": "2026-04-27T10:00:00+00:00",
+    "dateModified": "2026-04-27T10:00:00+00:00",
+    "mainEntityOfPage": "https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/",
+    "articleSection": "Security",
+    "keywords": ["security","macos","clipboard","privacy","audit","secrets","pasteboard"],
+    "author": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clipgate.github.io/assets/icons/icon-192.png"
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "macOS clipboard privacy and audit"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem","position": 1,"name": "Home","item": "https://clipgate.github.io/"},
+      {"@type": "ListItem","position": 2,"name": "Blog","item": "https://clipgate.github.io/blog/"},
+      {"@type": "ListItem","position": 3,"name": "macOS Clipboard History: What Leaks and How to Audit","item": "https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does macOS keep a clipboard history by default?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Out of the box, macOS only retains the most recent item on NSPasteboard.general. There is no built-in scrollable history. However, every running app can read that current value silently, and any installed clipboard manager you have added to your machine almost certainly maintains its own on-disk history database that survives restarts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can other apps read my clipboard on macOS without asking?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Unlike iOS, which surfaces a banner when an app reads the pasteboard, macOS does not prompt or notify. Any active app calling NSPasteboard.general can read the current contents, and many do so on a polling timer to detect new copies. Browser extensions get the same access through the JavaScript clipboard API once granted."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Universal Clipboard secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The transport between Apple devices is encrypted, but the model assumes every device on your Apple ID is trusted. A clipboard you copy on your Mac becomes immediately readable on any iPhone, iPad, or other Mac signed in to that Apple ID. If you share an Apple ID with family or another household device, your clipboard is shared too."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where do clipboard managers like Maccy or Paste store my history?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most local managers keep an SQLite or property list database under ~/Library/Application Support, typically as plain text. Cloud-syncing managers like Paste push the history to iCloud via CloudKit, which means restoring the device also restores the history."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I audit what a clipboard manager has on me?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Run a find under ~/Library/Application Support for filenames containing 'clip' or 'paste', open any SQLite database in read-only mode, and inspect the most recent rows. Watch Activity Monitor for processes named pboard or that frequently access NSPasteboard. Combine this with a review of which apps you have granted Accessibility or Input Monitoring permissions in System Settings."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.72)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-28%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.075),transparent 71%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1380px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(14px)}
+    .hero{padding:1.5rem 0 1.7rem}
+    .hero-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem}
+    .hero-copy,.hero-art,.toc,.content,.workflow-card,.install-card{min-width:0}
+    .hero-copy{padding:2rem}
+    .hero-art{padding:1.2rem;display:flex;align-items:center;justify-content:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(248,113,113,.10);border:1px solid rgba(248,113,113,.32);color:var(--red);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1rem;color:var(--text2);font-size:.9rem}
+    h1{font-size:3.05rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem}
+    .sub{font-size:1.08rem;color:var(--text2-strong);max-width:60ch}
+    .meta{display:flex;gap:.75rem;flex-wrap:wrap;color:var(--text3);font-size:.82rem;margin:1.3rem 0 1rem}
+    .meta span{display:inline-flex;align-items:center;gap:.35rem}
+    .topic-row{display:flex;gap:.55rem;flex-wrap:wrap}
+    .topic{display:inline-flex;align-items:center;padding:.35rem .72rem;border-radius:999px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18);color:var(--red);font-size:.75rem;font-weight:600}
+    .hero-art img{width:100%;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+    .hero-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-top:1rem}
+    .signal{padding:1rem 1.05rem;border-radius:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.05)}
+    .signal strong{display:block;font-size:.82rem;color:var(--text);margin-bottom:.22rem}
+    .signal p{font-size:.83rem;color:var(--text2-strong)}
+    .layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:1.2rem}
+    .toc{position:sticky;top:1rem;align-self:start;padding:1.1rem}
+    .toc h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+    .toc a{display:block;padding:.4rem .75rem .4rem .9rem;margin-left:-.9rem;border-left:2px solid transparent;color:var(--text2);font-size:.9rem;border-radius:0 10px 10px 0}
+    .toc a:hover{color:var(--cyan);border-left-color:rgba(0,212,255,.3)}
+    .toc a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .content{min-width:0}
+    section{padding:1.35rem 1.45rem;margin-bottom:1rem;scroll-margin-top:8.25rem}
+    section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:.75rem}
+    section h3{font-size:1.05rem;margin-top:1rem;margin-bottom:.35rem}
+    section p{color:var(--text2-strong);margin-top:.85rem}
+    section p:first-of-type{margin-top:0}
+    .lede{font-size:1.06rem;color:var(--text)}
+    .pain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:1rem}
+    .pain-card{padding:1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(248,113,113,.04),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid rgba(248,113,113,.15)}
+    .pain-card h3{font-size:.95rem;margin-bottom:.35rem;margin-top:0}
+    .pain-card p{font-size:.85rem;color:var(--text2-strong);margin:0}
+    .callout{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05);margin-top:1rem}
+    .callout p{margin:0;color:var(--text)}
+    .callout.danger{border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
+    .callout.danger p{color:var(--text)}
+    .callout.success{border-color:rgba(52,211,153,.28);background:rgba(52,211,153,.06)}
+    .list{margin-top:1rem;display:grid;gap:.75rem}
+    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .list-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .list-item p{margin:0;color:var(--text2-strong)}
+    .step-list{margin-top:1rem;display:grid;gap:.75rem;counter-reset:step}
+    .step-item{position:relative;padding:1rem 1.1rem 1rem 3.4rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.04),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border);counter-increment:step}
+    .step-item::before{content:counter(step);position:absolute;left:1rem;top:1rem;width:1.9rem;height:1.9rem;border-radius:10px;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.32);color:var(--cyan);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+    .step-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .step-item p{margin:0;color:var(--text2-strong);font-size:.92rem}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:1rem}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012);font-size:.92rem;color:var(--text2-strong)}
+    .table td strong{color:var(--text)}
+    .quote{padding:1rem 1.1rem;border-radius:16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);margin-top:1rem}
+    .quote p{margin:0;color:var(--text)}
+    .workflow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+    .workflow-card{padding:1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .workflow-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .workflow-card p{font-size:.9rem;color:var(--text2-strong);margin-bottom:.8rem;margin-top:0}
+    .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.75;white-space:pre-wrap;color:var(--green)}
+    .install-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .install-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .install-card p{font-size:.88rem;color:var(--text2-strong);margin-bottom:.75rem;margin-top:0}
+    .cta-band{padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .cta-band h2{font-size:1.45rem;letter-spacing:-.4px}
+    .cta-band p{color:var(--text2-strong);max-width:54ch}
+    .cta-row{display:flex;gap:.85rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.18rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .blog-cp-wrapper{position:relative}
+    .blog-cp-btn{position:absolute;top:.65rem;right:.75rem;opacity:0;transition:opacity .2s ease;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.4rem .7rem;border-radius:8px;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+    .blog-cp-wrapper:hover .blog-cp-btn{opacity:1}
+    .blog-cp-btn:hover{background:rgba(0,212,255,.2);border-color:rgba(0,212,255,.5)}
+    .blog-share-row{display:flex;gap:.6rem;margin-top:1.2rem}
+    .blog-share-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s ease;text-decoration:none}
+    .blog-share-btn:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);box-shadow:0 4px 12px rgba(0,212,255,.1)}
+    .blog-related-section{background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid rgba(0,212,255,.12);border-radius:20px;padding:1.5rem;margin:2rem 0}
+    .blog-related-section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:1.3rem}
+    .blog-related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .blog-related-card{padding:1.2rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,255,.12);display:flex;flex-direction:column;gap:.8rem}
+    .blog-related-card h3{font-size:1rem;line-height:1.22;margin:0;color:var(--text)}
+    .blog-related-card a{color:var(--cyan);font-weight:700}
+    .blog-related-card p{font-size:.9rem;color:var(--text2-strong);margin:0}
+    .blog-related-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;width:fit-content}
+    .blog-related-pill.soon{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--gold)}
+    .blog-related-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--text3)}
+    .faq-item{padding:1rem 1.1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-top:.75rem}
+    .faq-item h3{font-size:1rem;margin-bottom:.4rem;color:var(--text);margin-top:0}
+    .faq-item p{margin:0;color:var(--text2-strong);font-size:.92rem}
+    @media(max-width:768px){
+      .blog-related-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:980px){
+      .hero-shell,.layout,.hero-summary,.pain-grid,.workflow,.install-grid{grid-template-columns:1fr}
+      h1{font-size:2.35rem}
+      .toc{position:static}
+      .cta-band{flex-direction:column;align-items:flex-start}
+      .hero-copy,.hero-art{padding:1.35rem}
+      .table{display:block;overflow-x:auto}
+    }
+  </style>
+</head>
+<body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <div class="hero">
+      <div class="hero-shell">
+        <article class="panel hero-copy">
+          <a class="back-link" href="/blog/">← Back to blog</a>
+          <div class="eyebrow">Audit &middot; macOS internals</div>
+          <h1>macOS Clipboard History: What Gets Logged, What Leaks, and How to Audit It</h1>
+          <p class="sub">An investigative look at how the macOS pasteboard, Universal Clipboard, and the popular third-party clipboard managers actually store your copies in 2026 — what is logged, what crosses the network, and a five-step check you can run on a quiet Sunday to find traces of your last password.</p>
+          <div class="meta">
+            <span>Published Apr 27, 2026</span>
+            <span>10 min read</span>
+            <span>By ClipGate</span>
+          </div>
+          <div class="topic-row">
+            <span class="topic">Security</span>
+            <span class="topic">macOS</span>
+            <span class="topic">Privacy</span>
+            <span class="topic">Pasteboard</span>
+          </div>
+          <div class="blog-share-row">
+            <a class="blog-share-btn" href="https://twitter.com/intent/tweet?url=https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/&text=macOS%20clipboard%20history%3A%20what%20gets%20logged%2C%20what%20leaks%2C%20and%20how%20to%20audit%20it%20via%20@ClipGate" target="_blank" rel="noopener noreferrer" title="Share on Twitter" aria-label="Share on Twitter">𝕏</a>
+            <a class="blog-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">in</a>
+            <button class="blog-share-btn" type="button" title="Copy link" aria-label="Copy article link" id="blogShareCopy">🔗</button>
+          </div>
+        </article>
+        <div class="panel hero-art">
+          <img src="../../assets/blog-macos-clipboard-audit.svg" alt="Magnifying glass auditing the macOS pasteboard with red leak traces and a cyan lock for the secure path">
+        </div>
+      </div>
+      <div class="hero-summary">
+        <div class="signal">
+          <strong>The pasteboard is global</strong>
+          <p>Every running app on macOS can read the current clipboard. The OS does not surface a banner the way iOS does.</p>
+        </div>
+        <div class="signal">
+          <strong>Universal Clipboard is permissive</strong>
+          <p>Anything you copy is offered to every device on the same Apple ID. Family sharing extends the boundary.</p>
+        </div>
+        <div class="signal">
+          <strong>Most managers store plaintext</strong>
+          <p>Almost every popular clipboard manager keeps a local SQLite or property list file you can read directly.</p>
+        </div>
+        <div class="signal">
+          <strong>You can audit it today</strong>
+          <p>A handful of one-line commands tell you exactly what is stored, where, and how far back it goes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel toc">
+        <h2>On This Page</h2>
+        <a href="#pasteboard">What the macOS pasteboard actually is</a>
+        <a href="#universal">Universal Clipboard: the cross-device leak path</a>
+        <a href="#silent-readers">Apps that read your clipboard without asking</a>
+        <a href="#managers">How third-party clipboard managers store history</a>
+        <a href="#audit">Auditing what's leaked: a 5-step check</a>
+        <a href="#local-only">The local-only fix</a>
+        <a href="#faq">FAQ</a>
+        <a href="#install">Install ClipGate</a>
+      </aside>
+
+      <main class="content">
+
+        <section class="panel" id="pasteboard">
+          <h2>What the macOS pasteboard actually is</h2>
+          <p class="lede">The thing you call "the clipboard" on a Mac is, technically, an instance of <code>NSPasteboard</code>. The general one — <code>NSPasteboard.general</code> — is the system-wide service that backs Cmd-C, Cmd-V, the Edit menu, and every drag-and-drop you have ever done on the desktop. It is not an app feature. It is an operating-system feature exposed to every running process.</p>
+          <p>What lives on it is more than text. A single copy can carry a half-dozen representations of the same content at the same time: a UTF-8 plain string under <code>public.utf8-plain-text</code>, a styled <code>public.rtf</code> blob that preserves bold and italics, a <code>public.html</code> rendering, file URLs (<code>public.file-url</code>) for the items you dragged out of Finder, and image data when you take a screenshot with the clipboard option held. The receiving app picks whichever flavor it prefers. That is why pasting from Safari into Mail keeps your formatting and pasting into Terminal silently strips it.</p>
+          <p>Everything on the pasteboard is keyed by what Apple calls a <em>change count</em>. Every time something new gets copied, the count increments by one. Apps poll that integer to decide whether to read again. There is no permission gate, no broker, no audit log. If your app is running, it sees the change count, and if it asks for the data, it gets the data. The pasteboard is closer to a global variable than to a guarded resource.</p>
+          <div class="callout">
+            <p>The most useful mental model: the macOS pasteboard is a single, mutable, shared dictionary keyed by content type. Every app on your machine has read access. Most of them have it without you ever granting it.</p>
+          </div>
+          <p>By default, macOS keeps exactly one item there at a time. Copy something new and the previous value is overwritten. There is no built-in scrollback you can reach through Finder or System Settings. That sounds reassuring, but it is only the surface. Every clipboard manager you have ever installed extends that single slot into a persistent on-disk history, and Universal Clipboard quietly synchronizes the live slot to every other Apple device on your account.</p>
+        </section>
+
+        <section class="panel" id="universal">
+          <h2>Universal Clipboard: the cross-device leak path</h2>
+          <p>Universal Clipboard is the feature that lets you copy a paragraph on your Mac and paste it into Notes on your iPhone a second later. It rides on top of Continuity and Handoff, the same plumbing that hands you a phone call from your iPhone or a tab from your iPad. The transport is encrypted in flight: a short Bluetooth Low Energy advertisement announces that something is on offer, and the actual payload moves over a peer-to-peer Wi-Fi link.</p>
+          <p>The encryption is real, but it solves a narrow problem. It protects the bytes from somebody sniffing the air between your laptop and your phone. It does not protect you from anything happening on either end. The trust model assumes that every device signed in to your Apple ID is trusted equally. The clipboard you just copied on your Mac is offered, in cleartext, to every device on that account that is awake and within range.</p>
+          <div class="pain-grid">
+            <div class="pain-card">
+              <h3>Family Apple ID</h3>
+              <p>Households that share an Apple ID for App Store purchases unintentionally share a clipboard. Copy a 2FA recovery code on the work Mac, and the family iPad sees it.</p>
+            </div>
+            <div class="pain-card">
+              <h3>Old devices on shelves</h3>
+              <p>An iPad in a drawer that still wakes for notifications can briefly receive Universal Clipboard payloads if it is on the same Apple ID and within range.</p>
+            </div>
+            <div class="pain-card">
+              <h3>Loaner Macs</h3>
+              <p>If you signed in to your Apple ID on a borrowed device for any reason, your clipboard reached that machine for as long as Continuity was active.</p>
+            </div>
+            <div class="pain-card">
+              <h3>Shared screens</h3>
+              <p>An iPhone connected to CarPlay or AirPlay does not pull pasteboard contents itself, but the receiving Apple device on the same ID still does.</p>
+            </div>
+          </div>
+          <p>The receiving device's storage of the value is short-lived — the system holds the most recent payload only until the next copy replaces it. But "short-lived" is doing a lot of work here. Anything on a clipboard for a few seconds is long enough to be read by an app that is polling, snapshotted by an automation tool, or referenced from a notification preview. Treat Universal Clipboard the way you would treat an unencrypted Slack DM to yourself: convenient, plausible, not where you want to put a credential.</p>
+        </section>
+
+        <section class="panel" id="silent-readers">
+          <h2>Apps that read your clipboard without asking</h2>
+          <p>In 2020, iOS 14 introduced a small but consequential UI change: a banner along the top of the screen that read "TikTok pasted from Notes," "LinkedIn pasted from Safari," and so on. Suddenly visible, the practice of polling the clipboard turned out to be widespread, including among apps that had no reason to. iOS made the implicit explicit, and the resulting backlash forced many apps to scale it back.</p>
+          <p>macOS has no equivalent banner. There is no system-level toast when an app reads <code>NSPasteboard.general</code>, no consent prompt the first time it does, no entry in System Settings that says "the following apps have read your clipboard in the last hour." Any Cocoa app that is running and that calls <code>string(forType: .string)</code> gets the contents. If the app is also using a timer to do so — a common pattern for "smart paste" features that want to detect a freshly copied URL — it sees every copy you make as long as the app is alive.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>Browser extensions</h3>
+              <p>The JavaScript Clipboard API in modern browsers is permissioned: a site has to ask before it can read. Browser <em>extensions</em> are a different story. Once you approve "read and change all your data on websites," the extension can read the clipboard the moment a page is focused. Shopping coupon helpers, AI assistants, password autofillers, and translation tools all routinely use this access.</p>
+            </div>
+            <div class="list-item">
+              <h3>Polling utilities</h3>
+              <p>Quick-launch tools, screenshot annotators, color pickers, and link unfurlers commonly poll the pasteboard a few times a second. The intention is benign — they want to be useful the moment you copy something — but the practical effect is the same as a quiet keylogger for clipboard contents.</p>
+            </div>
+            <div class="list-item">
+              <h3>Third-party menu bar apps</h3>
+              <p>Anything that lives in the menu bar with a status item is a long-running process. If even one of those apps reads the pasteboard on a timer, your clipboard activity is visible to whatever process owns the binary.</p>
+            </div>
+            <div class="list-item">
+              <h3>Remote desktop and screen-share helpers</h3>
+              <p>Software that synchronizes your clipboard to a remote VM or to a colleague's screen-share session is, by definition, exfiltrating clipboard contents. That is the feature. The risk is forgetting the sync is on after the session ends.</p>
+            </div>
+          </div>
+          <p>The unsettling part is that none of this requires malware. Every app named above is doing exactly what its developers intended, on a platform that does not require them to declare it. The only practical way to know which apps on your Mac currently read the pasteboard is to read their privacy policies, watch Activity Monitor, or assume the worst and design your workflow around it.</p>
+        </section>
+
+        <section class="panel" id="managers">
+          <h2>How third-party clipboard managers store history</h2>
+          <p>Once you install a clipboard manager — anything that turns the single-slot pasteboard into a scrollable list — you have crossed a line that is easy to forget. Every copy you have made for the last day, week, or month is now persisted to disk. Where, in what format, and with what protection depends entirely on which manager you chose. The list below is a survey of the popular ones, with what is publicly known about how each handles your history. Treat it as a starting point for your own audit, not a security review.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Manager</th>
+                <th>Where it stores history</th>
+                <th>What to watch out for</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><a href="https://maccy.app/" target="_blank" rel="noopener nofollow">Maccy</a></strong></td>
+                <td>Local Core Data store under <code>~/Library/Application Support/Maccy/</code>, backed by SQLite. Plain text by default.</td>
+                <td>Open source and audit-friendly. Configurable filters can suppress sensitive items, but the database itself is not encrypted at rest, so a stolen disk image is a clipboard dump.</td>
+              </tr>
+              <tr>
+                <td><strong><a href="https://pasteapp.io/" target="_blank" rel="noopener nofollow">Paste</a></strong></td>
+                <td>Local store with iCloud sync via CloudKit. History propagates to every device signed in to the same iCloud account.</td>
+                <td>The sync convenience is the privacy trade. Restoring a device from iCloud restores clipboard history. If your iCloud account is compromised, so is your scrollback.</td>
+              </tr>
+              <tr>
+                <td><strong><a href="https://www.alfredapp.com/" target="_blank" rel="noopener nofollow">Alfred</a> clipboard</strong></td>
+                <td>Local property list and SQLite under Alfred's preferences directory. Configurable retention from 24 hours to 3 months.</td>
+                <td>Powerpack feature; off by default. Honors a per-app ignore list and supports password-manager-style auto-clear, which is unusually thoughtful for the category.</td>
+              </tr>
+              <tr>
+                <td><strong><a href="https://www.raycast.com/" target="_blank" rel="noopener nofollow">Raycast</a> clipboard</strong></td>
+                <td>Local SQLite database. Recent versions added shape-based filters that try to keep secrets out of history.</td>
+                <td>The secret filtering is a step forward but is heuristic. Anything the heuristic misses lands in the same database. Raycast Pro adds optional cloud sync, which moves the trust boundary outward.</td>
+              </tr>
+              <tr>
+                <td><strong>CopyClip and similar lightweights</strong></td>
+                <td>Small local property list of recent items, typically capped at a few dozen entries.</td>
+                <td>Simpler, smaller surface, but no encryption and rarely any concept of secret-aware filtering. The whole list is plain text by design.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>The honest takeaway: the popular managers are mostly good citizens. None of them is shipping your clipboard to an adversary. The risk is not malice; it is the cumulative effect of running a polling reader for years and leaving the resulting log on disk. A clipboard manager is an excellent productivity tool and an excellent dossier of everything you have copied since the day you installed it. Both things are true at the same time.</p>
+        </section>
+
+        <section class="panel" id="audit">
+          <h2>Auditing what's leaked: a 5-step check</h2>
+          <p>Block out twenty minutes on a quiet Sunday. The five steps below cost almost nothing to run, and the results will tell you more about your clipboard hygiene than any blog post can. Run them in order. Treat anything that surprises you as a finding worth following up on.</p>
+          <div class="step-list">
+            <div class="step-item">
+              <h3>Inventory your clipboard storage</h3>
+              <p>Start with a single find under your home Library to list anything that looks like clipboard data.</p>
+              <div class="blog-cp-wrapper"><div class="code">find ~/Library/Application\ Support \
+  -iname "*clip*" -o -iname "*paste*" 2&gt;/dev/null</div></div>
+              <p>Expect a handful of directories: any clipboard manager you have installed, plus a few benign hits from apps that happen to use the words. The point is to see the full set in one place, not just the one you think you remember installing.</p>
+            </div>
+            <div class="step-item">
+              <h3>Peek inside any SQLite databases you found</h3>
+              <p>Most of those directories will contain a <code>.sqlite</code> file. Open it read-only and dump the recent rows. Read-only matters: you do not want to alter the database while the manager has it open.</p>
+              <div class="blog-cp-wrapper"><div class="code">sqlite3 -readonly \
+  ~/Library/Application\ Support/Maccy/Maccy.sqlite \
+  ".tables" ".schema HistoryItem" \
+  "SELECT firstCopiedAt, lastCopiedAt, content FROM HistoryItem \
+   ORDER BY lastCopiedAt DESC LIMIT 20;"</div></div>
+              <p>Adjust paths and table names per manager. The goal is to confirm with your own eyes what shape the storage takes and how far back it goes. If you see a token or a password in the output, treat it as if it had leaked — because for the purpose of disk-level threat models, it has.</p>
+            </div>
+            <div class="step-item">
+              <h3>Check what is talking to the pasteboard right now</h3>
+              <p>Activity Monitor's CPU tab plus a quick look at the system <code>pboard</code> process gives you a rough sense of who is reading. Sort by name and look for the <code>pboard</code> daemon and any process whose CPU spikes shortly after every copy.</p>
+              <div class="blog-cp-wrapper"><div class="code">ps aux | grep -i pboard
+log show --last 5m --predicate \
+  'subsystem == "com.apple.pasteboard"' --info</div></div>
+              <p>The unified log will not tell you the contents, but it will tell you which apps interacted with the pasteboard in the recent past. Anything you do not recognize is worth investigating.</p>
+            </div>
+            <div class="step-item">
+              <h3>Audit your iCloud and Universal Clipboard surface</h3>
+              <p>Open System Settings, click your name at the top, and review which devices are listed under your Apple ID. Each one is a potential receiver of Universal Clipboard payloads. Sign out of any device you no longer use. Under General &rarr; AirDrop &amp; Handoff, the toggle for "Allow Handoff between this Mac and your iCloud devices" controls Universal Clipboard. Decide deliberately whether you want it on.</p>
+              <div class="blog-cp-wrapper"><div class="code">defaults read com.apple.coreservices.useractivityd \
+  ActivityAdvertisingAllowed
+defaults read MobileMeAccounts</div></div>
+              <p>Those reads are illustrative — they show you what state your machine is in without changing anything. Recent macOS versions also expose pasteboard-related transparency under Settings &rarr; Privacy &amp; Security. Take a minute to look at every entry there.</p>
+            </div>
+            <div class="step-item">
+              <h3>Review which apps have privileged input access</h3>
+              <p>Many clipboard tools and global hotkey managers ask for Accessibility or Input Monitoring permissions. Those permissions are far broader than the clipboard, so the list is a good proxy for "apps with deep observational access to my Mac." Settings &rarr; Privacy &amp; Security &rarr; Accessibility, then the same path for Input Monitoring and Screen Recording. Revoke anything you cannot account for, then restart and confirm nothing you actually use breaks.</p>
+            </div>
+          </div>
+          <div class="callout success">
+            <p>If your audit turns up nothing alarming, you have a baseline and a procedure to repeat next quarter. If it turns up something — an old database with a 90-day history, a stale Apple ID device receiving Universal Clipboard, a forgotten extension polling on every page load — you have learned something the operating system was never going to volunteer.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="local-only">
+          <h2>The local-only fix</h2>
+          <p>The reason the audit above is necessary is that almost every clipboard manager is optimized for convenience first and privacy second. That is not a moral failure — it is a product decision that suits most users. But if you are the kind of person who runs the audit, you probably want a different default. The shape of the tool you are looking for is consistent across every threat model worth taking seriously.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>No cloud sync, or sync default-off</h3>
+              <p>The simplest possible privacy story is the one where the data never leaves your machine. If a manager offers cloud sync, it should be opt-in, off by default, and clearly disclosed in the settings the first time you launch.</p>
+            </div>
+            <div class="list-item">
+              <h3>Encrypted storage at rest</h3>
+              <p>An on-disk history that is plaintext SQLite is a single backup or stolen device away from being a credential dump. Encryption at rest, ideally tied to a key that is never written to disk in cleartext, turns that risk back into a normal disk-encryption story.</p>
+            </div>
+            <div class="list-item">
+              <h3>Secret-aware classification with a memory-only TTL</h3>
+              <p>The clipboard has to know the difference between "the path I just yanked" and "an API token." When a value looks like a secret, the manager should keep it out of the persistent history entirely, holding it only in memory and only for as long as you need to paste it once.</p>
+            </div>
+            <div class="list-item">
+              <h3>Transparent storage path</h3>
+              <p>You should be able to tell, in one sentence, where the manager keeps your history. If the answer requires reading the source code or a privacy policy, the trust model is already wrong.</p>
+            </div>
+            <div class="list-item">
+              <h3>Configurable retention</h3>
+              <p>"Keep everything forever" is the wrong default. A clipboard manager you trust will let you cap retention at a number of items or a number of days, and will round-trip that setting to the actual database.</p>
+            </div>
+            <div class="list-item">
+              <h3>No telemetry, no account, no analytics</h3>
+              <p>The manager should not phone home. Not for crash reports, not for usage analytics, not for "improving the product." If it cannot work fully offline, it is not local-only.</p>
+            </div>
+          </div>
+          <p>One example of a tool built around exactly that checklist is <a href="/">ClipGate</a>. It runs entirely on the local machine, encrypts the on-disk vault at rest, classifies secret-shaped items into a separate quarantine instead of the default scrollback, and ships without an account or telemetry. It is one of several reasonable answers — the principles above matter more than the specific binary you choose. If you want the design notes and configuration surface, the <a href="/docs/">documentation</a> covers both, and the <a href="/ext/">browser extension</a> page describes how the same secret-aware capture is extended into the browser. Whatever tool you land on, run the audit again a month later. The point is the habit, not the brand.</p>
+        </section>
+
+        <section class="panel" id="faq">
+          <h2>Frequently asked questions</h2>
+          <div class="faq-item">
+            <h3>Does macOS keep a clipboard history by default?</h3>
+            <p>Out of the box, macOS only retains the most recent item on <code>NSPasteboard.general</code>. There is no built-in scrollable history. However, every running app can read that current value silently, and any installed clipboard manager you have added to your machine almost certainly maintains its own on-disk history database that survives restarts.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Can other apps read my clipboard on macOS without asking?</h3>
+            <p>Yes. Unlike iOS, which surfaces a banner when an app reads the pasteboard, macOS does not prompt or notify. Any active app calling <code>NSPasteboard.general</code> can read the current contents, and many do so on a polling timer to detect new copies. Browser extensions get the same access through the JavaScript clipboard API once granted.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Is Universal Clipboard secure?</h3>
+            <p>The transport between Apple devices is encrypted, but the model assumes every device on your Apple ID is trusted. A clipboard you copy on your Mac becomes immediately readable on any iPhone, iPad, or other Mac signed in to that Apple ID. If you share an Apple ID with family or another household device, your clipboard is shared too.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Where do clipboard managers like Maccy or Paste store my history?</h3>
+            <p>Most local managers keep an SQLite or property list database under <code>~/Library/Application Support</code>, typically as plain text. Cloud-syncing managers like Paste push the history to iCloud via CloudKit, which means restoring the device also restores the history.</p>
+          </div>
+          <div class="faq-item">
+            <h3>How can I audit what a clipboard manager has on me?</h3>
+            <p>Run a <code>find</code> under <code>~/Library/Application Support</code> for filenames containing "clip" or "paste", open any SQLite database in read-only mode, and inspect the most recent rows. Watch Activity Monitor for processes named <code>pboard</code> or that frequently access <code>NSPasteboard</code>. Combine this with a review of which apps you have granted Accessibility or Input Monitoring permissions in System Settings.</p>
+          </div>
+          <div class="faq-item">
+            <h3>I think I already pasted something I shouldn't have. What now?</h3>
+            <p>Audit afterwards is useful, but the more urgent task is rotation. The companion piece <a href="/blog/accidentally-pasted-password-or-api-key/">"I accidentally pasted a password or API key"</a> is a calm, step-by-step recovery playbook for that exact moment.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="install">
+          <h2>If you'd rather use a clipboard built on these principles</h2>
+          <p>ClipGate is open source and local-only by default. No cloud sync, no telemetry, no account. The on-disk vault is encrypted at rest, secret-shaped values are classified out of the default scrollback, and retention is configurable. If the audit above made you want to switch, pick whichever installer fits your environment.</p>
+          <div class="install-grid">
+            <div class="install-card">
+              <h3>Site installer</h3>
+              <p>Fastest path for macOS and Linux if you want the official binary with minimal setup.</p>
+              <div class="blog-cp-wrapper"><div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div></div>
+            </div>
+            <div class="install-card">
+              <h3>PyPI</h3>
+              <p>Useful when Python is already part of your environment, including Windows workflows.</p>
+              <div class="blog-cp-wrapper"><div class="code">pip install clipgate</div></div>
+            </div>
+            <div class="install-card">
+              <h3>Homebrew</h3>
+              <p>Best fit for terminal-native installs if Homebrew already manages the rest of your toolchain.</p>
+              <div class="blog-cp-wrapper"><div class="code">brew install clipgate/tap/cg</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel cta-band">
+          <div>
+            <h2>Audit first. Switch if you want to.</h2>
+            <p>The point of the audit is the habit. If you'd rather use a clipboard manager built on the local-only, encrypted, secret-aware principles described above, ClipGate is open source and runs entirely on your machine.</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="/">Install Free</a>
+            <a class="btn secondary" href="/docs/">Read Docs</a>
+          </div>
+        </section>
+
+        <section class="blog-related-section">
+          <h2>Read next</h2>
+          <div class="blog-related-grid">
+            <div class="blog-related-card">
+              <h3><a href="/blog/accidentally-pasted-password-or-api-key/">I accidentally pasted a password or API key — what to do next</a></h3>
+              <p>If your audit turned up a credential in the scrollback, this is the calm, step-by-step recovery playbook for the next sixty seconds and the next hour.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~11 min read</span>
+              </div>
+            </div>
+            <div class="blog-related-card">
+              <h3><a href="/blog/ai-coding-assistant-clipboard-secrets-2026/">Your AI coding assistant is watching your clipboard</a></h3>
+              <p>The 2026 secret hygiene playbook for developers living inside Copilot, Cursor, and Claude Code — and why paste is the new push.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~10 min read</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+      const sections = links
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          const element = document.getElementById(id);
+          return element ? { id, link, element } : null;
+        })
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      let ticking = false;
+
+      function updateActiveSection() {
+        const threshold = 150;
+        let active = sections[0];
+
+        for (const section of sections) {
+          if (section.element.getBoundingClientRect().top <= threshold) {
+            active = section;
+          } else {
+            break;
+          }
+        }
+
+        for (const section of sections) {
+          const isActive = section === active;
+          section.link.classList.toggle('active', isActive);
+          if (isActive) {
+            section.link.setAttribute('aria-current', 'true');
+          } else {
+            section.link.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      }
+
+      updateActiveSection();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
+      window.addEventListener('hashchange', updateActiveSection);
+    })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const codeBlocks = Array.from(document.querySelectorAll('.blog-cp-wrapper .code'));
+      codeBlocks.forEach((block) => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-cp-btn';
+        btn.textContent = 'Copy';
+        btn.type = 'button';
+        const wrapper = block.parentElement;
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const text = block.textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      });
+      const shareCopyBtn = document.getElementById('blogShareCopy');
+      if (shareCopyBtn) {
+        shareCopyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareCopyBtn.textContent = '✓';
+            setTimeout(() => { shareCopyBtn.textContent = '🔗'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

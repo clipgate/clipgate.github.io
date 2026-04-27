@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Auto-Save Every Snippet You Copy in Chrome — and Pipe It to Claude or ChatGPT</title>
+  <meta name="description" content="Stop losing research across 30 tabs. Install one Chrome extension that auto-captures every snippet, URL, and code block you copy — then bundle a session into a single block for Claude, ChatGPT, or Cursor.">
+  <meta name="keywords" content="auto save clipboard chrome, chrome extension save snippets, save text for ChatGPT, save research for Claude, chrome clipboard manager AI, ClipGate, Cursor, research workflow">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0a0e17">
+  <link rel="canonical" href="https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/">
+  <link rel="alternate" type="application/rss+xml" title="ClipGate Blog RSS" href="https://clipgate.github.io/blog/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="ClipGate">
+  <meta property="article:published_time" content="2026-04-27T09:30:00+00:00">
+  <meta property="article:modified_time" content="2026-04-27T09:30:00+00:00">
+  <meta property="article:section" content="Workflow">
+  <meta property="og:url" content="https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/">
+  <meta property="og:title" content="Auto-Save Chrome Snippets for Claude & ChatGPT">
+  <meta property="og:description" content="Stop losing research across 30 tabs. Install one Chrome extension that auto-captures every snippet, URL, and code block you copy — then bundle a session into a single block for Claude, ChatGPT, or Cursor.">
+  <meta property="og:site_name" content="ClipGate">
+  <meta property="og:image" content="https://clipgate.github.io/assets/blog-chrome-auto-save.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Browser tabs streaming snippets into a single ClipGate bundle ready for Claude or ChatGPT">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Auto-Save Chrome Snippets for Claude & ChatGPT">
+  <meta name="twitter:description" content="Stop losing research across 30 tabs. Install one Chrome extension that auto-captures every snippet, URL, and code block you copy — then bundle a session into a single block for Claude, ChatGPT, or Cursor.">
+  <meta name="twitter:image" content="https://clipgate.github.io/assets/blog-chrome-auto-save.svg">
+  <meta name="twitter:url" content="https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How to Auto-Save Every Snippet You Copy in Chrome — and Pipe It to Claude or ChatGPT",
+    "description": "Stop losing research across 30 tabs. Install one Chrome extension that auto-captures every snippet, URL, and code block you copy — then bundle a session into a single block for Claude, ChatGPT, or Cursor.",
+    "image": "https://clipgate.github.io/assets/blog-chrome-auto-save.svg",
+    "datePublished": "2026-04-27T09:30:00+00:00",
+    "dateModified": "2026-04-27T09:30:00+00:00",
+    "mainEntityOfPage": "https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/",
+    "articleSection": "Workflow",
+    "keywords": ["chrome extension","ai","workflow","productivity","claude","chatgpt","cursor","research"],
+    "author": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClipGate",
+      "url": "https://clipgate.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clipgate.github.io/assets/icons/icon-192.png"
+      }
+    },
+    "about": {
+      "@type": "SoftwareApplication",
+      "name": "ClipGate Chrome Extension",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "Chrome, Edge, Brave",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "url": "https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem","position": 1,"name": "Home","item": "https://clipgate.github.io/"},
+      {"@type": "ListItem","position": 2,"name": "Blog","item": "https://clipgate.github.io/blog/"},
+      {"@type": "ListItem","position": 3,"name": "Auto-Save Chrome Snippets for Claude and ChatGPT","item": "https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can a Chrome extension really auto-save everything I copy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. ClipGate listens for the standard browser copy event and captures the text into a local store the moment your selection lands on the clipboard. There is no polling, no remote server, and no dependency on a desktop app. The capture happens entirely inside the extension's service worker on your machine."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the extension capture passwords or content from incognito tabs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. ClipGate does not capture from password input fields, and incognito windows are excluded by default per Chrome's extension permission model. Anything you type into a password field is never seen by the extension. If something does look like a credential, it is detected, encrypted with AES-256, masked in the UI, and auto-expired on a configurable timer."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get my snippets into Claude or ChatGPT?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If you only need the browser, open the ClipGate popup, multi-select the snippets you want, and copy them as one block — then paste into the model. If you also want a terminal-side bundle, install the ClipGate CLI and run cg pack --last 30m. The CLI emits a single Markdown block with URLs, classified types, and content, ready to pipe into the claude CLI or paste into chatgpt.com."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does anything leave my machine?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The extension makes zero outbound network requests. Your captured snippets are stored in the browser's local storage, secrets are encrypted at rest, and there is no cloud sync, no telemetry, and no account. Anything that reaches Claude or ChatGPT only goes there because you explicitly pasted or piped it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I don't want every copy captured?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Switch the extension into selective mode. Auto-capture is off, and you save snippets only when you choose — either by right-clicking a selection and picking Save to ClipGate, or by pressing Ctrl+Shift+S. The shortcut and the right-click entry both work the same way regardless of mode."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared/site-chrome.css">
+  <link rel="stylesheet" href="../../shared/site-scroll-ui.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;--bg2:#0d1117;--bg3:#161b22;--bg4:#202938;
+      --text:#e6edf3;--text2:#8b949e;--text2-strong:#9caab8;--text3:#6e7681;
+      --cyan:#00d4ff;--green:#34d399;--gold:#f59e0b;--blue:#60a5fa;--purple:#a855f7;--red:#f87171;
+      --border:rgba(0,212,255,.11);--card:rgba(22,27,34,.72)
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    body::after{content:'';position:fixed;top:-28%;left:50%;width:1180px;height:1180px;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.075),transparent 71%);pointer-events:none}
+    a{color:inherit;text-decoration:none}
+    code{font-family:'JetBrains Mono',monospace}
+    .page{max-width:1380px;margin:0 auto;padding:2rem 1.5rem 5rem;position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;width:100%}
+    .panel{background:radial-gradient(circle at top left,rgba(0,212,255,.08),transparent 42%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(14px)}
+    .hero{padding:1.5rem 0 1.7rem}
+    .hero-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem}
+    .hero-copy,.hero-art,.toc,.content,.workflow-card,.install-card{min-width:0}
+    .hero-copy{padding:2rem}
+    .hero-art{padding:1.2rem;display:flex;align-items:center;justify-content:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .82rem;border-radius:999px;background:rgba(0,212,255,.10);border:1px solid rgba(0,212,255,.32);color:var(--cyan);font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1rem;color:var(--text2);font-size:.9rem}
+    h1{font-size:3.05rem;line-height:1.04;letter-spacing:-1.4px;margin-bottom:1rem}
+    .sub{font-size:1.08rem;color:var(--text2-strong);max-width:60ch}
+    .meta{display:flex;gap:.75rem;flex-wrap:wrap;color:var(--text3);font-size:.82rem;margin:1.3rem 0 1rem}
+    .meta span{display:inline-flex;align-items:center;gap:.35rem}
+    .topic-row{display:flex;gap:.55rem;flex-wrap:wrap}
+    .topic{display:inline-flex;align-items:center;padding:.35rem .72rem;border-radius:999px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);color:var(--cyan);font-size:.75rem;font-weight:600}
+    .hero-art img{width:100%;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+    .hero-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-top:1rem}
+    .signal{padding:1rem 1.05rem;border-radius:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.05)}
+    .signal strong{display:block;font-size:.82rem;color:var(--text);margin-bottom:.22rem}
+    .signal p{font-size:.83rem;color:var(--text2-strong)}
+    .layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:1.2rem}
+    .toc{position:sticky;top:1rem;align-self:start;padding:1.1rem}
+    .toc h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+    .toc a{display:block;padding:.4rem .75rem .4rem .9rem;margin-left:-.9rem;border-left:2px solid transparent;color:var(--text2);font-size:.9rem;border-radius:0 10px 10px 0}
+    .toc a:hover{color:var(--cyan);border-left-color:rgba(0,212,255,.3)}
+    .toc a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(0,212,255,.08)}
+    .content{min-width:0}
+    section{padding:1.35rem 1.45rem;margin-bottom:1rem;scroll-margin-top:8.25rem}
+    section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:.75rem}
+    section h3{font-size:1.05rem;margin-top:1rem;margin-bottom:.35rem}
+    section p{color:var(--text2-strong);margin-top:.85rem}
+    section p:first-of-type{margin-top:0}
+    .lede{font-size:1.06rem;color:var(--text)}
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-top:1rem}
+    .pain-card{padding:1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .pain-card h3{font-size:.95rem;margin-bottom:.35rem;margin-top:0}
+    .pain-card p{font-size:.85rem;color:var(--text2-strong);margin:0}
+    .callout{padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(0,212,255,.16);background:rgba(0,212,255,.05);margin-top:1rem}
+    .callout p{margin:0;color:var(--text)}
+    .callout.danger{border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
+    .callout.danger p{color:var(--text)}
+    .callout.success{border-color:rgba(52,211,153,.28);background:rgba(52,211,153,.06)}
+    .list{margin-top:1rem;display:grid;gap:.75rem}
+    .list-item{padding:1rem 1.1rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border)}
+    .list-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .list-item p{margin:0;color:var(--text2-strong)}
+    .step-list{margin-top:1rem;display:grid;gap:.75rem;counter-reset:step}
+    .step-item{position:relative;padding:1rem 1.1rem 1rem 3.4rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.04),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.013));border:1px solid var(--border);counter-increment:step}
+    .step-item::before{content:counter(step);position:absolute;left:1rem;top:1rem;width:1.9rem;height:1.9rem;border-radius:10px;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.32);color:var(--cyan);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+    .step-item h3{font-size:1rem;margin-bottom:.3rem;margin-top:0}
+    .step-item p{margin:0;color:var(--text2-strong);font-size:.92rem}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:1rem}
+    .table th,.table td{padding:.82rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+    .table th{background:var(--bg3);color:var(--text2);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+    .table td{background:rgba(255,255,255,.012);font-size:.92rem;color:var(--text2-strong)}
+    .table td strong{color:var(--text)}
+    .quote{padding:1rem 1.1rem;border-radius:16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);margin-top:1rem}
+    .quote p{margin:0;color:var(--text)}
+    .workflow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+    .workflow-card{padding:1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .workflow-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .workflow-card p{font-size:.9rem;color:var(--text2-strong);margin-bottom:.8rem;margin-top:0}
+    .code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.75;white-space:pre-wrap;color:var(--green)}
+    .figure{margin-top:1rem;padding:1rem 1.1rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px dashed rgba(0,212,255,.20)}
+    .figure figcaption{margin-top:.55rem;font-size:.85rem;color:var(--text3);font-style:italic}
+    .install-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+    .install-card{padding:1rem 1.05rem;border-radius:16px;background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 54%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.014));border:1px solid var(--border)}
+    .install-card h3{font-size:1rem;margin-bottom:.35rem;margin-top:0}
+    .install-card p{font-size:.88rem;color:var(--text2-strong);margin-bottom:.75rem;margin-top:0}
+    .install-card.primary{border-color:rgba(0,212,255,.45);background:radial-gradient(circle at top left,rgba(0,212,255,.10),transparent 54%),linear-gradient(180deg,rgba(0,212,255,.05),rgba(255,255,255,.014))}
+    .cta-band{padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .cta-band h2{font-size:1.45rem;letter-spacing:-.4px}
+    .cta-band p{color:var(--text2-strong);max-width:54ch}
+    .cta-row{display:flex;gap:.85rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.18rem;border-radius:10px;font-weight:700;border:1px solid transparent}
+    .btn.primary{background:linear-gradient(135deg,var(--cyan),#0099cc);color:var(--bg)}
+    .btn.secondary{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.22);color:var(--cyan)}
+    .blog-cp-wrapper{position:relative}
+    .blog-cp-btn{position:absolute;top:.65rem;right:.75rem;opacity:0;transition:opacity .2s ease;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--cyan);padding:.4rem .7rem;border-radius:8px;font-size:.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+    .blog-cp-wrapper:hover .blog-cp-btn{opacity:1}
+    .blog-cp-btn:hover{background:rgba(0,212,255,.2);border-color:rgba(0,212,255,.5)}
+    .blog-share-row{display:flex;gap:.6rem;margin-top:1.2rem}
+    .blog-share-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s ease;text-decoration:none}
+    .blog-share-btn:hover{background:rgba(0,212,255,.15);border-color:rgba(0,212,255,.4);box-shadow:0 4px 12px rgba(0,212,255,.1)}
+    .blog-related-section{background:radial-gradient(circle at top left,rgba(0,212,255,.03),transparent 50%),linear-gradient(180deg,rgba(18,24,36,.92),rgba(12,17,26,.97));border:1px solid rgba(0,212,255,.12);border-radius:20px;padding:1.5rem;margin:2rem 0}
+    .blog-related-section h2{font-size:1.45rem;letter-spacing:-.4px;margin-bottom:1.3rem}
+    .blog-related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .blog-related-card{padding:1.2rem;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(0,212,255,.12);display:flex;flex-direction:column;gap:.8rem}
+    .blog-related-card h3{font-size:1rem;line-height:1.22;margin:0;color:var(--text)}
+    .blog-related-card a{color:var(--cyan);font-weight:700}
+    .blog-related-card p{font-size:.9rem;color:var(--text2-strong);margin:0}
+    .blog-related-pill{display:inline-flex;align-items:center;padding:.3rem .65rem;border-radius:999px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;width:fit-content}
+    .blog-related-pill.soon{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--gold)}
+    .blog-related-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.8rem;color:var(--text3)}
+    .faq-item{padding:1rem 1.1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-top:.75rem}
+    .faq-item h3{font-size:1rem;margin-bottom:.4rem;color:var(--text);margin-top:0}
+    .faq-item p{margin:0;color:var(--text2-strong);font-size:.92rem}
+    @media(max-width:768px){
+      .blog-related-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:980px){
+      .hero-shell,.layout,.hero-summary,.pain-grid,.workflow,.install-grid{grid-template-columns:1fr}
+      h1{font-size:2.35rem}
+      .toc{position:static}
+      .cta-band{flex-direction:column;align-items:flex-start}
+      .hero-copy,.hero-art{padding:1.35rem}
+      .table{display:block;overflow-x:auto}
+    }
+  </style>
+</head>
+<body data-page="blog" data-back-to-top="true" data-scroll-progress="true">
+  <div id="cgSiteHeader"></div>
+  <div class="page cg-chrome-shell">
+
+    <div class="hero">
+      <div class="hero-shell">
+        <article class="panel hero-copy">
+          <a class="back-link" href="/blog/">← Back to blog</a>
+          <div class="eyebrow">Chrome workflow</div>
+          <h1>How to Auto-Save Every Snippet You Copy in Chrome — and Pipe It to Claude or ChatGPT</h1>
+          <p class="sub">Researching across thirty tabs, copying fragments into a scratchpad, then watching half of them vanish by Friday is not a memory problem. It is a tooling problem. Here is how to put a quiet capture layer between your browser and your AI assistant — so the snippets you grabbed at 10am are still there at 4pm, bundled, classified, and ready to send.</p>
+          <div class="meta">
+            <span>Published Apr 27, 2026</span>
+            <span>8 min read</span>
+            <span>By ClipGate</span>
+          </div>
+          <div class="topic-row">
+            <span class="topic">Chrome</span>
+            <span class="topic">AI</span>
+            <span class="topic">Workflow</span>
+            <span class="topic">Research</span>
+          </div>
+          <div class="blog-share-row">
+            <a class="blog-share-btn" href="https://twitter.com/intent/tweet?url=https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/&text=Auto-Save%20Chrome%20Snippets%20for%20Claude%20%26%20ChatGPT%20via%20@ClipGate" target="_blank" rel="noopener noreferrer" title="Share on Twitter" aria-label="Share on Twitter">𝕏</a>
+            <a class="blog-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://clipgate.github.io/blog/auto-save-chrome-snippets-for-claude-chatgpt/" target="_blank" rel="noopener noreferrer" title="Share on LinkedIn" aria-label="Share on LinkedIn">in</a>
+            <button class="blog-share-btn" type="button" title="Copy link" aria-label="Copy article link" id="blogShareCopy">🔗</button>
+          </div>
+        </article>
+        <div class="panel hero-art">
+          <img src="../../assets/blog-chrome-auto-save.svg" alt="Browser tabs streaming snippets into a single ClipGate bundle ready for an AI assistant">
+        </div>
+      </div>
+      <div class="hero-summary">
+        <div class="signal">
+          <strong>The scratchpad lies</strong>
+          <p>You promise yourself you will paste it somewhere safer later. Later never comes. By Friday the tab is closed and the snippet is gone.</p>
+        </div>
+        <div class="signal">
+          <strong>Auto-capture is invisible</strong>
+          <p>Install once and forget. Every Cmd-C / Ctrl-C in Chrome is captured silently into a typed local store you can browse anytime.</p>
+        </div>
+        <div class="signal">
+          <strong>One bundle, all snippets</strong>
+          <p>When the question for the model arrives, ship the last thirty minutes of research as one block instead of pasting six fragments by hand.</p>
+        </div>
+        <div class="signal">
+          <strong>100% local</strong>
+          <p>Zero network requests. No account, no telemetry, no cloud. Your research stays on your laptop until you choose to send it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel toc">
+        <h2>On This Page</h2>
+        <a href="#save-it-later">The "I'll save it later" lie</a>
+        <a href="#auto-capture">What auto-capture actually means</a>
+        <a href="#install">Install the extension in 60 seconds</a>
+        <a href="#research-loop">The research-to-AI loop</a>
+        <a href="#right-click">The right-click escape hatch</a>
+        <a href="#privacy">Privacy: what stays on your machine</a>
+        <a href="#cli-vs-ext">CLI vs extension (and when both)</a>
+        <a href="#faq">FAQ</a>
+        <a href="#install-cta">Install ClipGate</a>
+      </aside>
+
+      <main class="content">
+
+        <section class="panel" id="save-it-later">
+          <h2>The "I'll save it later" lie</h2>
+          <p class="lede">You open a doc page and copy the relevant paragraph. Open another tab, copy a code sample. Switch to a Stack Overflow answer, copy a snippet. Land on a GitHub README, copy the config block. By the time you have what you need, the clipboard has been overwritten ten times and the only thing you still have is whatever you copied last.</p>
+          <p>The story you tell yourself is that you are about to paste everything into a scratchpad. The reality is the next idea is already pulling and the snippet gets one second of clipboard life before the next arrives. By Friday afternoon, half of what you needed is gone and the other half lives in a tab group you cannot find.</p>
+          <div class="pain-grid">
+            <div class="pain-card">
+              <h3>Stripe webhook research</h3>
+              <p>Eight tabs across Stripe docs, the Node SDK README, and a Stack Overflow answer on signature verification. The two lines that solved it were copied at minute three and lost by minute fifteen.</p>
+            </div>
+            <div class="pain-card">
+              <h3>Tailwind class hunting</h3>
+              <p>You copy the right utility chain for a card layout, switch to the playground, and by the time you open your editor the copy has been wiped by a button label.</p>
+            </div>
+            <div class="pain-card">
+              <h3>Debugging a third-party SDK</h3>
+              <p>The error message, the GitHub issue thread, and the workaround snippet were all copied within four minutes. None are reachable at the next standup.</p>
+            </div>
+          </div>
+          <p>The cost is not the snippets. It is the rebuild — reopening tabs you already closed, re-running the same query, re-reading the same paragraph twice. Most "research is hard" days are actually research-twice days, and the second pass is the one that burns the afternoon.</p>
+        </section>
+
+        <section class="panel" id="auto-capture">
+          <h2>What auto-capture actually means</h2>
+          <p>Most Chrome users assume clipboard managers are a macOS dock thing — a hotkey that pops a list of recent copies. The browser, the assumption goes, has nothing to do with it. That assumption is out of date.</p>
+          <p>A modern Chrome extension can listen for the standard <code>copy</code> event in any normal tab, capture the selection, and store it locally — silently, no popup, no extra keystroke. That is what <a href="/ext/">the ClipGate browser extension</a> does. From the moment it installs, every Cmd-C / Ctrl-C in a regular tab becomes a stored, classified entry. Three capture modes fit different research styles.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>Auto mode (default)</h3>
+              <p>Every text selection you copy is saved to the local store. You change nothing about how you read. The badge ticks up by one each time.</p>
+            </div>
+            <div class="list-item">
+              <h3>Right-click "Save to ClipGate"</h3>
+              <p>Highlight a selection on any page, right-click, choose Save to ClipGate. A deliberate save for when auto-capture is off or you want to grab something without overwriting your clipboard.</p>
+            </div>
+            <div class="list-item">
+              <h3>The <code>Ctrl+Shift+S</code> shortcut</h3>
+              <p>Same outcome as the right-click entry, faster. Select text, hit the shortcut, the snippet lands with source URL and content-type tag attached.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>Auto-capture is also worth turning <em>off</em> sometimes. During long form fills, onboarding flows, or screen shares, selective mode keeps the store clean. Switch modes from a dropdown in the popup.</p>
+          </div>
+          <p>Equally important is what auto-capture does <em>not</em> grab. Password input fields are excluded by Chrome's permission model. Incognito tabs are out of scope by default. And if a captured value looks like a credential, it is detected on the way in, encrypted with AES-256-GCM, masked in the UI, and auto-expired on a configurable timer.</p>
+        </section>
+
+        <section class="panel" id="install">
+          <h2>Install the extension in 60 seconds</h2>
+          <p>Sixty seconds, three steps, then you forget it exists until the first time it saves your afternoon.</p>
+          <div class="step-list">
+            <div class="step-item">
+              <h3>Open the Chrome Web Store listing</h3>
+              <p>Visit the <a href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener">ClipGate extension page</a>, click <em>Add to Chrome</em>, confirm the permissions prompt. Works in any Chromium browser — Chrome, Edge, Brave, Arc.</p>
+            </div>
+            <div class="step-item">
+              <h3>Pin the icon to the toolbar</h3>
+              <p>Open the puzzle-piece extensions menu, find ClipGate, pin it. The badge ticks up every time a new snippet is captured.</p>
+            </div>
+            <div class="step-item">
+              <h3>Trigger your first capture</h3>
+              <p>Select any sentence on this page, press Cmd-C or Ctrl-C, click the icon. Your selection is at the top of the list with source URL and type tag attached.</p>
+            </div>
+          </div>
+          <figure class="figure">
+            <figcaption>Figure 1 — After a single capture, the popup shows the snippet preview, source domain, relative timestamp, and a <em>Local only</em> indicator. No account prompt, no cloud round-trip.</figcaption>
+          </figure>
+          <p>Once the first capture works, you are done thinking about the install. The store stays current as you read, and the next time you wonder "did I copy that earlier?" the answer is one click away.</p>
+        </section>
+
+        <section class="panel" id="research-loop">
+          <h2>The research-to-AI loop, end to end</h2>
+          <p>You are about to write a Stripe webhook handler. You spend an hour reading: eight tabs across the webhook docs, the signature verification guide, the SDK reference, two GitHub examples, a Stack Overflow thread on idempotency. Across that hour you copy six snippets — a code block, a JSON payload, an error message, a Stripe CLI command, a config line, and one URL.</p>
+          <p>Without auto-capture, you arrive at your editor with one of those six on the clipboard and a foggy memory of the rest. With it, all six are sitting in your local store, tagged by content type and source URL.</p>
+          <div class="workflow">
+            <div class="workflow-card">
+              <h3>Option A — Browser only</h3>
+              <p>Open the popup, multi-select the six snippets, copy as one bundled block. Paste into a new conversation at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> or <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a>. The model has the verbatim docs context with source URLs intact.</p>
+              <div class="blog-cp-wrapper"><div class="code">// Paste from the popup:
+[code]  const sig = req.headers['stripe-signature'];
+        stripe.webhooks.constructEvent(body, sig, secret);
+        // src: stripe.com/docs/webhooks/signatures
+
+[json]  {"type":"payment_intent.succeeded","data":{...}}
+        // src: stripe.com/docs/api/events/types
+
+[error] Webhook Error: No signatures found matching...
+        // src: github.com/stripe/stripe-node/issues/1234</div></div>
+            </div>
+            <div class="workflow-card">
+              <h3>Option B — Terminal bundle</h3>
+              <p>If <a href="/">the ClipGate CLI</a> is installed, browser captures and terminal captures share one local store. A single command bundles the last thirty minutes into a Markdown block with classified types and redacted secrets.</p>
+              <div class="blog-cp-wrapper"><div class="code">$ cg pack --last 30m
+# 4 url, 2 code, 1 json, 1 error, 1 command
+# 6 snippets · sources preserved · secrets redacted
+...
+$ cg pack --last 30m | claude "write a Stripe webhook handler"</div></div>
+            </div>
+          </div>
+          <p>The win is not that the model is smarter. It is that the model finally sees the same context you saw. Without the bundle, you paraphrase and the model fills gaps from training. With it, the assistant reads from the exact docs and the exact error you read at minute four. The handler it writes references the right event types, the right header name, and the idempotency pattern the docs prescribe — because that is the corpus you showed it.</p>
+          <div class="callout success">
+            <p>The pattern generalises beyond Stripe. OAuth scopes, infrastructure rollouts, library upgrades — anything where the answer lives across many sources and you need the model to read what you read. Auto-capture turns a reading session into a single block, no extra effort.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="right-click">
+          <h2>The right-click escape hatch</h2>
+          <p>Auto mode is the default because most copies during research are worth keeping. But some sessions are not — long form fills, screen shares, onboarding where you paste personal information. For those, switch capture mode to selective from the popup. Ordinary copies stop landing in the store. To save deliberately, you have two paths.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>Right-click → Save to ClipGate</h3>
+              <p>Highlight, right-click, choose <em>Save to ClipGate</em>. The selection lands with page URL and an inferred type tag — code, JSON, URL, error, or plain text. Change the tag from the popup if inference picked the wrong shape.</p>
+            </div>
+            <div class="list-item">
+              <h3>Press <code>Ctrl+Shift+S</code></h3>
+              <p>Same outcome, no mouse. Works in both modes, so it is also a good "definitely keep this" tap inside auto mode.</p>
+            </div>
+          </div>
+          <p>The split matches how research feels. Reading mode is wide and forgiving — capture everything, prune later. Writing mode is narrow and deliberate — only the snippet you are about to use. Switching the dropdown is one click.</p>
+        </section>
+
+        <section class="panel" id="privacy">
+          <h2>Privacy: what's stored, what stays on your machine</h2>
+          <p>The fast version: nothing leaves your laptop unless you explicitly send it. The longer version is worth a few sentences.</p>
+          <div class="list">
+            <div class="list-item">
+              <h3>Storage is local to your browser profile</h3>
+              <p>Snippets live in the extension's local storage on disk. They are not synced to a Chrome cloud account, not shipped to any backend, not visible to other extensions. Clearing your profile, or uninstalling, clears the store.</p>
+            </div>
+            <div class="list-item">
+              <h3>Zero network requests for capture or retrieval</h3>
+              <p>No telemetry beacon, no error reporting endpoint, no analytics ping. The popup, the badge, and the right-click entry all run on local code only.</p>
+            </div>
+            <div class="list-item">
+              <h3>Secrets are encrypted and auto-expired</h3>
+              <p>Anything that looks like a token, key, or credential is detected at capture, encrypted at rest with AES-256-GCM, and auto-expired on a configurable timer (default two hours, max two days). The popup does not surface secret values in the clear.</p>
+            </div>
+            <div class="list-item">
+              <h3>Incognito and password fields are excluded</h3>
+              <p>Chrome's permission model keeps incognito windows out by default. Password input fields never reach the extension. The text you most want kept out of any store stays out without you thinking about it.</p>
+            </div>
+            <div class="list-item">
+              <h3>Outbound only happens when you choose</h3>
+              <p>Research touches a model the moment you paste into Claude or ChatGPT, or pipe a CLI bundle to the assistant. Until then, every snippet stays local. You choose the model, the moment, and the payload.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <p>If your team has stricter requirements — air-gapped machines, no browser extensions — the CLI alone covers the terminal-side capture story. Pick whichever fits your threat model.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="cli-vs-ext">
+          <h2>When to use the CLI vs the extension (and when both)</h2>
+          <p>The two surfaces solve overlapping but distinct problems. The extension captures from the browser, where most reading happens. The CLI captures from the terminal, where most building happens, and adds a powerful retrieval and bundling layer on top. Most readers want both. Some only need one.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>If your day looks like…</th>
+                <th>Start with</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Reading docs, then asking a model</strong></td>
+                <td>Extension</td>
+                <td>Every browser copy is captured, classified, and stored. The popup is enough to assemble a bundle for Claude or ChatGPT.</td>
+              </tr>
+              <tr>
+                <td><strong>Heavy terminal work, occasional browser</strong></td>
+                <td>CLI first, extension second</td>
+                <td>The CLI captures from the local clipboard and gives you <code>cg list</code>, <code>cg last</code>, and <code>cg pack</code> for retrieval and bundling.</td>
+              </tr>
+              <tr>
+                <td><strong>Cross-surface research that ends in code</strong></td>
+                <td>Both</td>
+                <td>Browser snippets and terminal snippets land in the same logical session. <code>cg pack --last 30m</code> bundles them all in one shot.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>If you are torn, install the extension first. Sixty seconds, zero friction after, and the next research session tells you whether you also want the CLI. Most readers add the CLI within a week — the moment you want to pipe a bundle directly into <code>claude</code> on the terminal is when the second half of the workflow clicks.</p>
+          <p>For the terminal side of the same idea, see <a href="/blog/how-to-stop-losing-errors-commands-and-paths/">how to stop losing errors, commands, and paths</a>. Same store, same classifier, different entry point.</p>
+        </section>
+
+        <section class="panel" id="faq">
+          <h2>Frequently asked questions</h2>
+          <div class="faq-item">
+            <h3>Can a Chrome extension really auto-save everything I copy?</h3>
+            <p>Yes. ClipGate listens for the standard browser copy event and captures into a local store the moment your selection lands on the clipboard. No polling, no remote server, no desktop app dependency.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Will it capture passwords or incognito content?</h3>
+            <p>No. Password input fields are excluded by Chrome's permission model, and incognito windows are out of scope by default. Credentials that do appear are detected, encrypted with AES-256, masked, and auto-expired on a timer.</p>
+          </div>
+          <div class="faq-item">
+            <h3>How do I get my snippets into Claude or ChatGPT?</h3>
+            <p>Browser-only: open the popup, multi-select snippets, copy as one block, paste into the model. With the CLI: run <code>cg pack --last 30m</code> to emit a single Markdown bundle with URLs and classified types, ready to pipe into <code>claude</code> or paste into chatgpt.com.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Does anything leave my machine?</h3>
+            <p>No. Zero outbound network requests. Snippets are stored locally, secrets are encrypted at rest, and there is no cloud sync, no telemetry, no account. Anything that reaches a model goes there because you explicitly pasted or piped it.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What if I don't want every copy captured?</h3>
+            <p>Switch to selective mode. Auto-capture is off, and snippets save only when you right-click a selection or press <code>Ctrl+Shift+S</code>.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Will it work in Edge, Brave, or Arc?</h3>
+            <p>Yes. Any Chromium-based browser supports the same binary, with identical auto-capture, right-click entry, and <code>Ctrl+Shift+S</code> shortcut.</p>
+          </div>
+        </section>
+
+        <section class="panel" id="install-cta">
+          <h2>Install ClipGate and stop losing research</h2>
+          <p>Install the extension before your next reading session. Pin the icon, and let the next thirty minutes of research land in a real store instead of a single overwritten clipboard slot.</p>
+          <div class="install-grid">
+            <div class="install-card primary">
+              <h3>Chrome extension (start here)</h3>
+              <p>One click from the Chrome Web Store. Auto-capture, right-click save, and <code>Ctrl+Shift+S</code> work the moment it installs.</p>
+              <div class="cta-row">
+                <a class="btn primary" href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener">Add to Chrome</a>
+              </div>
+            </div>
+            <div class="install-card">
+              <h3>CLI (terminal-side bundling)</h3>
+              <p>Optional but useful. Adds <code>cg pack --last 30m</code> and pipes straight into the <code>claude</code> CLI.</p>
+              <div class="blog-cp-wrapper"><div class="code">curl -fsSL https://clipgate.github.io/install.sh | sh</div></div>
+            </div>
+            <div class="install-card">
+              <h3>PyPI / Homebrew</h3>
+              <p>If your toolchain already runs through pip or brew, install the CLI the same way you install everything else.</p>
+              <div class="blog-cp-wrapper"><div class="code">pip install clipgate
+brew install clipgate/tap/cg</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel cta-band">
+          <div>
+            <h2>Stop pasting six fragments by hand.</h2>
+            <p>One Chrome extension. Every snippet you copy, classified and saved locally. One bundle for Claude, ChatGPT, or Cursor when you are ready to ask the question.</p>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="https://chromewebstore.google.com/detail/iceplcknbihmnogljpmdhjelckohpice" target="_blank" rel="noopener">Add to Chrome</a>
+            <a class="btn secondary" href="/docs/">Read Docs</a>
+          </div>
+        </section>
+
+        <section class="blog-related-section">
+          <h2>Read next</h2>
+          <div class="blog-related-grid">
+            <div class="blog-related-card">
+              <h3><a href="/blog/how-to-stop-losing-errors-commands-and-paths/">Stop losing errors, commands, and paths in your clipboard</a></h3>
+              <p>The terminal-side companion to this post. Same store, same classifier, but starting from the shell instead of the browser.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~10 min read</span>
+              </div>
+            </div>
+            <div class="blog-related-card">
+              <h3><a href="/blog/best-clipboard-manager-for-developers-2026/">Best clipboard manager for developers (2026 guide)</a></h3>
+              <p>How to evaluate local-first, terminal-friendly, secret-aware clipboard tools for engineering workflows.</p>
+              <div class="blog-related-meta">
+                <span class="blog-related-pill">Published</span>
+                <span>~8 min read</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="cgSiteFooter"></div>
+  </div>
+  <script src="../../shared/site-chrome.js"></script>
+  <script src="../../shared/site-scroll-ui.js"></script>
+  <script>
+    (() => {
+      const links = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+      const sections = links
+        .map((link) => {
+          const id = link.getAttribute('href').slice(1);
+          const element = document.getElementById(id);
+          return element ? { id, link, element } : null;
+        })
+        .filter(Boolean);
+
+      if (!sections.length) return;
+
+      let ticking = false;
+
+      function updateActiveSection() {
+        const threshold = 150;
+        let active = sections[0];
+
+        for (const section of sections) {
+          if (section.element.getBoundingClientRect().top <= threshold) {
+            active = section;
+          } else {
+            break;
+          }
+        }
+
+        for (const section of sections) {
+          const isActive = section === active;
+          section.link.classList.toggle('active', isActive);
+          if (isActive) {
+            section.link.setAttribute('aria-current', 'true');
+          } else {
+            section.link.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      }
+
+      updateActiveSection();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
+      window.addEventListener('hashchange', updateActiveSection);
+    })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const codeBlocks = Array.from(document.querySelectorAll('.blog-cp-wrapper .code'));
+      codeBlocks.forEach((block) => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-cp-btn';
+        btn.textContent = 'Copy';
+        btn.type = 'button';
+        const wrapper = block.parentElement;
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const text = block.textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      });
+      const shareCopyBtn = document.getElementById('blogShareCopy');
+      if (shareCopyBtn) {
+        shareCopyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareCopyBtn.textContent = '✓';
+            setTimeout(() => { shareCopyBtn.textContent = '🔗'; }, 1600);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
