@@ -153,6 +153,46 @@
         .hero-badges{display:flex;gap:0.55rem;flex-wrap:nowrap;margin-bottom:1.5rem}
         .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);padding:0.45rem 0.8rem;border-radius:999px;font-size:0.76rem;color:var(--cyan);font-weight:600;white-space:nowrap}
         .hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+        /* live PyPI install counter */
+        .hero-traction{
+            display:inline-flex;align-items:center;gap:.55rem;
+            margin-top:1rem;padding:.55rem .95rem;
+            background:linear-gradient(90deg, rgba(0,212,255,0.07) 0%, rgba(52,211,153,0.05) 100%);
+            border:1px solid rgba(0,212,255,0.22);
+            border-radius:10px;
+            text-decoration:none;
+            font-family:'JetBrains Mono', monospace;
+            font-size:.86rem;
+            color:var(--text2-strong);
+            transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+        .hero-traction:hover{
+            border-color:rgba(0,212,255,0.42);
+            transform:translateY(-1px);
+            box-shadow:0 6px 18px rgba(0,212,255,0.08);
+        }
+        .hero-traction .ht-dot{
+            width:8px;height:8px;border-radius:50%;
+            background:var(--green);
+            box-shadow:0 0 0 0 rgba(52,211,153,0.55);
+            animation:pulse 2s infinite;
+            flex-shrink:0;
+        }
+        .hero-traction .ht-num{
+            color:var(--cyan);font-weight:700;font-size:1.05rem;
+            letter-spacing:-.01em;
+        }
+        .hero-traction .ht-unit{color:var(--text);font-weight:500}
+        .hero-traction .ht-divider{color:var(--text3);opacity:.6}
+        .hero-traction .ht-live{
+            color:var(--green);font-weight:600;font-size:.72rem;
+            text-transform:uppercase;letter-spacing:.08em;
+        }
+        @media (max-width:560px){
+            .hero-traction{font-size:.78rem;padding:.5rem .75rem;gap:.4rem}
+            .hero-traction .ht-num{font-size:.95rem}
+            .hero-traction .ht-divider, .hero-traction .ht-live{display:none}
+        }
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         h1{font-size:3.6rem;font-weight:800;line-height:1.12;margin-bottom:1.5rem;letter-spacing:-1.5px;max-width:560px}
         h1 span{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -411,6 +451,13 @@
                     <span class="install-command">curl -fsSL https://clipgate.github.io/install.sh | sh</span>
                     <button class="copy-btn" data-action="copy-cmd" data-cmd="curl -fsSL https://clipgate.github.io/install.sh | sh">Copy</button>
                 </div>
+                <a class="hero-traction" href="https://pypistats.org/packages/clipgate" target="_blank" rel="noopener noreferrer" aria-label="Live PyPI install counter — clipgate downloads in the last 30 days">
+                    <span class="ht-dot" aria-hidden="true"></span>
+                    <span class="ht-num" id="pypi-month" data-static="782">782+</span>
+                    <span class="ht-unit">installs / month on PyPI</span>
+                    <span class="ht-divider" aria-hidden="true">&middot;</span>
+                    <span class="ht-live">live</span>
+                </a>
                 <p style="margin-top:.9rem;color:var(--text2-strong);font-size:.84rem">Free to use. No account required. Official installs via the site, PyPI, and Homebrew.</p>
             </div>
             <div class="hero-right anim-r">
@@ -1725,6 +1772,40 @@
     </footer>
     <script src="shared/site-scroll-ui.js"></script>
     <script>
+    // ── Live PyPI install counter (pypistats.org, 6h cache, graceful fallback) ──
+    (function(){
+        var el = document.getElementById('pypi-month');
+        if (!el) return;
+        var KEY  = 'cg_pypi_dm_v1';
+        var TTL  = 6 * 60 * 60 * 1000;          // 6 hours
+        var floor = parseInt(el.dataset.static, 10) || 0;
+
+        function fmt(n){
+            if (n >= 1000) return (n/1000).toFixed(1).replace(/\.0$/, '') + 'K+';
+            return n.toLocaleString() + '+';
+        }
+
+        // 1) Cached read
+        try {
+            var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+            if (c && Date.now() - c.t < TTL && c.v >= floor) {
+                el.textContent = fmt(c.v);
+                return;
+            }
+        } catch(_){}
+
+        // 2) Live fetch
+        fetch('https://pypistats.org/api/packages/clipgate/recent', {cache:'no-store'})
+            .then(function(r){ return r.ok ? r.json() : null; })
+            .then(function(j){
+                var v = (j && j.data && typeof j.data.last_month === 'number') ? j.data.last_month : null;
+                if (v == null || v < floor) return;     // never regress below hardcoded fallback
+                el.textContent = fmt(v);
+                try { localStorage.setItem(KEY, JSON.stringify({t: Date.now(), v: v})); } catch(_){}
+            })
+            .catch(function(){ /* silent — fallback stays */ });
+    })();
+
     // ── Hero typing animation (plays once, respects prefers-reduced-motion) ──
     (function(){
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
