@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+<title id="t">Local prompt library for ChatGPT and Claude in Chrome</title>
+<desc id="d">A Chrome browser tab with prompt tags flowing into a local vault with a gold lock and a green private label.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#0a0e17"/><stop offset="100%" stop-color="#121826"/>
+</linearGradient>
+<linearGradient id="vault" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="rgba(245,158,11,.18)"/><stop offset="100%" stop-color="rgba(0,212,255,.10)"/>
+</linearGradient>
+<linearGradient id="fl" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#60a5fa" stop-opacity="0"/>
+<stop offset="50%" stop-color="#00d4ff" stop-opacity=".85"/>
+<stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="630" rx="28" fill="url(#bg)"/>
+<g stroke="rgba(0,212,255,.06)" stroke-width="1">
+<path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200"/>
+<path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/>
+</g>
+<g transform="translate(60 50)" font-family="Inter,Arial,sans-serif">
+<rect width="600" height="520" rx="18" fill="rgba(13,17,23,.92)" stroke="rgba(96,165,250,.30)"/>
+<rect width="600" height="44" rx="18" fill="rgba(22,27,34,.9)"/>
+<rect y="22" width="600" height="22" fill="rgba(22,27,34,.9)"/>
+<circle cx="22" cy="22" r="6" fill="#f87171"/><circle cx="42" cy="22" r="6" fill="#f59e0b"/><circle cx="62" cy="22" r="6" fill="#34d399"/>
+<g font-size="13" font-weight="600">
+<rect x="92" y="10" width="120" height="28" rx="6" fill="rgba(0,212,255,.18)" stroke="rgba(0,212,255,.45)"/>
+<text x="106" y="29" fill="#00d4ff">claude.ai</text>
+<rect x="220" y="10" width="118" height="28" rx="6" fill="rgba(96,165,250,.10)" stroke="rgba(96,165,250,.25)"/>
+<text x="234" y="29" fill="#9caab8">chatgpt.com</text>
+<rect x="346" y="10" width="118" height="28" rx="6" fill="rgba(96,165,250,.10)" stroke="rgba(96,165,250,.25)"/>
+<text x="360" y="29" fill="#9caab8">notebook</text>
+</g>
+<g transform="translate(28 70)">
+<rect width="544" height="34" rx="8" fill="rgba(15,23,42,.9)" stroke="rgba(96,165,250,.18)"/>
+<text x="14" y="22" font-family="JetBrains Mono,monospace" font-size="13" fill="#60a5fa">https://claude.ai/new</text>
+</g>
+<g transform="translate(28 124)" font-family="JetBrains Mono,monospace">
+<rect width="544" height="78" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(0,212,255,.30)"/>
+<text x="14" y="26" font-size="12" fill="#64748b">// prompt 1 - code review</text>
+<text x="14" y="50" font-size="13" fill="#00d4ff">[prompt] You are a senior reviewer. Audit</text>
+<text x="14" y="68" font-size="13" fill="#00d4ff">this diff for security and naming issues.</text>
+</g>
+<g transform="translate(28 218)" font-family="JetBrains Mono,monospace">
+<rect width="544" height="78" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(0,212,255,.30)"/>
+<text x="14" y="26" font-size="12" fill="#64748b">// prompt 2 - financial analysis</text>
+<text x="14" y="50" font-size="13" fill="#00d4ff">[prompt] Analyze the Q4 revenue mix for</text>
+<text x="14" y="68" font-size="13" fill="#00d4ff">a SaaS company with $12M ARR...</text>
+</g>
+<g transform="translate(28 312)" font-family="JetBrains Mono,monospace">
+<rect width="544" height="78" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(0,212,255,.30)"/>
+<text x="14" y="26" font-size="12" fill="#64748b">// prompt 3 - writing voice</text>
+<text x="14" y="50" font-size="13" fill="#00d4ff">[prompt] Rewrite the following in a calm,</text>
+<text x="14" y="68" font-size="13" fill="#00d4ff">technical, slightly contrarian voice.</text>
+</g>
+<g transform="translate(28 406)" font-family="JetBrains Mono,monospace">
+<rect width="544" height="64" rx="10" fill="rgba(15,23,42,.85)" stroke="rgba(52,211,153,.30)"/>
+<text x="14" y="24" font-size="12" fill="#64748b">// prompt 4 - meeting summary</text>
+<text x="14" y="48" font-size="13" fill="#34d399">[claude] Summarize the call below into 3 actions.</text>
+</g>
+<text x="28" y="498" font-size="12" fill="#6e7681">4 prompts captured / classified as text / source preserved</text>
+</g>
+<g transform="translate(660 0)" fill="none" stroke="url(#fl)" stroke-width="2">
+<path d="M30 174 C 130 174, 130 260, 240 290"/>
+<path d="M30 268 C 130 268, 130 310, 240 320"/>
+<path d="M30 362 C 130 362, 130 340, 240 350"/>
+<path d="M30 456 C 130 456, 130 380, 240 380"/>
+</g>
+<g transform="translate(660 0)" fill="#00d4ff">
+<circle cx="30" cy="174" r="4"/><circle cx="30" cy="268" r="4"/><circle cx="30" cy="362" r="4"/><circle cx="30" cy="456" r="4"/>
+</g>
+<g transform="translate(800 110)" font-family="Inter,Arial,sans-serif">
+<rect width="340" height="410" rx="22" fill="url(#vault)" stroke="rgba(245,158,11,.55)"/>
+<rect x="20" y="20" width="300" height="6" rx="3" fill="rgba(245,158,11,.35)"/>
+<rect x="20" y="32" width="300" height="6" rx="3" fill="rgba(245,158,11,.20)"/>
+<text x="28" y="72" font-size="14" font-weight="700" fill="#f59e0b" letter-spacing="2">LOCAL VAULT</text>
+<g transform="translate(120 96)">
+<rect x="0" y="22" width="100" height="78" rx="10" fill="url(#goldGrad)" stroke="#f59e0b"/>
+<path d="M22 22 V8 a28 28 0 0 1 56 0 V22" fill="none" stroke="#f59e0b" stroke-width="6"/>
+<circle cx="50" cy="58" r="9" fill="#0a0e17"/>
+<rect x="46" y="58" width="8" height="20" rx="2" fill="#0a0e17"/>
+</g>
+<text x="28" y="232" font-size="20" font-weight="800" fill="#e6edf3">No SaaS.</text>
+<text x="28" y="258" font-size="20" font-weight="800" fill="#e6edf3">No cloud.</text>
+<text x="28" y="284" font-size="20" font-weight="800" fill="#e6edf3">No account.</text>
+<g transform="translate(28 304)">
+<rect width="124" height="26" rx="6" fill="rgba(52,211,153,.12)" stroke="rgba(52,211,153,.55)"/>
+<circle cx="14" cy="13" r="4" fill="#34d399"/>
+<text x="26" y="18" font-size="12" font-weight="700" fill="#34d399">PRIVATE / LOCAL</text>
+</g>
+<g transform="translate(28 344)">
+<rect width="284" height="34" rx="8" fill="rgba(15,23,42,.7)" stroke="rgba(0,212,255,.25)"/>
+<text x="12" y="22" font-family="JetBrains Mono,monospace" font-size="12" fill="#00d4ff">$ cg search "[prompt]"</text>
+</g>
+</g>
+</svg>

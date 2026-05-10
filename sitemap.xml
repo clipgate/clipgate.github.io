@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://clipgate.github.io/blog/</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -147,6 +147,18 @@
   <url>
     <loc>https://clipgate.github.io/blog/macos-clipboard-history-what-leaks/</loc>
     <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://clipgate.github.io/blog/pocket-alternatives-for-developers-2026/</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://clipgate.github.io/blog/save-chatgpt-claude-prompts-chrome-locally/</loc>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

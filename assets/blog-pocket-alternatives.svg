@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Pocket alternatives for developers in 2026</title>
+  <desc id="desc">Editorial illustration: a depleting pocket archive on the left, gold migration arrows fanning out to four destination archives on the right.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e17"/>
+      <stop offset="100%" stop-color="#121826"/>
+    </linearGradient>
+    <linearGradient id="pocket" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(248,113,113,0.18)"/>
+      <stop offset="100%" stop-color="rgba(248,113,113,0.05)"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" rx="32" fill="url(#bg)"/>
+  <g stroke="rgba(0,212,255,0.07)" stroke-width="1">
+    <path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200"/>
+    <path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/>
+  </g>
+  <g transform="translate(48 48)">
+    <rect x="0" y="0" width="1104" height="534" rx="26" fill="rgba(15,23,42,0.78)" stroke="rgba(0,212,255,0.16)"/>
+    <text x="36" y="50" fill="#f87171" font-size="16" font-family="Inter, Arial, sans-serif" font-weight="700" letter-spacing="2">POCKET SHUT DOWN &middot; JULY 2025</text>
+    <text x="36" y="100" fill="#e6edf3" font-size="38" font-family="Inter, Arial, sans-serif" font-weight="800">5 Alternatives for Developers</text>
+    <text x="36" y="146" fill="#e6edf3" font-size="38" font-family="Inter, Arial, sans-serif" font-weight="800">and Writers in 2026</text>
+    <text x="36" y="182" fill="#94a3b8" font-size="18" font-family="Inter, Arial, sans-serif">Where to send your reading list now that the pocket is empty.</text>
+
+    <g transform="translate(36 220)">
+      <rect x="0" y="0" width="280" height="270" rx="18" fill="url(#pocket)" stroke="rgba(248,113,113,0.45)" stroke-dasharray="6 4"/>
+      <path d="M40 40 L240 40 L240 200 Q240 230 210 230 L70 230 Q40 230 40 200 Z" fill="rgba(248,113,113,0.10)" stroke="rgba(248,113,113,0.55)" stroke-width="2"/>
+      <path d="M40 80 L240 80" stroke="rgba(248,113,113,0.35)" stroke-width="1"/>
+      <text x="140" y="120" fill="#f87171" font-size="14" font-family="JetBrains Mono, monospace" text-anchor="middle">archive.pocket</text>
+      <text x="140" y="148" fill="#94a3b8" font-size="12" font-family="JetBrains Mono, monospace" text-anchor="middle">deleted Nov 12, 2025</text>
+      <circle cx="80" cy="180" r="4" fill="#f87171" opacity="0.5"/>
+      <circle cx="110" cy="180" r="4" fill="#f87171" opacity="0.3"/>
+      <circle cx="140" cy="180" r="4" fill="#f87171" opacity="0.2"/>
+      <text x="140" y="258" fill="#f87171" font-size="13" font-family="Inter, Arial, sans-serif" font-weight="700" text-anchor="middle">Pocket (sunset)</text>
+    </g>
+
+    <g stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrow)" opacity="0.85">
+      <path d="M340 290 Q470 240 600 250"/>
+      <path d="M340 320 Q470 320 600 330"/>
+      <path d="M340 350 Q470 400 600 410"/>
+      <path d="M340 380 Q470 460 600 490"/>
+    </g>
+
+    <g transform="translate(620 232)">
+      <rect x="0" y="0" width="200" height="68" rx="14" fill="rgba(52,211,153,0.10)" stroke="rgba(52,211,153,0.45)"/>
+      <circle cx="26" cy="34" r="10" fill="#34d399"/>
+      <text x="50" y="32" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif" font-weight="700">Raindrop.io</text>
+      <text x="50" y="52" fill="#94a3b8" font-size="12" font-family="Inter, Arial, sans-serif">polished consumer</text>
+    </g>
+    <g transform="translate(840 232)">
+      <rect x="0" y="0" width="200" height="68" rx="14" fill="rgba(0,212,255,0.10)" stroke="rgba(0,212,255,0.45)"/>
+      <circle cx="26" cy="34" r="10" fill="#00d4ff"/>
+      <text x="50" y="32" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif" font-weight="700">Readwise Reader</text>
+      <text x="50" y="52" fill="#94a3b8" font-size="12" font-family="Inter, Arial, sans-serif">AI power user</text>
+    </g>
+    <g transform="translate(620 312)">
+      <rect x="0" y="0" width="200" height="68" rx="14" fill="rgba(96,165,250,0.10)" stroke="rgba(96,165,250,0.45)"/>
+      <circle cx="26" cy="34" r="10" fill="#60a5fa"/>
+      <text x="50" y="32" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif" font-weight="700">Pinboard</text>
+      <text x="50" y="52" fill="#94a3b8" font-size="12" font-family="Inter, Arial, sans-serif">archival permanence</text>
+    </g>
+    <g transform="translate(840 312)">
+      <rect x="0" y="0" width="200" height="68" rx="14" fill="rgba(168,85,247,0.10)" stroke="rgba(168,85,247,0.45)"/>
+      <circle cx="26" cy="34" r="10" fill="#a855f7"/>
+      <text x="50" y="32" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif" font-weight="700">Wallabag</text>
+      <text x="50" y="52" fill="#94a3b8" font-size="12" font-family="Inter, Arial, sans-serif">open source self-host</text>
+    </g>
+    <g transform="translate(620 400)">
+      <rect x="0" y="0" width="420" height="98" rx="14" fill="rgba(0,212,255,0.07)" stroke="rgba(0,212,255,0.35)" stroke-dasharray="0"/>
+      <circle cx="26" cy="36" r="10" fill="#00d4ff"/>
+      <text x="50" y="34" fill="#e6edf3" font-size="15" font-family="Inter, Arial, sans-serif" font-weight="700">ClipGate</text>
+      <text x="50" y="54" fill="#94a3b8" font-size="12" font-family="Inter, Arial, sans-serif">developer-flavored, different in kind</text>
+      <text x="26" y="82" fill="#34d399" font-size="12" font-family="JetBrains Mono, monospace">cg pack --last 30m | claude "summarize"</text>
+    </g>
+  </g>
+</svg>
